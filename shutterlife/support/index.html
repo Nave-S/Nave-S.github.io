@@ -23,36 +23,46 @@
         <h2>FAQ</h2>
 
         <div class="faq">
-            <h3>How do I create a timer?</h3>
-            <p>Tap + on the home screen. Choose "Sequenz Builder" to build manually, or "Smart Creator" to let AI create one for you.</p>
+            <h3>Which cameras are supported?</h3>
+            <p>ShutterLife supports cameras from Canon, Nikon, Sony, Fujifilm, and Pentax — over 100 models in total. The shutter count is read from the EXIF metadata embedded in your photos (RAW or JPEG).</p>
         </div>
 
         <div class="faq">
-            <h3>How do I sync with Apple Watch?</h3>
-            <p>Go to Settings > Sync to Apple Watch and enable it. Your timers sync automatically.</p>
+            <h3>Why doesn't my camera show a shutter count?</h3>
+            <p>Not all cameras store the shutter count in image EXIF data. Some manufacturers (especially newer Sony and some Canon models) may encrypt or omit this data. Try using a RAW file instead of JPEG, as RAW files often contain more metadata.</p>
         </div>
 
         <div class="faq">
-            <h3>How do I restore my purchase?</h3>
-            <p>Settings > Premium > "Restore Purchases". Use the same Apple ID as the original purchase.</p>
+            <h3>How accurate is the shutter count?</h3>
+            <p>ShutterLife reads the shutter count directly from your camera's EXIF data — the same data that professional tools like ExifTool extract. The count reflects what your camera records. The shutter life estimate is based on the manufacturer's rated durability and serves as a guideline.</p>
         </div>
 
         <div class="faq">
-            <h3>How do I cancel my subscription?</h3>
-            <p>iOS Settings > Apple ID > Subscriptions > SQNZ > Cancel.</p>
+            <h3>Which file formats are supported?</h3>
+            <p>ShutterLife supports CR2, CR3 (Canon), NEF (Nikon), ARW (Sony), RAF (Fujifilm), PEF (Pentax), DNG, and JPEG files.</p>
         </div>
 
         <div class="faq">
-            <h3>How do I delete my data?</h3>
-            <p>Settings > Data & Privacy. Delete timers, history, AI data, or everything at once.</p>
+            <h3>Can I read the shutter count via USB? (macOS)</h3>
+            <p>Yes, on macOS you can connect your camera via USB and ShutterLife will try to read the shutter count directly using the PTP protocol. This works with most Canon cameras. For other brands, import an image file instead.</p>
         </div>
 
         <div class="faq">
-            <h3>Voice commands don't work?</h3>
-            <p>Make sure microphone access is granted in iOS Settings > SQNZ > Microphone.</p>
+            <h3>Does ShutterLife need an internet connection?</h3>
+            <p>No. ShutterLife works 100% offline. No data is sent to any server. All processing happens on your device.</p>
         </div>
 
-        <footer>&copy; 2026 SQNZ. All rights reserved.</footer>
+        <div class="faq">
+            <h3>What does "Edited image detected" mean?</h3>
+            <p>ShutterLife checks if an image has been processed by software like Lightroom, Photoshop, or other editors. Edited images may have altered EXIF data, which can affect the accuracy of the shutter count reading. For the most reliable results, use an unedited image straight from the camera.</p>
+        </div>
+
+        <div class="faq">
+            <h3>How do I delete my reading history?</h3>
+            <p>Go to the History section in the app and use "Delete All" to remove all saved readings. Individual readings can also be deleted by swiping.</p>
+        </div>
+
+        <footer>&copy; 2026 ShutterLife. All rights reserved.</footer>
     </div>
 </body>
 </html>
