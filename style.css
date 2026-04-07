@@ -64,5 +64,12 @@ strong { color: #F2EDE7; }
 .lang-switch a.active { color: #FF6B00; border-color: #FF6B00; }
 .lang-switch a:hover { color: #FF6B00; }
 
+/* Platform Badge */
+.platform-badge {
+    font-size: 11px; font-weight: 600; color: #9B9590;
+    padding: 3px 8px; border-radius: 6px; border: 1px solid #2A2825;
+    white-space: nowrap;
+}
+
 /* Footer */
 footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid #2A2825; color: #5C5854; font-size: 13px; }

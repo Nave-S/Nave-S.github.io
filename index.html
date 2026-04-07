@@ -8,31 +8,34 @@
 </head>
 <body>
     <div class="container">
-        <h1>Apps</h1>
-        <p class="subtitle">Legal, Privacy & Support</p>
+        <h1>Our Apps</h1>
+        <p class="subtitle">We build apps that help you move, focus, and get things done. Here you'll find everything about our apps, your data, and how to reach us.</p>
 
         <div class="app-grid" id="app-grid">
             <!-- Apps werden automatisch aus config.json geladen -->
         </div>
 
-        <footer>&copy; 2026 Nave-S. All rights reserved.</footer>
+        <footer>
+            <p>Questions? <a href="mailto:contact@nave-s.com" style="color:#FF6B00;text-decoration:none">contact@nave-s.com</a></p>
+            <p style="margin-top:8px">&copy; 2026 Nave-S. All rights reserved.</p>
+        </footer>
     </div>
 
     <script>
         // App-Definitionen
         const apps = {
-            sequenz:        { name: "SQNZ / Sequenz",             tagline: "Interval Timer for iOS & Apple Watch",  folder: "sequenz" },
-            talktome:       { name: "TalkToMe",          tagline: "macOS Communication App",               folder: "talktome" },
-            clearmind:      { name: "ClearMind",         tagline: "Focus & Mindfulness",                   folder: "clearmind" },
-            elektohub:      { name: "ElektoHub",         tagline: "Smart Home Management",                 folder: "elektohub" },
-            feiertagswarner:{ name: "FeiertagsWarner",   tagline: "Holiday Notifications for Germany",     folder: "feiertagswarner" },
-            finanzen:       { name: "Finanzen",          tagline: "Personal Finance Tracker",              folder: "finanzen" },
-            riseup:         { name: "RiseUp",            tagline: "Motivation & Habits",                   folder: "riseup" },
-            spindtracker:   { name: "SpindTracker",      tagline: "Locker Management",                    folder: "spindtracker" },
-            shutterlife:    { name: "ShutterLife",       tagline: "Photography App",                       folder: "shutterlife" },
-            trynk:          { name: "Trynk",             tagline: "Social Drinks & Nightlife",             folder: "trynk" },
-            shutterlifeweb: { name: "ShutterLife Web",   tagline: "Web Platform for ShutterLife",          folder: "shutterlife-web" },
-            clearlist:      { name: "ClearList",         tagline: "Simple Task Management",                folder: "clearlist" },
+            sequenz:        { name: "SQNZ / Sequenz",   tagline: "Build, run, and master interval timers for any workout.",          platform: "iOS & Apple Watch", folder: "sequenz" },
+            shutterlife:    { name: "ShutterLife",       tagline: "Capture, organize, and share your photography journey.",           platform: "iOS",               folder: "shutterlife" },
+            talktome:       { name: "TalkToMe",          tagline: "Accessible communication for people who need a voice.",            platform: "macOS",             folder: "talktome" },
+            clearmind:      { name: "ClearMind",         tagline: "Simple tools for focus, breathing, and mindfulness.",              platform: "iOS",               folder: "clearmind" },
+            elektohub:      { name: "ElektoHub",         tagline: "Manage and monitor your smart home devices in one place.",         platform: "iOS",               folder: "elektohub" },
+            feiertagswarner:{ name: "FeiertagsWarner",   tagline: "Never miss a German holiday. Get notified ahead of time.",         platform: "iOS",               folder: "feiertagswarner" },
+            finanzen:       { name: "Finanzen",          tagline: "Track your income, expenses, and savings at a glance.",            platform: "iOS",               folder: "finanzen" },
+            riseup:         { name: "RiseUp",            tagline: "Daily motivation and habit tracking to keep you going.",           platform: "iOS",               folder: "riseup" },
+            spindtracker:   { name: "SpindTracker",      tagline: "Keep track of your locker assignments and access codes.",          platform: "iOS",               folder: "spindtracker" },
+            trynk:          { name: "Trynk",             tagline: "Discover drinks, bars, and nightlife with friends.",               platform: "iOS",               folder: "trynk" },
+            shutterlifeweb: { name: "ShutterLife Web",   tagline: "The web companion for your ShutterLife photo library.",            platform: "Web",               folder: "shutterlife-web" },
+            clearlist:      { name: "ClearList",         tagline: "A clean, simple to-do list that stays out of your way.",           platform: "iOS",               folder: "clearlist" },
         };
 
         // Config laden und Apps anzeigen
@@ -45,12 +48,15 @@
                         const app = apps[key];
                         grid.innerHTML += `
                             <div class="app-card">
-                                <h3>${app.name}</h3>
+                                <div style="display:flex;justify-content:space-between;align-items:center">
+                                    <h3>${app.name}</h3>
+                                    <span class="platform-badge">${app.platform}</span>
+                                </div>
                                 <p class="tagline">${app.tagline}</p>
                                 <div class="links">
-                                    <a href="${app.folder}/privacy">Privacy</a>
-                                    <a href="${app.folder}/terms">Terms</a>
-                                    <a href="${app.folder}/support">Support</a>
+                                    <a href="${app.folder}/privacy">Privacy Policy</a>
+                                    <a href="${app.folder}/terms">Terms of Service</a>
+                                    <a href="${app.folder}/support">Support & FAQ</a>
                                 </div>
                             </div>
                         `;
