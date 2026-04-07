@@ -1,6 +1,6 @@
 /* Nave-S.github.io — Shared Style */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0C0C0B; color: #F2EDE7; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0C0C0B; color: #F2EDE7; -webkit-text-size-adjust: 100%; }
 .container { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
 
 /* Navigation */
@@ -12,7 +12,7 @@ nav a:hover { color: #FF6B00; }
 /* Typography */
 h1 { font-size: 48px; font-weight: 900; color: #FF6B00; margin-bottom: 8px; }
 h1.page-title { font-size: 32px; }
-.subtitle { font-size: 18px; color: #9B9590; margin-bottom: 48px; }
+.subtitle { font-size: 18px; color: #9B9590; margin-bottom: 48px; line-height: 1.6; }
 .date { color: #9B9590; font-size: 14px; margin-bottom: 40px; }
 h2 { font-size: 20px; font-weight: 700; margin-top: 32px; margin-bottom: 12px; color: #F2EDE7; }
 p, li { font-size: 15px; line-height: 1.7; color: #C0BBB5; margin-bottom: 12px; }
@@ -29,11 +29,14 @@ strong { color: #F2EDE7; }
 }
 .app-card:hover { border-color: rgba(255,107,0,0.3); transform: translateY(-2px); }
 .app-card h3 { font-size: 20px; font-weight: 800; color: #F2EDE7; margin-bottom: 4px; }
-.app-card .tagline { font-size: 14px; color: #9B9590; margin-bottom: 16px; }
-.app-card .links { display: flex; gap: 16px; }
+.app-card .tagline { font-size: 14px; color: #9B9590; margin-bottom: 16px; line-height: 1.5; }
+.app-card .links { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .app-card .links a { color: #FF6B00; text-decoration: none; font-size: 13px; font-weight: 600; }
 .app-card .links a:hover { text-decoration: underline; }
-.app-card .links a.store-link { color: #F2EDE7; background: #FF6B00; padding: 4px 10px; border-radius: 6px; }
+.app-card .links a.store-link {
+    color: #0C0C0B; background: #FF6B00; padding: 6px 14px; border-radius: 8px;
+    font-weight: 700; font-size: 13px;
+}
 .app-card .links a.store-link:hover { text-decoration: none; opacity: 0.9; }
 
 /* Legal Links */
@@ -62,6 +65,7 @@ strong { color: #F2EDE7; }
 .lang-switch a {
     color: #9B9590; text-decoration: none; font-size: 13px; font-weight: 600;
     padding: 4px 10px; border-radius: 6px; border: 1px solid #2A2825;
+    cursor: pointer;
 }
 .lang-switch a.active { color: #FF6B00; border-color: #FF6B00; }
 .lang-switch a:hover { color: #FF6B00; }
@@ -75,3 +79,33 @@ strong { color: #F2EDE7; }
 
 /* Footer */
 footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid #2A2825; color: #5C5854; font-size: 13px; }
+
+/* ── Responsive ── */
+
+/* Tablets (iPad) */
+@media (max-width: 768px) {
+    .container { padding: 40px 20px; }
+    h1 { font-size: 36px; }
+    h1.page-title { font-size: 26px; }
+    .subtitle { font-size: 16px; margin-bottom: 32px; }
+    .app-card { padding: 20px; }
+    .app-card h3 { font-size: 18px; }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    .container { padding: 32px 16px; }
+    h1 { font-size: 28px; }
+    h1.page-title { font-size: 22px; }
+    .subtitle { font-size: 14px; margin-bottom: 24px; }
+    h2 { font-size: 18px; }
+    .app-card { padding: 16px; border-radius: 12px; }
+    .app-card h3 { font-size: 17px; }
+    .app-card .tagline { font-size: 13px; margin-bottom: 12px; }
+    .app-card .links { gap: 8px; }
+    .app-card .links a { font-size: 12px; }
+    .faq { padding: 16px; }
+    .faq h3 { font-size: 15px; }
+    .btn { padding: 12px 22px; font-size: 15px; }
+    footer { font-size: 12px; }
+}
