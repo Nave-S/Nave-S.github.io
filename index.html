@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nave-S Apps</title>
+    <title>CasyStudioCo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,7 +12,9 @@
             <a href="." class="active" id="lang-en" onclick="setLang('en');return false">EN</a>
             <a href="#" id="lang-de" onclick="setLang('de');return false">DE</a>
         </div>
-        <h1 id="title">Our Apps</h1>
+        <p class="welcome" id="welcome">Welcome to</p>
+        <h1 id="brand">CasyStudioCo</h1>
+        <h2 class="section-title" id="title">Our Apps</h2>
         <p class="subtitle" id="subtitle">We build apps that help you move, focus, and get things done. Here you'll find everything about our apps, your data, and how to reach us.</p>
 
         <div class="app-grid" id="app-grid">
@@ -21,13 +23,14 @@
 
         <footer>
             <p>Questions? <a href="mailto:contact@nave-s.com" style="color:#FF6B00;text-decoration:none">contact@nave-s.com</a></p>
-            <p style="margin-top:8px">&copy; 2026 Nave-S. All rights reserved.</p>
+            <p style="margin-top:8px">&copy; 2026 CasyStudioCo. All rights reserved.</p>
         </footer>
     </div>
 
     <script>
         const i18n = {
             en: {
+                welcome: "Welcome to",
                 title: "Our Apps",
                 subtitle: "We build apps that help you move, focus, and get things done. Here you'll find everything about our apps, your data, and how to reach us.",
                 privacy: "Privacy Policy",
@@ -41,6 +44,7 @@
                 supportSuffix: "",
             },
             de: {
+                welcome: "Willkommen bei",
                 title: "Unsere Apps",
                 subtitle: "Wir entwickeln Apps, die dir helfen, dich zu bewegen, zu fokussieren und produktiv zu sein. Hier findest du alles zu unseren Apps, deinen Daten und wie du uns erreichst.",
                 privacy: "Datenschutz",
@@ -76,6 +80,7 @@
             currentLang = lang;
             document.getElementById("lang-en").classList.toggle("active", lang === "en");
             document.getElementById("lang-de").classList.toggle("active", lang === "de");
+            document.getElementById("welcome").textContent = i18n[lang].welcome;
             document.getElementById("title").textContent = i18n[lang].title;
             document.getElementById("subtitle").textContent = i18n[lang].subtitle;
             renderApps();
