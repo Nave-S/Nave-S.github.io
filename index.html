@@ -11,99 +11,51 @@
         <h1>Apps</h1>
         <p class="subtitle">Legal, Privacy & Support</p>
 
-        <!--
-            Apps verwalten:
-            - Sichtbar: Einfach normal als div
-            - Ausblenden: style="display:none" hinzufügen
-            - Einblenden: style="display:none" entfernen
-        -->
-        <div class="app-grid">
-
-            <!-- ✅ LIVE -->
-            <div class="app-card">
-                <h3>SQNZ</h3>
-                <p class="tagline">Interval Timer for iOS & Apple Watch</p>
-                <div class="links">
-                    <a href="sequenz/privacy">Privacy</a>
-                    <a href="sequenz/terms">Terms</a>
-                    <a href="sequenz/support">Support</a>
-                </div>
-            </div>
-
-            <!-- 🔒 HIDDEN — display:none entfernen wenn ready -->
-            <div class="app-card" style="display:none">
-                <h3>TalkToMe</h3>
-                <p class="tagline">macOS Communication App</p>
-                <div class="links">
-                    <a href="talktome/privacy">Privacy</a>
-                    <a href="talktome/terms">Terms</a>
-                    <a href="talktome/support">Support</a>
-                </div>
-            </div>
-
-            <div class="app-card" style="display:none">
-                <h3>ClearMind</h3>
-                <p class="tagline">Focus & Mindfulness</p>
-                <div class="links">
-                    <a href="clearmind/privacy">Privacy</a>
-                    <a href="clearmind/terms">Terms</a>
-                    <a href="clearmind/support">Support</a>
-                </div>
-            </div>
-
-            <div class="app-card" style="display:none">
-                <h3>ElektoHub</h3>
-                <p class="tagline">Smart Home Management</p>
-                <div class="links">
-                    <a href="elektohub/privacy">Privacy</a>
-                    <a href="elektohub/terms">Terms</a>
-                    <a href="elektohub/support">Support</a>
-                </div>
-            </div>
-
-            <div class="app-card" style="display:none">
-                <h3>FeiertagsWarner</h3>
-                <p class="tagline">Holiday Notifications for Germany</p>
-                <div class="links">
-                    <a href="feiertagswarner/privacy">Privacy</a>
-                    <a href="feiertagswarner/terms">Terms</a>
-                    <a href="feiertagswarner/support">Support</a>
-                </div>
-            </div>
-
-            <div class="app-card" style="display:none">
-                <h3>Finanzen</h3>
-                <p class="tagline">Personal Finance Tracker</p>
-                <div class="links">
-                    <a href="finanzen/privacy">Privacy</a>
-                    <a href="finanzen/terms">Terms</a>
-                    <a href="finanzen/support">Support</a>
-                </div>
-            </div>
-
-            <div class="app-card" style="display:none">
-                <h3>RiseUp</h3>
-                <p class="tagline">Motivation & Habits</p>
-                <div class="links">
-                    <a href="riseup/privacy">Privacy</a>
-                    <a href="riseup/terms">Terms</a>
-                    <a href="riseup/support">Support</a>
-                </div>
-            </div>
-
-            <div class="app-card" style="display:none">
-                <h3>SpindTracker</h3>
-                <p class="tagline">Locker Management</p>
-                <div class="links">
-                    <a href="spindtracker/privacy">Privacy</a>
-                    <a href="spindtracker/terms">Terms</a>
-                    <a href="spindtracker/support">Support</a>
-                </div>
-            </div>
-
+        <div class="app-grid" id="app-grid">
+            <!-- Apps werden automatisch aus config.json geladen -->
         </div>
 
         <footer>&copy; 2026 Nave-S. All rights reserved.</footer>
     </div>
+
+    <script>
+        // App-Definitionen
+        const apps = {
+            sequenz:        { name: "SQNZ",             tagline: "Interval Timer for iOS & Apple Watch",  folder: "sequenz" },
+            talktome:       { name: "TalkToMe",          tagline: "macOS Communication App",               folder: "talktome" },
+            clearmind:      { name: "ClearMind",         tagline: "Focus & Mindfulness",                   folder: "clearmind" },
+            elektohub:      { name: "ElektoHub",         tagline: "Smart Home Management",                 folder: "elektohub" },
+            feiertagswarner:{ name: "FeiertagsWarner",   tagline: "Holiday Notifications for Germany",     folder: "feiertagswarner" },
+            finanzen:       { name: "Finanzen",          tagline: "Personal Finance Tracker",              folder: "finanzen" },
+            riseup:         { name: "RiseUp",            tagline: "Motivation & Habits",                   folder: "riseup" },
+            spindtracker:   { name: "SpindTracker",      tagline: "Locker Management",                    folder: "spindtracker" },
+        };
+
+        // Config laden und Apps anzeigen
+        fetch("config.json")
+            .then(r => r.json())
+            .then(config => {
+                const grid = document.getElementById("app-grid");
+                for (const [key, enabled] of Object.entries(config)) {
+                    if (enabled && apps[key]) {
+                        const app = apps[key];
+                        grid.innerHTML += `
+                            <div class="app-card">
+                                <h3>${app.name}</h3>
+                                <p class="tagline">${app.tagline}</p>
+                                <div class="links">
+                                    <a href="${app.folder}/privacy">Privacy</a>
+                                    <a href="${app.folder}/terms">Terms</a>
+                                    <a href="${app.folder}/support">Support</a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                if (!grid.innerHTML.trim()) {
+                    grid.innerHTML = '<p style="color:#5C5854">No apps published yet.</p>';
+                }
+            });
+    </script>
 </body>
 </html>
