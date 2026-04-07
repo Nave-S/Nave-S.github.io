@@ -56,8 +56,8 @@
         };
 
         const apps = {
-            sequenz:        { name: "SQNZ / Sequenz",   en: "Build, run, and master interval timers for any workout.",           de: "Erstelle und steuere Intervall-Timer für jedes Training.",         platform: "iOS & Apple Watch", folder: "sequenz" },
-            shutterlife:    { name: "ShutterLife",       en: "Capture, organize, and share your photography journey.",            de: "Fotografiere, organisiere und teile deine Foto-Reise.",           platform: "iOS",               folder: "shutterlife" },
+            sequenz:        { name: "SQNZ / Sequenz",   en: "Build, run, and master interval timers for any workout.",           de: "Erstelle und steuere Intervall-Timer für jedes Training.",         platform: "iOS & Apple Watch", folder: "sequenz",     appStore: "" },
+            shutterlife:    { name: "ShutterLife",       en: "Your photography portfolio and client management in one app.",     de: "Dein Fotografie-Portfolio und Kundenverwaltung in einer App.",     platform: "iOS",               folder: "shutterlife", appStore: "" },
             talktome:       { name: "TalkToMe",          en: "Accessible communication for people who need a voice.",             de: "Barrierefreie Kommunikation für Menschen die eine Stimme brauchen.", platform: "macOS",          folder: "talktome" },
             clearmind:      { name: "ClearMind",         en: "Simple tools for focus, breathing, and mindfulness.",               de: "Einfache Tools für Fokus, Atmung und Achtsamkeit.",               platform: "iOS",               folder: "clearmind" },
             elektohub:      { name: "ElektoHub",         en: "Manage and monitor your smart home devices in one place.",          de: "Verwalte und überwache deine Smart-Home-Geräte an einem Ort.",    platform: "iOS",               folder: "elektohub" },
@@ -103,6 +103,7 @@
                                         <a href="${app.folder}/privacy${t.privacySuffix}">${t.privacy}</a>
                                         <a href="${app.folder}/terms${t.termsSuffix}">${t.terms}</a>
                                         <a href="${app.folder}/support${t.supportSuffix}">${t.support}</a>
+                                        ${app.appStore ? `<a href="${app.appStore}" class="store-link">App Store ↗</a>` : ""}
                                     </div>
                                 </div>
                             `;
