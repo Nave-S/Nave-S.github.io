@@ -55,5 +55,14 @@ strong { color: #F2EDE7; }
     text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 16px; margin-top: 8px;
 }
 
+/* Language Switcher */
+.lang-switch { display: flex; gap: 12px; margin-bottom: 24px; }
+.lang-switch a {
+    color: #9B9590; text-decoration: none; font-size: 13px; font-weight: 600;
+    padding: 4px 10px; border-radius: 6px; border: 1px solid #2A2825;
+}
+.lang-switch a.active { color: #FF6B00; border-color: #FF6B00; }
+.lang-switch a:hover { color: #FF6B00; }
+
 /* Footer */
 footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid #2A2825; color: #5C5854; font-size: 13px; }
