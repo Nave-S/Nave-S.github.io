@@ -8,8 +8,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>Our Apps</h1>
-        <p class="subtitle">We build apps that help you move, focus, and get things done. Here you'll find everything about our apps, your data, and how to reach us.</p>
+        <div class="lang-switch">
+            <a href="." class="active" id="lang-en" onclick="setLang('en');return false">EN</a>
+            <a href="#" id="lang-de" onclick="setLang('de');return false">DE</a>
+        </div>
+        <h1 id="title">Our Apps</h1>
+        <p class="subtitle" id="subtitle">We build apps that help you move, focus, and get things done. Here you'll find everything about our apps, your data, and how to reach us.</p>
 
         <div class="app-grid" id="app-grid">
             <!-- Apps werden automatisch aus config.json geladen -->
@@ -22,50 +26,96 @@
     </div>
 
     <script>
-        // App-Definitionen
-        const apps = {
-            sequenz:        { name: "SQNZ / Sequenz",   tagline: "Build, run, and master interval timers for any workout.",          platform: "iOS & Apple Watch", folder: "sequenz" },
-            shutterlife:    { name: "ShutterLife",       tagline: "Capture, organize, and share your photography journey.",           platform: "iOS",               folder: "shutterlife" },
-            talktome:       { name: "TalkToMe",          tagline: "Accessible communication for people who need a voice.",            platform: "macOS",             folder: "talktome" },
-            clearmind:      { name: "ClearMind",         tagline: "Simple tools for focus, breathing, and mindfulness.",              platform: "iOS",               folder: "clearmind" },
-            elektohub:      { name: "ElektoHub",         tagline: "Manage and monitor your smart home devices in one place.",         platform: "iOS",               folder: "elektohub" },
-            feiertagswarner:{ name: "FeiertagsWarner",   tagline: "Never miss a German holiday. Get notified ahead of time.",         platform: "iOS",               folder: "feiertagswarner" },
-            finanzen:       { name: "Finanzen",          tagline: "Track your income, expenses, and savings at a glance.",            platform: "iOS",               folder: "finanzen" },
-            riseup:         { name: "RiseUp",            tagline: "Daily motivation and habit tracking to keep you going.",           platform: "iOS",               folder: "riseup" },
-            spindtracker:   { name: "SpindTracker",      tagline: "Keep track of your locker assignments and access codes.",          platform: "iOS",               folder: "spindtracker" },
-            trynk:          { name: "Trynk",             tagline: "Discover drinks, bars, and nightlife with friends.",               platform: "iOS",               folder: "trynk" },
-            shutterlifeweb: { name: "ShutterLife Web",   tagline: "The web companion for your ShutterLife photo library.",            platform: "Web",               folder: "shutterlife-web" },
-            clearlist:      { name: "ClearList",         tagline: "A clean, simple to-do list that stays out of your way.",           platform: "iOS",               folder: "clearlist" },
+        const i18n = {
+            en: {
+                title: "Our Apps",
+                subtitle: "We build apps that help you move, focus, and get things done. Here you'll find everything about our apps, your data, and how to reach us.",
+                privacy: "Privacy Policy",
+                terms: "Terms of Service",
+                support: "Support & FAQ",
+                empty: "No apps published yet.",
+                contact: "Questions?",
+                rights: "All rights reserved.",
+                privacySuffix: "",
+                termsSuffix: "",
+                supportSuffix: "",
+            },
+            de: {
+                title: "Unsere Apps",
+                subtitle: "Wir entwickeln Apps, die dir helfen, dich zu bewegen, zu fokussieren und produktiv zu sein. Hier findest du alles zu unseren Apps, deinen Daten und wie du uns erreichst.",
+                privacy: "Datenschutz",
+                terms: "Nutzungsbedingungen",
+                support: "Support & FAQ",
+                empty: "Noch keine Apps veröffentlicht.",
+                contact: "Fragen?",
+                rights: "Alle Rechte vorbehalten.",
+                privacySuffix: "/de.html",
+                termsSuffix: "/de.html",
+                supportSuffix: "/de.html",
+            }
         };
 
-        // Config laden und Apps anzeigen
-        fetch("config.json")
-            .then(r => r.json())
-            .then(config => {
-                const grid = document.getElementById("app-grid");
-                for (const [key, enabled] of Object.entries(config)) {
-                    if (enabled && apps[key]) {
-                        const app = apps[key];
-                        grid.innerHTML += `
-                            <div class="app-card">
-                                <div style="display:flex;justify-content:space-between;align-items:center">
-                                    <h3>${app.name}</h3>
-                                    <span class="platform-badge">${app.platform}</span>
+        const apps = {
+            sequenz:        { name: "SQNZ / Sequenz",   en: "Build, run, and master interval timers for any workout.",           de: "Erstelle und steuere Intervall-Timer für jedes Training.",         platform: "iOS & Apple Watch", folder: "sequenz" },
+            shutterlife:    { name: "ShutterLife",       en: "Capture, organize, and share your photography journey.",            de: "Fotografiere, organisiere und teile deine Foto-Reise.",           platform: "iOS",               folder: "shutterlife" },
+            talktome:       { name: "TalkToMe",          en: "Accessible communication for people who need a voice.",             de: "Barrierefreie Kommunikation für Menschen die eine Stimme brauchen.", platform: "macOS",          folder: "talktome" },
+            clearmind:      { name: "ClearMind",         en: "Simple tools for focus, breathing, and mindfulness.",               de: "Einfache Tools für Fokus, Atmung und Achtsamkeit.",               platform: "iOS",               folder: "clearmind" },
+            elektohub:      { name: "ElektoHub",         en: "Manage and monitor your smart home devices in one place.",          de: "Verwalte und überwache deine Smart-Home-Geräte an einem Ort.",    platform: "iOS",               folder: "elektohub" },
+            feiertagswarner:{ name: "FeiertagsWarner",   en: "Never miss a German holiday. Get notified ahead of time.",          de: "Verpasse keinen Feiertag. Werde rechtzeitig erinnert.",           platform: "iOS",               folder: "feiertagswarner" },
+            finanzen:       { name: "Finanzen",          en: "Track your income, expenses, and savings at a glance.",             de: "Behalte Einnahmen, Ausgaben und Ersparnisse im Blick.",           platform: "iOS",               folder: "finanzen" },
+            riseup:         { name: "RiseUp",            en: "Daily motivation and habit tracking to keep you going.",            de: "Tägliche Motivation und Gewohnheits-Tracking.",                   platform: "iOS",               folder: "riseup" },
+            spindtracker:   { name: "SpindTracker",      en: "Keep track of your locker assignments and access codes.",           de: "Behalte deine Spind-Zuweisungen und Zugangscodes im Blick.",      platform: "iOS",               folder: "spindtracker" },
+            trynk:          { name: "Trynk",             en: "Discover drinks, bars, and nightlife with friends.",                de: "Entdecke Drinks, Bars und Nachtleben mit Freunden.",              platform: "iOS",               folder: "trynk" },
+            shutterlifeweb: { name: "ShutterLife Web",   en: "The web companion for your ShutterLife photo library.",             de: "Die Web-Plattform für deine ShutterLife-Fotobibliothek.",         platform: "Web",               folder: "shutterlife-web" },
+            clearlist:      { name: "ClearList",         en: "A clean, simple to-do list that stays out of your way.",            de: "Eine saubere, einfache To-Do-Liste die dich nicht stört.",        platform: "iOS",               folder: "clearlist" },
+        };
+
+        let currentLang = "en";
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById("lang-en").classList.toggle("active", lang === "en");
+            document.getElementById("lang-de").classList.toggle("active", lang === "de");
+            document.getElementById("title").textContent = i18n[lang].title;
+            document.getElementById("subtitle").textContent = i18n[lang].subtitle;
+            renderApps();
+        }
+
+        function renderApps() {
+            const lang = currentLang;
+            const t = i18n[lang];
+            fetch("config.json")
+                .then(r => r.json())
+                .then(config => {
+                    const grid = document.getElementById("app-grid");
+                    grid.innerHTML = "";
+                    for (const [key, enabled] of Object.entries(config)) {
+                        if (enabled && apps[key]) {
+                            const app = apps[key];
+                            grid.innerHTML += `
+                                <div class="app-card">
+                                    <div style="display:flex;justify-content:space-between;align-items:center">
+                                        <h3>${app.name}</h3>
+                                        <span class="platform-badge">${app.platform}</span>
+                                    </div>
+                                    <p class="tagline">${app[lang]}</p>
+                                    <div class="links">
+                                        <a href="${app.folder}/privacy${t.privacySuffix}">${t.privacy}</a>
+                                        <a href="${app.folder}/terms${t.termsSuffix}">${t.terms}</a>
+                                        <a href="${app.folder}/support${t.supportSuffix}">${t.support}</a>
+                                    </div>
                                 </div>
-                                <p class="tagline">${app.tagline}</p>
-                                <div class="links">
-                                    <a href="${app.folder}/privacy">Privacy Policy</a>
-                                    <a href="${app.folder}/terms">Terms of Service</a>
-                                    <a href="${app.folder}/support">Support & FAQ</a>
-                                </div>
-                            </div>
-                        `;
+                            `;
+                        }
                     }
-                }
-                if (!grid.innerHTML.trim()) {
-                    grid.innerHTML = '<p style="color:#5C5854">No apps published yet.</p>';
-                }
-            });
+                    if (!grid.innerHTML.trim()) {
+                        grid.innerHTML = `<p style="color:#5C5854">${t.empty}</p>`;
+                    }
+                });
+        }
+
+        // Initial laden
+        renderApps();
     </script>
 </body>
 </html>
