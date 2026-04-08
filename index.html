@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CasyStudioCo</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
     <div class="container">
@@ -60,18 +61,19 @@
         };
 
         const apps = {
-            sequenz:        { name: "SQNZ / Sequenz",   en: "Build, run, and master interval timers for any workout.",           de: "Erstelle und steuere Intervall-Timer für jedes Training.",         platform: "iOS & Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz" },
-            shutterlife:    { name: "ShutterLife",       en: "Read and track the shutter count of your camera from photos.",     de: "Lese und verfolge den Auslösezähler deiner Kamera aus Fotos.",     platform: "iOS & macOS",        folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife" },
-            talktome:       { name: "TalkToMe",          en: "Accessible communication for people who need a voice.",             de: "Barrierefreie Kommunikation für Menschen die eine Stimme brauchen.", platform: "macOS",          folder: "talktome" },
-            clearmind:      { name: "ClearMind",         en: "Simple tools for focus, breathing, and mindfulness.",               de: "Einfache Tools für Fokus, Atmung und Achtsamkeit.",               platform: "iOS",               folder: "clearmind" },
-            elektohub:      { name: "ElektoHub",         en: "Manage and monitor your smart home devices in one place.",          de: "Verwalte und überwache deine Smart-Home-Geräte an einem Ort.",    platform: "iOS",               folder: "elektohub" },
-            feiertagswarner:{ name: "FeiertagsWarner",   en: "Never miss a German holiday. Get notified ahead of time.",          de: "Verpasse keinen Feiertag. Werde rechtzeitig erinnert.",           platform: "iOS",               folder: "feiertagswarner" },
-            finanzen:       { name: "Finanzen",          en: "Track your income, expenses, and savings at a glance.",             de: "Behalte Einnahmen, Ausgaben und Ersparnisse im Blick.",           platform: "iOS",               folder: "finanzen" },
-            riseup:         { name: "RiseUp",            en: "Daily motivation and habit tracking to keep you going.",            de: "Tägliche Motivation und Gewohnheits-Tracking.",                   platform: "iOS",               folder: "riseup" },
-            spindtracker:   { name: "SpindTracker",      en: "Keep track of your locker assignments and access codes.",           de: "Behalte deine Spind-Zuweisungen und Zugangscodes im Blick.",      platform: "iOS",               folder: "spindtracker" },
-            trynk:          { name: "Trynk",             en: "Discover drinks, bars, and nightlife with friends.",                de: "Entdecke Drinks, Bars und Nachtleben mit Freunden.",              platform: "iOS",               folder: "trynk" },
-            shutterlifeweb: { name: "ShutterLife Web",   en: "The web companion for your ShutterLife photo library.",             de: "Die Web-Plattform für deine ShutterLife-Fotobibliothek.",         platform: "Web",               folder: "shutterlife-web" },
-            clearlist:      { name: "ClearList",         en: "A clean, simple to-do list that stays out of your way.",            de: "Eine saubere, einfache To-Do-Liste die dich nicht stört.",        platform: "iOS",               folder: "clearlist" },
+            sequenz:        { name: "SQNZ / Sequenz",   icon: "S", color: "#FF6B00", en: "Build, run, and master interval timers for any workout.",           de: "Erstelle und steuere Intervall-Timer für jedes Training.",         platform: "iOS & Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", en: "Read and track the shutter count of your camera from photos.",     de: "Lese und verfolge den Auslösezähler deiner Kamera aus Fotos.",     platform: "iOS & macOS",        folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife" },
+            talktome:       { name: "TalkToMe",          icon: "TM", color: "#8B5CF6", en: "Accessible communication for people who need a voice.",             de: "Barrierefreie Kommunikation für Menschen die eine Stimme brauchen.", platform: "macOS",          folder: "talktome" },
+            clearmind:      { name: "ClearMind",         icon: "CM", color: "#10B981", en: "Simple tools for focus, breathing, and mindfulness.",               de: "Einfache Tools für Fokus, Atmung und Achtsamkeit.",               platform: "iOS",               folder: "clearmind" },
+            elektohub:      { name: "ElektoHub",         icon: "EH", color: "#F59E0B", en: "Manage and monitor your smart home devices in one place.",          de: "Verwalte und überwache deine Smart-Home-Geräte an einem Ort.",    platform: "iOS",               folder: "elektohub" },
+            feiertagswarner:{ name: "FeiertagsWarner",   icon: "FW", color: "#EF4444", en: "Never miss a German holiday. Get notified ahead of time.",          de: "Verpasse keinen Feiertag. Werde rechtzeitig erinnert.",           platform: "iOS",               folder: "feiertagswarner" },
+            finanzen:       { name: "Finanzen",          icon: "Fi", color: "#06B6D4", en: "Track your income, expenses, and savings at a glance.",             de: "Behalte Einnahmen, Ausgaben und Ersparnisse im Blick.",           platform: "iOS",               folder: "finanzen" },
+            riseup:         { name: "RiseUp",            icon: "RU", color: "#F97316", en: "Daily motivation and habit tracking to keep you going.",            de: "Tägliche Motivation und Gewohnheits-Tracking.",                   platform: "iOS",               folder: "riseup" },
+            spindtracker:   { name: "SpindTracker",      icon: "ST", color: "#64748B", en: "Keep track of your locker assignments and access codes.",           de: "Behalte deine Spind-Zuweisungen und Zugangscodes im Blick.",      platform: "iOS",               folder: "spindtracker" },
+            trynk:          { name: "Trynk",             icon: "Tr", color: "#EC4899", en: "Discover drinks, bars, and nightlife with friends.",                de: "Entdecke Drinks, Bars und Nachtleben mit Freunden.",              platform: "iOS",               folder: "trynk" },
+            shutterlifeweb: { name: "ShutterLife Web",   icon: "SW", color: "#3B82F6", en: "The web companion for your ShutterLife photo library.",             de: "Die Web-Plattform für deine ShutterLife-Fotobibliothek.",         platform: "Web",               folder: "shutterlife-web" },
+            clearlist:      { name: "ClearList",         icon: "CL", color: "#A78BFA", en: "A clean, simple to-do list that stays out of your way.",            de: "Eine saubere, einfache To-Do-Liste die dich nicht stört.",        platform: "iOS",               folder: "clearlist" },
+>>>>>>> 9330ee3 (Add app icons on cards, CS favicon, and responsive icon styles)
         };
 
         let currentLang = "en";
@@ -99,11 +101,16 @@
                             const app = apps[key];
                             grid.innerHTML += `
                                 <div class="app-card">
-                                    <div style="display:flex;justify-content:space-between;align-items:center">
-                                        <h3>${app.name}</h3>
-                                        <span class="platform-badge">${app.platform}</span>
+                                    <div class="app-card-header">
+                                        <div class="app-icon" style="background:${app.color}">${app.icon}</div>
+                                        <div class="app-card-title">
+                                            <div style="display:flex;justify-content:space-between;align-items:center">
+                                                <h3>${app.name}</h3>
+                                                <span class="platform-badge">${app.platform}</span>
+                                            </div>
+                                            <p class="tagline">${app[lang]}</p>
+                                        </div>
                                     </div>
-                                    <p class="tagline">${app[lang]}</p>
                                     <div class="links">
                                         <a href="${app.folder}/privacy${t.privacySuffix}">${t.privacy}</a>
                                         <a href="${app.folder}/terms${t.termsSuffix}">${t.terms}</a>
