@@ -23,6 +23,7 @@
 
         <footer>
             <p>Questions? <a href="mailto:casystudioco@gmail.com" style="color:#FF6B00;text-decoration:none">casystudioco@gmail.com</a></p>
+            <p style="margin-top:8px"><a href="shutterlife/impressum/" id="footer-impressum" style="color:#FF6B00;text-decoration:none">Legal Notice / Impressum</a></p>
             <p style="margin-top:8px">&copy; 2026 CasyStudioCo. All rights reserved.</p>
         </footer>
     </div>
@@ -42,6 +43,8 @@
                 privacySuffix: "",
                 termsSuffix: "",
                 supportSuffix: "",
+                impressum: "Legal Notice",
+                impressumSuffix: "",
             },
             de: {
                 welcome: "Willkommen bei",
@@ -56,6 +59,8 @@
                 privacySuffix: "/de.html",
                 termsSuffix: "/de.html",
                 supportSuffix: "/de.html",
+                impressum: "Impressum",
+                impressumSuffix: "/de.html",
             }
         };
 
@@ -108,6 +113,7 @@
                                         <a href="${app.folder}/privacy${t.privacySuffix}">${t.privacy}</a>
                                         <a href="${app.folder}/terms${t.termsSuffix}">${t.terms}</a>
                                         <a href="${app.folder}/support${t.supportSuffix}">${t.support}</a>
+                                        <a href="${app.folder}/impressum${t.impressumSuffix}">${t.impressum}</a>
                                         ${app.appStore ? `<a href="${app.appStore}" class="store-link">App Store ↗</a>` : ""}
                                     </div>
                                 </div>
