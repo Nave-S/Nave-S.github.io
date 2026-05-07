@@ -120,6 +120,7 @@
             <div class="site-footer__row">
                 <nav class="site-footer__links" aria-label="Studio">
                     <a href="mailto:casystudioco@gmail.com" id="footer-contact">Contact</a>
+                    <a href="shutterlife/impressum/" id="footer-impressum">Legal Notice</a>
                     <a href="https://github.com/Nave-S" rel="noopener" target="_blank" id="footer-github">GitHub</a>
                 </nav>
                 <p class="site-footer__legal" id="footer-legal">&copy; 2026 Casy Studio · All rights reserved.</p>
@@ -145,6 +146,8 @@
                 rights: "All rights reserved.",
                 contact: "Contact",
                 github: "GitHub",
+                impressum: "Legal Notice",
+                impressumSuffix: "",
                 footerTagline: "Two builders, several apps, one philosophy: calm software that gets out of your way.",
                 footerLegal: "© 2026 Casy Studio · All rights reserved.",
                 statusLive: "Live",
@@ -170,6 +173,8 @@
                 rights: "Alle Rechte vorbehalten.",
                 contact: "Kontakt",
                 github: "GitHub",
+                impressum: "Impressum",
+                impressumSuffix: "/de.html",
                 footerTagline: "Zwei Entwickler, mehrere Apps, eine Haltung: ruhige Software, die dich machen lässt.",
                 footerLegal: "© 2026 Casy Studio · Alle Rechte vorbehalten.",
                 statusLive: "Live",
@@ -232,6 +237,11 @@
             document.getElementById("footer-tagline").textContent = t.footerTagline;
             document.getElementById("footer-contact").textContent = t.contact;
             document.getElementById("footer-github").textContent = t.github;
+            const fi = document.getElementById("footer-impressum");
+            fi.textContent = t.impressum;
+            fi.href = t.impressumSuffix
+                ? `shutterlife/impressum/${t.impressumSuffix.replace(/^\//, "")}`
+                : "shutterlife/impressum/";
             document.getElementById("footer-legal").innerHTML = t.footerLegal;
 
             renderApps();
