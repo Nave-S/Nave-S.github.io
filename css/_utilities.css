@@ -1,0 +1,57 @@
+/* ============================================================
+   Utilities — a11y helpers, scroll-reveal
+   Loaded after components so utility overrides win the cascade.
+   ============================================================ */
+
+/* Skip-to-content (a11y) */
+.skip-link {
+    position: absolute;
+    left: var(--space-4);
+    top: var(--space-4);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-accent);
+    color: var(--color-text-on-accent);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    transform: translateY(-200%);
+    transition: transform var(--motion-base);
+    z-index: 100;
+}
+.skip-link:focus-visible {
+    transform: translateY(0);
+    color: var(--color-text-on-accent);
+    box-shadow: var(--shadow-md);
+}
+
+/* ============================================================
+   Scroll-reveal — IntersectionObserver-driven fade+slide.
+   Elements opt in via the `.reveal` class. JS adds `.is-visible`
+   when the element enters the viewport. Reduced-motion users skip
+   the transform entirely and see content immediately.
+   ============================================================ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+        opacity var(--motion-slow),
+        transform var(--motion-slow);
+    will-change: opacity, transform;
+}
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Stagger inside the app grid so cards don't pop in as a block. */
+.app-grid .reveal:nth-child(2) { transition-delay:  80ms; }
+.app-grid .reveal:nth-child(3) { transition-delay: 160ms; }
+.app-grid .reveal:nth-child(4) { transition-delay: 240ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
