@@ -150,6 +150,7 @@
 html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+    overflow-x: clip;
 }
 
 body {
@@ -161,6 +162,7 @@ body {
     min-height: 100dvh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -381,6 +383,9 @@ nav a:hover { color: var(--color-accent-ink); }
     position: relative;
     padding: var(--space-12) 0 var(--space-16);
     isolation: isolate;
+    /* Contain the ::before gradient bleed (inset: -20% horizontally) so it
+       does not push the document past the viewport on small screens. */
+    overflow: clip;
 }
 .hero::before {
     content: "";
@@ -423,6 +428,8 @@ nav a:hover { color: var(--color-accent-ink); }
     color: var(--color-text);
     margin-bottom: var(--space-5);
     max-width: 18ch;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 .hero h1 .accent { color: var(--color-accent-ink); }
 .hero .lede {
