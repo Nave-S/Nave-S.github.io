@@ -89,16 +89,20 @@
 
         <main id="main">
             <section class="hero" aria-labelledby="hero-title">
-                <span class="eyebrow" id="eyebrow">Independent Apple-platform studio</span>
+                <span class="eyebrow" id="eyebrow">// Casy Studio Co.</span>
                 <h1 id="hero-title">
                     Small apps, <span class="accent" id="hero-accent">made with care.</span>
                 </h1>
                 <p class="lede" id="lede">
                     Casy Studio builds calm, focused tools for iOS, macOS and Apple Watch — the kind that respect your time and your data.
                 </p>
+                <div class="hero-cta">
+                    <a href="#apps-title" class="hero-cta__primary" id="cta-primary">Browse apps →</a>
+                    <a href="mailto:casystudioco@gmail.com" class="hero-cta__secondary" id="cta-secondary">Get in touch</a>
+                </div>
             </section>
 
-            <section aria-labelledby="apps-title">
+            <section aria-labelledby="apps-title" class="reveal">
                 <div class="section-head">
                     <h2 class="section-title" id="apps-title">Our Apps</h2>
                     <span class="section-meta" id="apps-meta"></span>
@@ -132,7 +136,9 @@
         const i18n = {
             en: {
                 lang: "en",
-                eyebrow: "Independent Apple-platform studio",
+                eyebrow: "// Casy Studio Co.",
+                ctaPrimary: "Browse apps →",
+                ctaSecondary: "Get in touch",
                 heroLead: "Small apps,",
                 heroAccent: "made with care.",
                 lede: "Casy Studio builds calm, focused tools for iOS, macOS and Apple Watch — the kind that respect your time and your data.",
@@ -159,7 +165,9 @@
             },
             de: {
                 lang: "de",
-                eyebrow: "Unabhängiges Apple-Plattform-Studio",
+                eyebrow: "// Casy Studio Co.",
+                ctaPrimary: "Apps ansehen →",
+                ctaSecondary: "Kontakt aufnehmen",
                 heroLead: "Kleine Apps,",
                 heroAccent: "mit Sorgfalt gebaut.",
                 lede: "Casy Studio entwickelt ruhige, fokussierte Tools für iOS, macOS und Apple Watch — die deine Zeit und deine Daten respektieren.",
@@ -233,6 +241,8 @@
             document.getElementById("hero-title").innerHTML =
                 `${escape(t.heroLead)} <span class="accent" id="hero-accent">${escape(t.heroAccent)}</span>`;
             document.getElementById("lede").textContent = t.lede;
+            document.getElementById("cta-primary").textContent = t.ctaPrimary;
+            document.getElementById("cta-secondary").textContent = t.ctaSecondary;
             document.getElementById("apps-title").textContent = t.appsTitle;
             document.getElementById("footer-tagline").textContent = t.footerTagline;
             document.getElementById("footer-contact").textContent = t.contact;
@@ -283,7 +293,7 @@
                             ? `<a href="${escape(app.appStore)}" class="store-link" rel="noopener" target="_blank" aria-label="${escape(app.name)} on the App Store">App Store ↗</a>`
                             : "";
                         return `
-                            <article class="app-card" aria-labelledby="app-${app.key}-title">
+                            <article class="app-card reveal" aria-labelledby="app-${app.key}-title">
                                 <div class="app-card-header">
                                     <div class="app-icon" style="background:${escape(app.color)}" aria-hidden="true">${escape(app.icon)}</div>
                                     <div class="app-card-title">
@@ -306,10 +316,38 @@
                             </article>
                         `;
                     }).join("");
+
+            observeReveals();
+        }
+
+        // Scroll-reveal: native IntersectionObserver, no library. We never
+        // un-set `.is-visible` — once revealed, the element stays revealed
+        // (avoids re-animating on scroll-up). Reduced-motion users skip
+        // observation entirely; the CSS already paints them visible.
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const revealObserver = (!reduceMotion && "IntersectionObserver" in window)
+            ? new IntersectionObserver((entries, obs) => {
+                  for (const entry of entries) {
+                      if (entry.isIntersecting) {
+                          entry.target.classList.add("is-visible");
+                          obs.unobserve(entry.target);
+                      }
+                  }
+              }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 })
+            : null;
+
+        function observeReveals() {
+            const targets = document.querySelectorAll(".reveal:not(.is-visible)");
+            if (!revealObserver) {
+                targets.forEach(el => el.classList.add("is-visible"));
+                return;
+            }
+            targets.forEach(el => revealObserver.observe(el));
         }
 
         // initial paint — keep `currentLang = "en"`, sync UI from i18n source
         setLang("en");
+        observeReveals();
     </script>
 </body>
 </html>

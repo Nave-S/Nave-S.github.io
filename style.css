@@ -29,6 +29,13 @@
     --color-accent-soft:   rgba(255, 107, 0, 0.12);
     --color-accent-ring:   rgba(255, 107, 0, 0.35);
 
+    /* Secondary mesh accents — tuned to harmonise with #FF6B00 without
+       competing with it. These only appear as low-opacity radial layers
+       in the body background; they never become foreground text colour. */
+    --color-mesh-warm:     rgba(255, 107, 0, 0.18);   /* primary glow */
+    --color-mesh-magenta:  rgba(236, 72, 153, 0.14);  /* deep accent */
+    --color-mesh-violet:   rgba(139, 92, 246, 0.12);  /* atmospheric depth */
+
     /* Surfaces — dark default */
     --color-bg:            #0C0C0B;
     --color-bg-elev:       #131211;
@@ -132,6 +139,11 @@
         --color-accent-soft:   rgba(255, 107, 0, 0.10);
         --color-accent-ring:   rgba(255, 107, 0, 0.35);
 
+        /* Mesh layers stay warmer & lighter on the bright surface */
+        --color-mesh-warm:     rgba(255, 107, 0, 0.10);
+        --color-mesh-magenta:  rgba(236, 72, 153, 0.08);
+        --color-mesh-violet:   rgba(139, 92, 246, 0.07);
+
         --shadow-sm: 0 1px 2px rgba(20, 17, 15, 0.06);
         --shadow-md: 0 6px 18px rgba(20, 17, 15, 0.08);
         --shadow-lg: 0 18px 48px rgba(20, 17, 15, 0.12);
@@ -158,11 +170,27 @@ body {
     font-size: var(--text-base);
     line-height: var(--leading-normal);
     color: var(--color-text);
-    background: var(--color-bg);
+    /* Multi-layer mesh gradient — atmospheric backdrop for the entire page
+       instead of the old boxed hero glow. Layers are stacked on top of the
+       solid surface token so light/dark mode just works. Kept to three
+       radial layers for performance (Lighthouse-safe). */
+    background-color: var(--color-bg);
+    background-image:
+        radial-gradient(at 18% 8%,  var(--color-mesh-warm)    0%, transparent 55%),
+        radial-gradient(at 88% 22%, var(--color-mesh-magenta) 0%, transparent 60%),
+        radial-gradient(at 50% 95%, var(--color-mesh-violet)  0%, transparent 65%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     min-height: 100dvh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: clip;
+}
+
+/* Mobile devices struggle with `background-attachment: fixed` (jank,
+   over-paint). Fall back to scrolled background — visually identical. */
+@media (max-width: 720px) {
+    body { background-attachment: scroll; }
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -376,68 +404,107 @@ nav a:hover { color: var(--color-accent-ink); }
 }
 
 /* ============================================================
-   Hero
+   Hero — boxless, big type, mono eyebrow
+   The hero no longer owns its own background or border. The mesh
+   gradient on <body> carries the atmosphere; this block only owns
+   typography + spacing. WP-031 mobile overflow fix is preserved by
+   `overflow: clip` on html/body, not on `.hero`.
    ============================================================ */
 
 .hero {
     position: relative;
     padding: var(--space-12) 0 var(--space-16);
-    isolation: isolate;
-    /* Contain the ::before gradient bleed (inset: -20% horizontally) so it
-       does not push the document past the viewport on small screens. */
-    overflow: clip;
-}
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: -10% -20% auto -20%;
-    height: 360px;
-    background:
-        radial-gradient(45% 55% at 30% 30%, var(--color-accent-soft), transparent 70%),
-        radial-gradient(40% 50% at 80% 20%, rgba(139, 92, 246, 0.10), transparent 70%);
-    z-index: -1;
-    filter: blur(20px);
-    pointer-events: none;
 }
 .hero .eyebrow {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    padding: 6px var(--space-3);
-    border-radius: var(--radius-pill);
-    background: var(--color-accent-soft);
-    color: var(--color-accent-ink);
+    font-family: var(--font-mono);
     font-size: var(--text-xs);
-    font-weight: 700;
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-text-muted);
     margin-bottom: var(--space-5);
+    /* Subtle accent dot replaces the old border pill. */
 }
 .hero .eyebrow::before {
     content: "";
-    width: 6px; height: 6px;
+    width: 8px; height: 8px;
     border-radius: 50%;
     background: var(--color-accent);
     box-shadow: 0 0 0 4px var(--color-accent-soft);
+    flex-shrink: 0;
 }
 .hero h1 {
-    font-size: var(--text-4xl);
-    line-height: 1.05;
-    letter-spacing: -0.025em;
-    font-weight: 900;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    font-weight: 800;
     color: var(--color-text);
-    margin-bottom: var(--space-5);
-    max-width: 18ch;
+    margin-bottom: var(--space-6);
+    max-width: 16ch;
     overflow-wrap: break-word;
     hyphens: auto;
 }
-.hero h1 .accent { color: var(--color-accent-ink); }
+.hero h1 .accent {
+    color: var(--color-accent-ink);
+    /* Hairline italic-feel via slight tracking; keeps system stack only */
+    font-style: normal;
+}
 .hero .lede {
     font-size: var(--text-lg);
     color: var(--color-text-muted);
     line-height: var(--leading-snug);
     max-width: 56ch;
-    margin-bottom: 0;
+    margin-bottom: var(--space-8);
+}
+
+.hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    align-items: center;
+}
+.hero-cta__primary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 48px;
+    padding: 0 var(--space-6);
+    background: var(--color-accent);
+    color: var(--color-text-on-accent);
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    font-size: var(--text-base);
+    letter-spacing: -0.01em;
+    box-shadow: var(--shadow-sm);
+    transition: background var(--motion-fast), transform var(--motion-fast), box-shadow var(--motion-base);
+}
+.hero-cta__primary:hover {
+    background: var(--color-accent-hover);
+    color: var(--color-text-on-accent);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+.hero-cta__secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: 48px;
+    padding: 0 var(--space-2);
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: var(--text-base);
+    border-bottom: 1px solid transparent;
+    transition: color var(--motion-fast), border-color var(--motion-fast);
+}
+.hero-cta__secondary:hover {
+    color: var(--color-accent-ink);
+    border-bottom-color: var(--color-accent-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-cta__primary:hover { transform: none; }
 }
 
 /* ============================================================
@@ -478,6 +545,7 @@ nav a:hover { color: var(--color-accent-ink); }
     flex-direction: column;
     gap: var(--space-5);
     padding: var(--space-6);
+    /* Solid fallback first (Firefox + browsers without backdrop-filter). */
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
@@ -489,6 +557,15 @@ nav a:hover { color: var(--color-accent-ink); }
     isolation: isolate;
     min-height: 240px;
 }
+/* Apple Liquid Glass surface — only when the browser can actually blur. */
+@supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+    .app-card {
+        background: color-mix(in oklab, var(--color-surface) 55%, transparent);
+        backdrop-filter: blur(20px) saturate(140%);
+        -webkit-backdrop-filter: blur(20px) saturate(140%);
+        border-color: color-mix(in oklab, var(--color-text) 12%, transparent);
+    }
+}
 .app-card::after {
     content: "";
     position: absolute;
@@ -499,10 +576,15 @@ nav a:hover { color: var(--color-accent-ink); }
     transition: box-shadow var(--motion-base);
 }
 .app-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--color-border-strong);
+    transform: translateY(-3px);
+    border-color: var(--color-accent-ring);
     background: var(--color-surface-hover);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
+}
+@supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+    .app-card:hover {
+        background: color-mix(in oklab, var(--color-surface-hover) 65%, transparent);
+    }
 }
 .app-card:hover::after {
     box-shadow: 0 0 0 1px var(--color-accent-ring) inset;
@@ -587,9 +669,17 @@ nav a:hover { color: var(--color-accent-ink); }
     border-radius: var(--radius-pill);
     border: 1px solid var(--color-border);
     color: var(--color-text-muted);
-    background: var(--color-bg-elev);
+    background: color-mix(in oklab, var(--color-bg-elev) 75%, transparent);
     white-space: nowrap;
     line-height: 1;
+}
+
+/* Platform reads as a tech-credential — mono gives it weight without
+   visual noise. Status stays in the regular sans for instant scanability. */
+.platform-badge {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: -0.01em;
 }
 
 .status-badge::before {
@@ -756,7 +846,8 @@ nav a:hover { color: var(--color-accent-ink); }
 .site-footer__legal {
     color: var(--color-text-faint);
     font-size: var(--text-xs);
-    letter-spacing: var(--tracking-wide);
+    font-family: var(--font-mono);
+    letter-spacing: 0;
 }
 
 /* Sub-page footer (legacy <footer>) */
@@ -854,4 +945,36 @@ footer:not(.site-footer) {
     .wordmark span:not(.wordmark-mark) { display: none; }
     .app-card { padding: var(--space-4); }
     .site-footer__row { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
+}
+
+/* ============================================================
+   Scroll-reveal — IntersectionObserver-driven fade+slide.
+   Elements opt in via the `.reveal` class. JS adds `.is-visible`
+   when the element enters the viewport. Reduced-motion users skip
+   the transform entirely and see content immediately.
+   ============================================================ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+        opacity var(--motion-slow),
+        transform var(--motion-slow);
+    will-change: opacity, transform;
+}
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Stagger inside the app grid so cards don't pop in as a block. */
+.app-grid .reveal:nth-child(2) { transition-delay:  80ms; }
+.app-grid .reveal:nth-child(3) { transition-delay: 160ms; }
+.app-grid .reveal:nth-child(4) { transition-delay: 240ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 }
