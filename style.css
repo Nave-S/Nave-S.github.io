@@ -762,6 +762,60 @@ footer:not(.site-footer) {
 }
 
 /* ============================================================
+   Sub-page pattern (Privacy / Support / Terms / Impressum)
+   ============================================================ */
+
+.subpage-eyebrow {
+    color: var(--color-accent-ink);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    margin: 0 0 var(--space-2);
+}
+
+.back-link {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-bottom: var(--space-6);
+    transition: color var(--motion-fast);
+}
+.back-link:hover { color: var(--color-accent-ink); }
+
+.container--narrow h1.page-title {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-2);
+}
+
+.legal-content { margin-top: var(--space-8); }
+.legal-content > h2 {
+    margin-top: var(--space-10);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--text-lg);
+}
+.legal-content > h2:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+}
+.legal-content > h3 {
+    margin-top: var(--space-5);
+    font-size: var(--text-base);
+    color: var(--color-text);
+}
+.legal-content > p,
+.legal-content > ul {
+    margin-bottom: var(--space-4);
+    max-width: 68ch;
+}
+.legal-content .btn { margin-bottom: var(--space-4); }
+
+/* ============================================================
    Responsive (mobile-first overrides)
    The fluid type + auto-fill grid handle most cases. Below
    we tighten spacing for small screens and stack the footer.
