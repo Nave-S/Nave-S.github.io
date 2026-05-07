@@ -1,13 +1,1024 @@
 /* ============================================================
-   CasyStudioCo — Master stylesheet
+   CasyStudioCo — Master stylesheet (inlined)
    ------------------------------------------------------------
-   Modular @import chain. Cascade order is significant:
+   Modular split source: css/{tokens,layout,components,utilities,print}.css
+   Inlined here because GitHub Pages had cache/Jekyll issues with @import
+   chain (404s on sub-files). Cascade order is significant:
        Tokens → Layout → Components → Utilities → Print
-   See WP-N-2026-05-07-036 for the rationale behind the split.
    ============================================================ */
 
-@import url("css/tokens.css");
-@import url("css/layout.css");
-@import url("css/components.css");
-@import url("css/utilities.css");
-@import url("css/print.css");
+/* ===== tokens.css ===== */
+/* ============================================================
+   CasyStudioCo — Design System: Tokens
+   ------------------------------------------------------------
+   Token layer (`:root`) is the single source of truth for
+   colors, type, spacing, radii, shadows and motion. Every
+   component below references tokens so that re-skinning the
+   studio site is one edit, not fifty.
+
+   Tokens
+     --color-*       Surfaces, ink and brand accents
+     --font-*        Stack + fluid type scale (clamp)
+     --space-*       4px base, 1..16
+     --radius-*      sm | md | lg | xl | pill
+     --shadow-*      sm | md | lg
+     --motion-*      fast | base | slow easing curves
+     --container-*   max-width + side gutter
+
+   Theme
+     Defaults to dark (the studio's house mode).
+     `prefers-color-scheme: light` flips the surface/ink tokens
+     while keeping the accent.
+   ============================================================ */
+
+:root {
+    /* Brand */
+    --color-accent:        #FF6B00;
+    --color-accent-hover:  #FF8324;
+    --color-accent-ink:    #FF6B00;   /* accent used as TEXT — overridden in light mode */
+    --color-accent-soft:   rgba(255, 107, 0, 0.12);
+    --color-accent-ring:   rgba(255, 107, 0, 0.35);
+
+    /* Secondary mesh accents — tuned to harmonise with #FF6B00 without
+       competing with it. These only appear as low-opacity radial layers
+       in the body background; they never become foreground text colour. */
+    --color-mesh-warm:     rgba(255, 107, 0, 0.18);   /* primary glow */
+    --color-mesh-magenta:  rgba(236, 72, 153, 0.14);  /* deep accent */
+    --color-mesh-violet:   rgba(139, 92, 246, 0.12);  /* atmospheric depth */
+
+    /* Surfaces — dark default */
+    --color-bg:            #0C0C0B;
+    --color-bg-elev:       #131211;
+    --color-surface:       #1A1918;
+    --color-surface-hover: #221F1D;
+    --color-border:        #2A2825;
+    --color-border-strong: #3A3733;
+
+    /* Ink */
+    --color-text:          #F2EDE7;
+    --color-text-muted:    #B5B0AA;
+    --color-text-faint:    #8E8982;
+    --color-text-on-accent:#0C0C0B;
+
+    /* Status */
+    --color-success:       #34D399;
+    --color-warn:          #F59E0B;
+    --color-danger:        #EF4444;
+
+    /* Typography */
+    --font-sans:
+        -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+        "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono:
+        ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+    /* Fluid type scale — min, ideal, max */
+    --text-xs:   0.75rem;                                  /* 12 */
+    --text-sm:   0.875rem;                                 /* 14 */
+    --text-base: 1rem;                                     /* 16 */
+    --text-lg:   clamp(1.0625rem, 0.98rem + 0.4vw, 1.25rem);  /* 17–20 */
+    --text-xl:   clamp(1.25rem, 1.10rem + 0.7vw, 1.5rem);     /* 20–24 */
+    --text-2xl:  clamp(1.5rem, 1.25rem + 1.2vw, 2rem);        /* 24–32 */
+    --text-3xl:  clamp(2rem, 1.5rem + 2.4vw, 3rem);           /* 32–48 */
+    --text-4xl:  clamp(2.5rem, 1.6rem + 4vw, 4.25rem);        /* 40–68 */
+
+    --leading-tight: 1.15;
+    --leading-snug:  1.35;
+    --leading-normal:1.55;
+    --leading-loose: 1.7;
+
+    --tracking-tight: -0.02em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.04em;
+
+    /* Spacing — 4px base */
+    --space-1:  0.25rem;   /* 4  */
+    --space-2:  0.5rem;    /* 8  */
+    --space-3:  0.75rem;   /* 12 */
+    --space-4:  1rem;      /* 16 */
+    --space-5:  1.25rem;   /* 20 */
+    --space-6:  1.5rem;    /* 24 */
+    --space-8:  2rem;      /* 32 */
+    --space-10: 2.5rem;    /* 40 */
+    --space-12: 3rem;      /* 48 */
+    --space-16: 4rem;      /* 64 */
+    --space-20: 5rem;      /* 80 */
+
+    /* Radii */
+    --radius-sm:   6px;
+    --radius-md:   10px;
+    --radius-lg:   16px;
+    --radius-xl:   22px;
+    --radius-pill: 999px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
+    --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.45);
+
+    /* Motion */
+    --motion-fast: 120ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    --motion-base: 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    --motion-slow: 360ms cubic-bezier(0.2, 0.7, 0.2, 1);
+
+    /* Container */
+    --container-max: 960px;
+    --container-pad: clamp(1rem, 4vw, 2.25rem);
+
+    /* Focus ring */
+    --focus-ring: 0 0 0 3px var(--color-accent-ring);
+
+    color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --color-bg:            #FAF8F5;
+        --color-bg-elev:       #FFFFFF;
+        --color-surface:       #FFFFFF;
+        --color-surface-hover: #F4F1EC;
+        --color-border:        #E6E1DA;
+        --color-border-strong: #D5CFC6;
+
+        --color-text:          #14110F;
+        --color-text-muted:    #46423D;
+        --color-text-faint:    #6B6661;
+        --color-text-on-accent:#0C0C0B;
+
+        --color-accent-ink:    #B84800;
+        --color-accent-soft:   rgba(255, 107, 0, 0.10);
+        --color-accent-ring:   rgba(255, 107, 0, 0.35);
+
+        /* Mesh layers stay warmer & lighter on the bright surface */
+        --color-mesh-warm:     rgba(255, 107, 0, 0.10);
+        --color-mesh-magenta:  rgba(236, 72, 153, 0.08);
+        --color-mesh-violet:   rgba(139, 92, 246, 0.07);
+
+        --shadow-sm: 0 1px 2px rgba(20, 17, 15, 0.06);
+        --shadow-md: 0 6px 18px rgba(20, 17, 15, 0.08);
+        --shadow-lg: 0 18px 48px rgba(20, 17, 15, 0.12);
+
+        color-scheme: light;
+    }
+}
+
+/* ===== layout.css ===== */
+/* ============================================================
+   Layout — reset, base typography, page structure, responsive
+   ============================================================ */
+
+/* Reset / base */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text);
+    /* Multi-layer mesh gradient — atmospheric backdrop for the entire page
+       instead of the old boxed hero glow. Layers are stacked on top of the
+       solid surface token so light/dark mode just works. Kept to three
+       radial layers for performance (Lighthouse-safe). */
+    background-color: var(--color-bg);
+    background-image:
+        radial-gradient(at 18% 8%,  var(--color-mesh-warm)    0%, transparent 55%),
+        radial-gradient(at 88% 22%, var(--color-mesh-magenta) 0%, transparent 60%),
+        radial-gradient(at 50% 95%, var(--color-mesh-violet)  0%, transparent 65%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+}
+
+/* Mobile devices struggle with `background-attachment: fixed` (jank,
+   over-paint). Fall back to scrolled background — visually identical. */
+@media (max-width: 720px) {
+    body { background-attachment: scroll; }
+}
+
+img, svg { display: block; max-width: 100%; }
+
+a { color: var(--color-accent-ink); text-decoration: none; }
+a:hover { color: var(--color-accent-hover); }
+
+::selection { background: var(--color-accent); color: var(--color-text-on-accent); }
+
+:focus { outline: none; }
+:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ============================================================
+   Container
+   ============================================================ */
+
+.container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-12) var(--container-pad) var(--space-16);
+}
+
+/* Slim container for legal/text pages */
+.container.container--narrow { max-width: 720px; }
+
+/* ============================================================
+   Base typography
+   ============================================================ */
+
+h1, h2, h3, h4 {
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 800;
+}
+
+h1 { font-size: var(--text-3xl); }
+h2 { font-size: var(--text-xl); margin-top: var(--space-8); margin-bottom: var(--space-3); }
+h3 { font-size: var(--text-lg); }
+
+p, li {
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+}
+strong { color: var(--color-text); }
+ul { padding-left: var(--space-5); margin-bottom: var(--space-4); }
+li { margin-bottom: var(--space-1); }
+
+.welcome { /* legacy: kept for compat — small eyebrow */
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+}
+
+.section-title {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: var(--tracking-tight);
+}
+
+.subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: var(--leading-snug);
+    max-width: 60ch;
+    margin-bottom: var(--space-12);
+}
+
+.date { color: var(--color-text-faint); font-size: var(--text-sm); margin-bottom: var(--space-10); }
+
+/* Sub-page legacy heading variant */
+h1.page-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+}
+
+/* ============================================================
+   Top bar (brand + lang)
+   ============================================================ */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+}
+
+.wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text);
+    font-weight: 800;
+    letter-spacing: var(--tracking-tight);
+    font-size: var(--text-base);
+}
+.wordmark-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--color-accent);
+    color: var(--color-text-on-accent);
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+}
+
+/* Sub-page back link (legacy) */
+.back {
+    color: var(--color-accent-ink);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-bottom: var(--space-6);
+}
+.back:hover { color: var(--color-accent-hover); }
+
+/* Sub-page nav */
+nav { display: flex; gap: var(--space-5); margin-bottom: var(--space-10); flex-wrap: wrap; }
+nav a { color: var(--color-text-muted); font-size: var(--text-sm); font-weight: 500; }
+nav a:hover { color: var(--color-accent-ink); }
+
+/* ============================================================
+   Hero — boxless, big type, mono eyebrow
+   The hero no longer owns its own background or border. The mesh
+   gradient on <body> carries the atmosphere; this block only owns
+   typography + spacing. WP-031 mobile overflow fix is preserved by
+   `overflow: clip` on html/body, not on `.hero`.
+   ============================================================ */
+
+.hero {
+    position: relative;
+    padding: var(--space-12) 0 var(--space-16);
+}
+.hero .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-5);
+    /* Subtle accent dot replaces the old border pill. */
+}
+.hero .eyebrow::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 4px var(--color-accent-soft);
+    flex-shrink: 0;
+}
+.hero h1 {
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: var(--space-6);
+    max-width: 16ch;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+.hero h1 .accent {
+    color: var(--color-accent-ink);
+    /* Hairline italic-feel via slight tracking; keeps system stack only */
+    font-style: normal;
+}
+.hero .lede {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: var(--leading-snug);
+    max-width: 56ch;
+    margin-bottom: var(--space-8);
+}
+
+.hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    align-items: center;
+}
+.hero-cta__primary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 48px;
+    padding: 0 var(--space-6);
+    background: var(--color-accent);
+    color: var(--color-text-on-accent);
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    font-size: var(--text-base);
+    letter-spacing: -0.01em;
+    box-shadow: var(--shadow-sm);
+    transition: background var(--motion-fast), transform var(--motion-fast), box-shadow var(--motion-base);
+}
+.hero-cta__primary:hover {
+    background: var(--color-accent-hover);
+    color: var(--color-text-on-accent);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+.hero-cta__secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: 48px;
+    padding: 0 var(--space-2);
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: var(--text-base);
+    border-bottom: 1px solid transparent;
+    transition: color var(--motion-fast), border-color var(--motion-fast);
+}
+.hero-cta__secondary:hover {
+    color: var(--color-accent-ink);
+    border-bottom-color: var(--color-accent-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-cta__primary:hover { transform: none; }
+}
+
+/* ============================================================
+   Section header
+   ============================================================ */
+
+.section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+}
+.section-head .section-title { margin: 0; }
+.section-head .section-meta {
+    color: var(--color-text-faint);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   App grid (wrapper — cards live in _components.css)
+   ============================================================ */
+
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-5);
+    margin-bottom: var(--space-16);
+    /* reserve space so async render of cards does not shift the page (CLS) */
+    min-height: 280px;
+}
+
+/* ============================================================
+   Footer (landing)
+   ============================================================ */
+
+.site-footer {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+}
+.site-footer__brand { display: flex; flex-direction: column; gap: var(--space-2); }
+.site-footer__brand .wordmark { font-size: var(--text-base); }
+.site-footer__brand p { margin: 0; max-width: 42ch; }
+.site-footer__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6) var(--space-8);
+    align-items: center;
+    justify-content: space-between;
+}
+.site-footer__links { display: flex; flex-wrap: wrap; gap: var(--space-5); }
+.site-footer__links a {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+}
+.site-footer__links a:hover { color: var(--color-accent-ink); }
+.site-footer__legal {
+    color: var(--color-text-faint);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    letter-spacing: 0;
+}
+
+/* Sub-page footer (legacy <footer>) */
+footer:not(.site-footer) {
+    margin-top: var(--space-16);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-faint);
+    font-size: var(--text-sm);
+}
+
+/* ============================================================
+   Responsive (mobile-first overrides)
+   The fluid type + auto-fill grid handle most cases. Below
+   we tighten spacing for small screens and stack the footer.
+   ============================================================ */
+
+@media (min-width: 720px) {
+    .site-footer {
+        grid-template-columns: 1.4fr 1fr;
+        align-items: start;
+    }
+    .site-footer__row { justify-content: flex-end; }
+}
+
+@media (max-width: 600px) {
+    .container { padding: var(--space-8) var(--container-pad) var(--space-12); }
+    .topbar { margin-bottom: var(--space-8); }
+    .hero { padding: var(--space-6) 0 var(--space-12); }
+    .hero h1 { max-width: none; }
+    .app-grid { gap: var(--space-4); }
+}
+
+@media (max-width: 380px) {
+    .container { padding: var(--space-6) var(--space-4) var(--space-10); }
+    .topbar { gap: var(--space-2); }
+    .wordmark span:not(.wordmark-mark) { display: none; }
+    .site-footer__row { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
+}
+
+/* ===== components.css ===== */
+/* ============================================================
+   Pill toggle (language switch)
+   ============================================================ */
+
+.lang-switch {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    gap: 2px;
+}
+.lang-switch a,
+.lang-switch button {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 38px;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-muted);
+    background: transparent;
+    transition: color var(--motion-fast), background var(--motion-fast);
+}
+.lang-switch a:hover,
+.lang-switch button:hover { color: var(--color-text); }
+.lang-switch a.active,
+.lang-switch button.active {
+    background: var(--color-accent);
+    color: var(--color-text-on-accent);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ============================================================
+   App cards
+   ============================================================ */
+
+.app-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-6);
+    /* Solid fallback first (Firefox + browsers without backdrop-filter). */
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition:
+        transform var(--motion-base),
+        border-color var(--motion-base),
+        background var(--motion-base),
+        box-shadow var(--motion-base);
+    isolation: isolate;
+    min-height: 240px;
+}
+/* Apple Liquid Glass surface — only when the browser can actually blur. */
+@supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+    .app-card {
+        background: color-mix(in oklab, var(--color-surface) 55%, transparent);
+        backdrop-filter: blur(20px) saturate(140%);
+        -webkit-backdrop-filter: blur(20px) saturate(140%);
+        border-color: color-mix(in oklab, var(--color-text) 12%, transparent);
+    }
+}
+.app-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: 0 0 0 1px transparent inset;
+    transition: box-shadow var(--motion-base);
+}
+.app-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-accent-ring);
+    background: var(--color-surface-hover);
+    box-shadow: var(--shadow-lg);
+}
+@supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+    .app-card:hover {
+        background: color-mix(in oklab, var(--color-surface-hover) 65%, transparent);
+    }
+}
+.app-card:hover::after {
+    box-shadow: 0 0 0 1px var(--color-accent-ring) inset;
+}
+.app-card:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-md), var(--focus-ring);
+}
+@media (prefers-reduced-motion: reduce) {
+    .app-card:hover { transform: none; }
+}
+
+.app-card-header {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    margin-bottom: 0;
+}
+.app-card-title { flex: 1; min-width: 0; }
+.app-card-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-1);
+}
+
+.app-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    /* >=14pt bold = Large Text per WCAG, satisfies 3:1 on coloured backgrounds */
+    font-size: 20px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.04em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.30);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.2),
+        0 4px 12px rgba(0,0,0,0.25);
+}
+
+.app-card h3 {
+    font-size: var(--text-lg);
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: var(--tracking-tight);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.app-card .tagline {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-snug);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Badges row (inside header column) */
+.badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+}
+
+.platform-badge,
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    padding: 4px var(--space-2);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    background: color-mix(in oklab, var(--color-bg-elev) 75%, transparent);
+    white-space: nowrap;
+    line-height: 1;
+}
+
+/* Platform reads as a tech-credential — mono gives it weight without
+   visual noise. Status stays in the regular sans for instant scanability. */
+.platform-badge {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.status-badge::before {
+    content: "";
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--color-text-faint);
+}
+.status-badge.is-live {
+    color: var(--color-success);
+    border-color: rgba(52, 211, 153, 0.35);
+    background: rgba(52, 211, 153, 0.08);
+}
+.status-badge.is-live::before { background: var(--color-success); box-shadow: 0 0 0 3px rgba(52,211,153,0.15); }
+.status-badge.is-beta {
+    color: var(--color-warn);
+    border-color: rgba(245, 158, 11, 0.35);
+    background: rgba(245, 158, 11, 0.08);
+}
+.status-badge.is-beta::before { background: var(--color-warn); }
+.status-badge.is-soon {
+    color: var(--color-text-faint);
+}
+
+/* Footer area inside card */
+.app-card .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    align-items: center;
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+}
+.app-card .links a {
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    transition: color var(--motion-fast);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+}
+.app-card .links a:hover { color: var(--color-accent-ink); }
+.app-card .links a.store-link {
+    margin-left: auto;
+    color: var(--color-text-on-accent);
+    background: var(--color-accent);
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: var(--text-xs);
+    font-weight: 700;
+}
+.app-card .links a.store-link:hover {
+    background: var(--color-accent-hover);
+    color: var(--color-text-on-accent);
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    padding: var(--space-12);
+    text-align: center;
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+/* ============================================================
+   Legal links + FAQ (sub-pages)
+   ============================================================ */
+
+.legal-links { display: flex; flex-direction: column; gap: var(--space-3); }
+.legal-links a {
+    display: block;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: var(--text-base);
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    transition: border-color var(--motion-base), background var(--motion-base);
+}
+.legal-links a:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+}
+.legal-links a span {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    display: block;
+    margin-top: var(--space-1);
+}
+
+.faq {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    margin-bottom: var(--space-3);
+    border: 1px solid var(--color-border);
+}
+.faq h3 { font-size: var(--text-base); margin-bottom: var(--space-2); color: var(--color-text); }
+.faq p { margin-bottom: 0; font-size: var(--text-sm); }
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-accent);
+    color: var(--color-text-on-accent);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: var(--text-base);
+    box-shadow: var(--shadow-sm);
+    transition: background var(--motion-fast), transform var(--motion-fast);
+    margin-top: var(--space-2);
+}
+.btn:hover { background: var(--color-accent-hover); color: var(--color-text-on-accent); transform: translateY(-1px); }
+
+/* ============================================================
+   Sub-page pattern (Privacy / Support / Terms / Impressum)
+   ============================================================ */
+
+.subpage-eyebrow {
+    color: var(--color-accent-ink);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    margin: 0 0 var(--space-2);
+}
+
+.back-link {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-bottom: var(--space-6);
+    transition: color var(--motion-fast);
+}
+.back-link:hover { color: var(--color-accent-ink); }
+
+.container--narrow h1.page-title {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-2);
+}
+
+.legal-content { margin-top: var(--space-8); }
+.legal-content > h2 {
+    margin-top: var(--space-10);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--text-lg);
+}
+.legal-content > h2:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+}
+.legal-content > h3 {
+    margin-top: var(--space-5);
+    font-size: var(--text-base);
+    color: var(--color-text);
+}
+.legal-content > p,
+.legal-content > ul {
+    margin-bottom: var(--space-4);
+    max-width: 68ch;
+}
+.legal-content .btn { margin-bottom: var(--space-4); }
+
+/* ============================================================
+   Component responsive overrides
+   These must live AFTER the component base styles to win the
+   cascade; that's why they sit in _components.css rather than
+   _layout.css alongside the layout-level breakpoints.
+   ============================================================ */
+
+@media (max-width: 600px) {
+    .app-card { padding: var(--space-5); min-height: 0; }
+    .app-icon { width: 48px; height: 48px; font-size: 20px; border-radius: 12px; }
+    .app-card .links { gap: var(--space-2) var(--space-3); }
+    .app-card-title-row { gap: var(--space-2); }
+}
+
+@media (max-width: 380px) {
+    .app-card { padding: var(--space-4); }
+}
+
+/* ===== utilities.css ===== */
+/* ============================================================
+   Utilities — a11y helpers, scroll-reveal
+   Loaded after components so utility overrides win the cascade.
+   ============================================================ */
+
+/* Skip-to-content (a11y) */
+.skip-link {
+    position: absolute;
+    left: var(--space-4);
+    top: var(--space-4);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-accent);
+    color: var(--color-text-on-accent);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    transform: translateY(-200%);
+    transition: transform var(--motion-base);
+    z-index: 100;
+}
+.skip-link:focus-visible {
+    transform: translateY(0);
+    color: var(--color-text-on-accent);
+    box-shadow: var(--shadow-md);
+}
+
+/* ============================================================
+   Scroll-reveal — IntersectionObserver-driven fade+slide.
+   Elements opt in via the `.reveal` class. JS adds `.is-visible`
+   when the element enters the viewport. Reduced-motion users skip
+   the transform entirely and see content immediately.
+   ============================================================ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+        opacity var(--motion-slow),
+        transform var(--motion-slow);
+    will-change: opacity, transform;
+}
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Stagger inside the app grid so cards don't pop in as a block. */
+.app-grid .reveal:nth-child(2) { transition-delay:  80ms; }
+.app-grid .reveal:nth-child(3) { transition-delay: 160ms; }
+.app-grid .reveal:nth-child(4) { transition-delay: 240ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* ===== print.css ===== */
+/* ============================================================
+   Print — placeholder.
+   The site has no print-specific rules yet. This file exists so
+   the @import chain has a stable slot for future print styles
+   (legal pages are the most likely candidate to print).
+   ============================================================ */
