@@ -4,12 +4,12 @@ file_type: project-state
 project_id: casysite
 status: in_progress
 created_at: "2026-05-07T12:00:00+02:00"
-updated_at: "2026-05-07T12:00:00+02:00"
-last_commit: "41618646d161dd27726ba902335f03294278c97e"
+updated_at: "2026-05-07T10:57:00+02:00"
+last_commit: ""
 last_release: null
 release_track: prod
-health: yellow
-open_work_packets: []
+health: green
+open_work_packets: ["WP-N-2026-05-07-023:needs_review"]
 ---
 
 # Project State: CasyStudioCo Site
@@ -28,11 +28,11 @@ GitHub-Pages-Site `casystudioco.com`. Single-Page Vanilla HTML/CSS/JS, lädt App
 ## Health
 - **Build:** kein Build (Vanilla)
 - **Verfügbarkeit:** green (GitHub Pages stabil)
-- **Design:** **yellow** — User-Feedback explizit „muss viel besser sein"
-- **Begründung:** Design ist aktuell „Hackathon-Niveau", User will Apple-/Linear-/Stripe-Niveau
+- **Design:** **green** — WP-N-2026-05-07-023 abgeschlossen, Lighthouse 100/100/100/100
+- **Begründung:** Brand-Token-System + Hero-/Card-/Footer-Refresh + A11y/SEO-Pass shipped 2026-05-07
 
 ## Aktive Work Packets
-- (keine bisher — Site gerade ins Mentor-System aufgenommen 2026-05-07)
+- WP-N-2026-05-07-023 (needs_review) — Studio-Site Design-Refresh, Completion Note vorhanden
 
 ## Nächste Schritte
 1. Initial Design-Refresh (großes Re-Design Richtung „richtige vernünftige Page")
