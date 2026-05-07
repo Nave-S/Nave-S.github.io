@@ -3,117 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0C0C0B" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#FAF8F5" media="(prefers-color-scheme: light)">
-    <meta name="color-scheme" content="dark light">
-
-    <title>Support — ShutterLife · Casy Studio</title>
-    <meta name="description" content="Support und FAQ für ShutterLife — Auslösezähler-App für iOS und macOS.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://casystudioco.com/shutterlife/support/de.html">
-
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Casy Studio">
-    <meta property="og:title" content="Support — ShutterLife · Casy Studio">
-    <meta property="og:description" content="Support und FAQ für ShutterLife.">
-    <meta property="og:url" content="https://casystudioco.com/shutterlife/support/de.html">
-    <meta property="og:image" content="https://casystudioco.com/og-image.jpg">
-    <meta property="og:locale" content="de_DE">
-    <meta property="og:locale:alternate" content="en_US">
-
-    <link rel="alternate" hreflang="en" href="https://casystudioco.com/shutterlife/support/">
-    <link rel="alternate" hreflang="de" href="https://casystudioco.com/shutterlife/support/de.html">
-
-    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-    <link rel="apple-touch-icon" href="../../favicon.svg">
+    <title>Support — ShutterLife</title>
     <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
-    <a href="#main" class="skip-link">Zum Inhalt springen</a>
+    <div class="container">
+        <a href="../../" class="back">&larr; Alle Apps</a>
+        <div class="lang-switch">
+            <a href=".">EN</a>
+            <a href="de.html" class="active">DE</a>
+        </div>
+        <h1 class="page-title">ShutterLife — Support</h1>
+        <p class="subtitle">Wir helfen dir gerne.</p>
 
-    <div class="container container--narrow">
-        <header class="topbar" role="banner">
-            <a href="../../" class="wordmark" aria-label="Casy Studio">
-                <span class="wordmark-mark" aria-hidden="true">CS</span>
-                <span>Casy Studio</span>
-            </a>
-            <div class="lang-switch" role="group" aria-label="Sprache">
-                <a href="." lang="en">EN</a>
-                <a href="de.html" class="active" aria-current="page" lang="de">DE</a>
-            </div>
-        </header>
+        <h2>Kontakt</h2>
+        <p>Hast du eine Frage, einen Fehler gefunden oder möchtest ein Feature vorschlagen?</p>
+        <a href="mailto:shutterlife.support@gmail.com" class="btn">shutterlife.support@gmail.com</a>
 
-        <main id="main">
-            <a href="../../" class="back-link">&larr; Alle Apps</a>
-            <p class="subpage-eyebrow">ShutterLife</p>
-            <h1 class="page-title">Support</h1>
-            <p class="subtitle">Wir helfen dir gerne.</p>
+        <h2>FAQ</h2>
 
-            <article class="legal-content">
-                <h2>Kontakt</h2>
-                <p>Hast du eine Frage, einen Fehler gefunden oder möchtest ein Feature vorschlagen?</p>
-                <a href="mailto:shutterlife.support@gmail.com" class="btn">shutterlife.support@gmail.com</a>
+        <div class="faq">
+            <h3>Welche Kameras werden unterstützt?</h3>
+            <p>ShutterLife unterstützt 90 Kameramodelle von 5 Herstellern. Der Auslösezähler wird aus den EXIF-Metadaten deiner Fotos ausgelesen (RAW oder JPEG).</p>
 
-                <h2>FAQ</h2>
+            <h4>Canon (5 Modelle)</h4>
+            <p>EOS R5, EOS R6, EOS R6 Mark II, EOS R8, EOS R50</p>
 
-                <div class="faq">
-                    <h3>Welche Kameras werden unterstützt?</h3>
-                    <p>ShutterLife unterstützt Kameras von Canon, Nikon, Sony, Fujifilm und Pentax — insgesamt über 100 Modelle. Der Auslösezähler wird aus den EXIF-Metadaten deiner Fotos ausgelesen (RAW oder JPEG).</p>
-                </div>
+            <h4>Nikon (30 Modelle)</h4>
+            <p><strong>Mirrorless:</strong> Z 9, Z 8, Z 7II, Z 7, Z 6III, Z 6II, Z 6, Z 5, Zf, Zfc, Z 50, Z 30</p>
+            <p><strong>DSLR:</strong> D6, D5, D4, D850, D810, D800E, D800, D780, D750, D700, D610, D500, D7500, D7200, D7100, D5600, D3400, D3300</p>
 
-                <div class="faq">
-                    <h3>Warum zeigt meine Kamera keinen Auslösezähler?</h3>
-                    <p>Nicht alle Kameras speichern den Auslösezähler in den EXIF-Daten. Manche Hersteller (besonders neuere Sony- und einige Canon-Modelle) verschlüsseln oder lassen diese Daten weg. Versuche eine RAW-Datei statt JPEG zu verwenden, da RAW-Dateien oft mehr Metadaten enthalten.</p>
-                </div>
+            <h4>Sony (27 Modelle)</h4>
+            <p><strong>Vollformat:</strong> A1, A9 II, A9, A7R V, A7R IVA, A7R IV, A7R IIIA, A7R III, A7R II, A7S III, A7S II, A7 V, A7 IV, A7 III, A7 II, A7C II, A7CR, A7C</p>
+            <p><strong>APS-C:</strong> A6700, A6600, A6500, A6400, A6300, A6100, A6000</p>
+            <p><strong>Cinema:</strong> FX3, ZV-E10</p>
 
-                <div class="faq">
-                    <h3>Wie genau ist der Auslösezähler?</h3>
-                    <p>ShutterLife liest den Auslösezähler direkt aus den EXIF-Daten deiner Kamera — dieselben Daten, die auch professionelle Tools wie ExifTool extrahieren. Der Wert entspricht dem, was deine Kamera aufzeichnet. Die Lebensdauer-Schätzung basiert auf der vom Hersteller angegebenen Haltbarkeit und dient als Richtwert.</p>
-                </div>
+            <h4>Fujifilm (12 Modelle)</h4>
+            <p>X-T5, X-T4, X-T3, X-T2, X-T30 II, X-H2S, X-H2, X-H1, X-S20, X-S10, X-Pro3, X-E4</p>
 
-                <div class="faq">
-                    <h3>Welche Dateiformate werden unterstützt?</h3>
-                    <p>ShutterLife unterstützt CR2, CR3 (Canon), NEF (Nikon), ARW (Sony), RAF (Fujifilm), PEF (Pentax), DNG und JPEG-Dateien.</p>
-                </div>
+            <h4>Pentax (16 Modelle)</h4>
+            <p><strong>Vollformat &amp; Mittelformat:</strong> K-1 Mark II, K-1, 645Z, 645D</p>
+            <p><strong>APS-C:</strong> K-3 III, K-3 II, K-3, KF, KP, K-70, K-S2, K-5 II, K-5, K-7, K-50, K-30</p>
 
-                <div class="faq">
-                    <h3>Kann ich den Auslösezähler per USB auslesen? (macOS)</h3>
-                    <p>Ja, auf macOS kannst du deine Kamera per USB verbinden und ShutterLife versucht, den Auslösezähler direkt über das PTP-Protokoll auszulesen. Das funktioniert mit den meisten Canon-Kameras. Für andere Marken importiere stattdessen eine Bilddatei.</p>
-                </div>
+            <p style="margin-top:16px"><strong>Deine Kamera ist nicht dabei?</strong> <a href="mailto:shutterlife.support@gmail.com?subject=Kamera-Unterst%C3%BCtzung%20anfragen&body=Hallo%20ShutterLife%20Team%2C%0A%0AIch%20w%C3%BCrde%20gerne%20Unterst%C3%BCtzung%20f%C3%BCr%20meine%20Kamera%20anfragen%3A%0A%0AKameramodell%3A%20%0AHersteller%3A%20%0A%0ADanke!" style="color:#FF6B00">Schreib uns</a> — wir erweitern die Liste laufend.</p>
+        </div>
 
-                <div class="faq">
-                    <h3>Braucht ShutterLife eine Internetverbindung?</h3>
-                    <p>Nein. ShutterLife funktioniert 100% offline. Es werden keine Daten an Server gesendet. Die gesamte Verarbeitung findet auf deinem Gerät statt.</p>
-                </div>
+        <div class="faq">
+            <h3>Warum zeigt meine Kamera keinen Auslösezähler?</h3>
+            <p>Nicht alle Kameras speichern den Auslösezähler in den EXIF-Daten. Manche Hersteller (besonders neuere Sony- und einige Canon-Modelle) verschlüsseln oder lassen diese Daten weg. Versuche eine RAW-Datei statt JPEG zu verwenden, da RAW-Dateien oft mehr Metadaten enthalten.</p>
+        </div>
 
-                <div class="faq">
-                    <h3>Was bedeutet „Bearbeitetes Bild erkannt"?</h3>
-                    <p>ShutterLife prüft, ob ein Bild mit Software wie Lightroom, Photoshop oder anderen Editoren bearbeitet wurde. Bearbeitete Bilder können veränderte EXIF-Daten haben, was die Genauigkeit der Auslösezähler-Messung beeinflussen kann. Für die zuverlässigsten Ergebnisse verwende ein unbearbeitetes Bild direkt von der Kamera.</p>
-                </div>
+        <div class="faq">
+            <h3>Wie genau ist der Auslösezähler?</h3>
+            <p>ShutterLife liest den Auslösezähler direkt aus den EXIF-Daten deiner Kamera — dieselben Daten, die auch professionelle Tools wie ExifTool extrahieren. Der Wert entspricht dem, was deine Kamera aufzeichnet. Die Lebensdauer-Schätzung basiert auf der vom Hersteller angegebenen Haltbarkeit und dient als Richtwert.</p>
+        </div>
 
-                <div class="faq">
-                    <h3>Wie lösche ich meinen Messverlauf?</h3>
-                    <p>Gehe zum Verlauf in der App und nutze „Alle löschen", um alle gespeicherten Messungen zu entfernen. Einzelne Messungen können auch durch Wischen gelöscht werden.</p>
-                </div>
-            </article>
-        </main>
+        <div class="faq">
+            <h3>Welche Dateiformate werden unterstützt?</h3>
+            <p>ShutterLife unterstützt CR2, CR3 (Canon), NEF (Nikon), ARW (Sony), RAF (Fujifilm), PEF (Pentax), DNG und JPEG-Dateien.</p>
+        </div>
 
-        <footer class="site-footer" role="contentinfo">
-            <div class="site-footer__brand">
-                <a href="../../" class="wordmark" aria-label="Casy Studio">
-                    <span class="wordmark-mark" aria-hidden="true">CS</span>
-                    <span>Casy Studio</span>
-                </a>
-                <p>Zwei Entwickler, mehrere Apps, eine Haltung: ruhige Software, die dich machen lässt.</p>
-            </div>
-            <div class="site-footer__row">
-                <nav class="site-footer__links" aria-label="Studio">
-                    <a href="mailto:casystudioco@gmail.com">Kontakt</a>
-                    <a href="../impressum/de.html">Impressum</a>
-                    <a href="https://github.com/Nave-S" rel="noopener" target="_blank">GitHub</a>
-                </nav>
-                <p class="site-footer__legal">&copy; 2026 Casy Studio · Alle Rechte vorbehalten.</p>
-            </div>
+        <div class="faq">
+            <h3>Kann ich den Auslösezähler per USB auslesen? (macOS)</h3>
+            <p>Ja, auf macOS kannst du deine Kamera per USB verbinden und ShutterLife versucht, den Auslösezähler direkt über das PTP-Protokoll auszulesen. Das funktioniert mit den meisten Canon-Kameras. Für andere Marken importiere stattdessen eine Bilddatei.</p>
+        </div>
+
+        <div class="faq">
+            <h3>Braucht ShutterLife eine Internetverbindung?</h3>
+            <p>Nein. ShutterLife funktioniert 100% offline. Es werden keine Daten an Server gesendet. Die gesamte Verarbeitung findet auf deinem Gerät statt.</p>
+        </div>
+
+        <div class="faq">
+            <h3>Was bedeutet „Bearbeitetes Bild erkannt"?</h3>
+            <p>ShutterLife prüft, ob ein Bild mit Software wie Lightroom, Photoshop oder anderen Editoren bearbeitet wurde. Bearbeitete Bilder können veränderte EXIF-Daten haben, was die Genauigkeit der Auslösezähler-Messung beeinflussen kann. Für die zuverlässigsten Ergebnisse verwende ein unbearbeitetes Bild direkt von der Kamera.</p>
+        </div>
+
+        <div class="faq">
+            <h3>Wie lösche ich meinen Messverlauf?</h3>
+            <p>Gehe zum Verlauf in der App und nutze „Alle löschen", um alle gespeicherten Messungen zu entfernen. Einzelne Messungen können auch durch Wischen gelöscht werden.</p>
+        </div>
+
+        <footer>
+            <p><a href="../impressum/de.html" style="color:#FF6B00;text-decoration:none">Impressum</a></p>
+            <p>&copy; 2026 ShutterLife. Alle Rechte vorbehalten.</p>
         </footer>
     </div>
 </body>
