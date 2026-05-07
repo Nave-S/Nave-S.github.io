@@ -3,131 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CasyStudioCo</title>
+    <meta name="theme-color" content="#0C0C0B" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#FAF8F5" media="(prefers-color-scheme: light)">
+    <meta name="color-scheme" content="dark light">
+
+    <title>Casy Studio — Apps that move, focus, and get things done</title>
+    <meta name="description" content="Casy Studio builds calm, focused apps for iOS, macOS and Apple Watch. Privacy-first. Made by humans.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://casystudioco.com/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Casy Studio">
+    <meta property="og:title" content="Casy Studio — Apps that move, focus, and get things done">
+    <meta property="og:description" content="Calm, focused apps for iOS, macOS and Apple Watch. Privacy-first. Made by humans.">
+    <meta property="og:url" content="https://casystudioco.com/">
+    <meta property="og:image" content="https://casystudioco.com/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Casy Studio — small apps, made with care.">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="de_DE">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Casy Studio — Apps that move, focus, and get things done">
+    <meta name="twitter:description" content="Calm, focused apps for iOS, macOS and Apple Watch. Privacy-first.">
+    <meta name="twitter:image" content="https://casystudioco.com/og-image.jpg">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
+
+    <!-- App enablement source-of-truth, mirrored from config.json so the
+         landing renders synchronously (no fetch round-trip → no CLS). -->
+    <script type="application/json" id="apps-config">
+    {
+      "sequenz": true,
+      "shutterlife": true,
+      "talktome": false,
+      "clearmind": false,
+      "elektohub": false,
+      "feiertagswarner": false,
+      "finanzen": false,
+      "riseup": false,
+      "spindtracker": false,
+      "trynk": false,
+      "shutterlifeweb": false,
+      "clearlist": false
+    }
+    </script>
+
+    <!-- JSON-LD: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Casy Studio",
+      "alternateName": "CasyStudioCo",
+      "url": "https://casystudioco.com",
+      "logo": "https://casystudioco.com/favicon.svg",
+      "email": "casystudioco@gmail.com",
+      "sameAs": [
+        "https://github.com/Nave-S"
+      ]
+    }
+    </script>
 </head>
 <body>
+    <a href="#main" class="skip-link" id="skip-link">Skip to content</a>
+
     <div class="container">
-        <div class="lang-switch">
-            <a href="." class="active" id="lang-en" onclick="setLang('en');return false">EN</a>
-            <a href="#" id="lang-de" onclick="setLang('de');return false">DE</a>
-        </div>
-        <p class="welcome" id="welcome">Welcome to</p>
-        <h1 id="brand">CasyStudioCo</h1>
-        <h2 class="section-title" id="title">Our Apps</h2>
-        <p class="subtitle" id="subtitle">We build apps that help you move, focus, and get things done. Here you'll find everything about our apps, your data, and how to reach us.</p>
+        <header class="topbar" role="banner">
+            <a href="#" class="wordmark" aria-label="Casy Studio">
+                <span class="wordmark-mark" aria-hidden="true">CS</span>
+                <span>Casy Studio</span>
+            </a>
+            <div class="lang-switch" role="group" aria-label="Language">
+                <button type="button" id="lang-en" class="active" aria-pressed="true" lang="en"
+                        onclick="setLang('en')">EN</button>
+                <button type="button" id="lang-de" aria-pressed="false" lang="de"
+                        onclick="setLang('de')">DE</button>
+            </div>
+        </header>
 
-        <div class="app-grid" id="app-grid">
-            <!-- Apps werden automatisch aus config.json geladen -->
-        </div>
+        <main id="main">
+            <section class="hero" aria-labelledby="hero-title">
+                <span class="eyebrow" id="eyebrow">// Casy Studio Co.</span>
+                <h1 id="hero-title">
+                    Small apps, <span class="accent" id="hero-accent">made with care.</span>
+                </h1>
+                <p class="lede" id="lede">
+                    Casy Studio builds calm, focused tools for iOS, macOS and Apple Watch — the kind that respect your time and your data.
+                </p>
+                <div class="hero-cta">
+                    <a href="#apps-title" class="hero-cta__primary" id="cta-primary">Browse apps →</a>
+                    <a href="mailto:casystudioco@gmail.com" class="hero-cta__secondary" id="cta-secondary">Get in touch</a>
+                </div>
+            </section>
 
-        <footer>
-            <p>Questions? <a href="mailto:casystudioco@gmail.com" style="color:#FF6B00;text-decoration:none">casystudioco@gmail.com</a></p>
-            <p style="margin-top:8px"><a href="shutterlife/impressum/" id="footer-impressum" style="color:#FF6B00;text-decoration:none">Legal Notice / Impressum</a></p>
-            <p style="margin-top:8px">&copy; 2026 CasyStudioCo. All rights reserved.</p>
+            <section aria-labelledby="apps-title" class="reveal">
+                <div class="section-head">
+                    <h2 class="section-title" id="apps-title">Our Apps</h2>
+                    <span class="section-meta" id="apps-meta"></span>
+                </div>
+                <div class="app-grid" id="app-grid">
+                    <!-- rendered from config.json + apps registry -->
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer" role="contentinfo">
+            <div class="site-footer__brand">
+                <a href="#" class="wordmark" aria-label="Casy Studio">
+                    <span class="wordmark-mark" aria-hidden="true">CS</span>
+                    <span>Casy Studio</span>
+                </a>
+                <p id="footer-tagline">Two builders, several apps, one philosophy: calm software that gets out of your way.</p>
+            </div>
+            <div class="site-footer__row">
+                <nav class="site-footer__links" aria-label="Studio">
+                    <a href="mailto:casystudioco@gmail.com" id="footer-contact">Contact</a>
+                    <a href="shutterlife/impressum/" id="footer-impressum">Legal Notice</a>
+                    <a href="https://github.com/Nave-S" rel="noopener" target="_blank" id="footer-github">GitHub</a>
+                </nav>
+                <p class="site-footer__legal" id="footer-legal">&copy; 2026 Casy Studio · All rights reserved.</p>
+            </div>
         </footer>
     </div>
 
     <script>
         const i18n = {
             en: {
-                welcome: "Welcome to",
-                title: "Our Apps",
-                subtitle: "We build apps that help you move, focus, and get things done. Here you'll find everything about our apps, your data, and how to reach us.",
-                privacy: "Privacy Policy",
-                terms: "Terms of Service",
-                support: "Support & FAQ",
-                empty: "No apps published yet.",
-                contact: "Questions?",
+                lang: "en",
+                eyebrow: "// Casy Studio Co.",
+                ctaPrimary: "Browse apps →",
+                ctaSecondary: "Get in touch",
+                heroLead: "Small apps,",
+                heroAccent: "made with care.",
+                lede: "Casy Studio builds calm, focused tools for iOS, macOS and Apple Watch — the kind that respect your time and your data.",
+                appsTitle: "Our Apps",
+                appsMetaOne: "1 app",
+                appsMetaMany: (n) => `${n} apps`,
+                privacy: "Privacy",
+                terms: "Terms",
+                support: "Support",
+                empty: "No apps published yet — soon.",
                 rights: "All rights reserved.",
+                contact: "Contact",
+                github: "GitHub",
+                impressum: "Legal Notice",
+                impressumSuffix: "",
+                footerTagline: "Two builders, several apps, one philosophy: calm software that gets out of your way.",
+                footerLegal: "© 2026 Casy Studio · All rights reserved.",
+                statusLive: "Live",
+                statusBeta: "TestFlight",
+                statusSoon: "Coming soon",
                 privacySuffix: "",
                 termsSuffix: "",
                 supportSuffix: "",
-                impressum: "Legal Notice",
-                impressumSuffix: "",
             },
             de: {
-                welcome: "Willkommen bei",
-                title: "Unsere Apps",
-                subtitle: "Wir entwickeln Apps, die dir helfen, dich zu bewegen, zu fokussieren und produktiv zu sein. Hier findest du alles zu unseren Apps, deinen Daten und wie du uns erreichst.",
+                lang: "de",
+                eyebrow: "// Casy Studio Co.",
+                ctaPrimary: "Apps ansehen →",
+                ctaSecondary: "Kontakt aufnehmen",
+                heroLead: "Kleine Apps,",
+                heroAccent: "mit Sorgfalt gebaut.",
+                lede: "Casy Studio entwickelt ruhige, fokussierte Tools für iOS, macOS und Apple Watch — die deine Zeit und deine Daten respektieren.",
+                appsTitle: "Unsere Apps",
+                appsMetaOne: "1 App",
+                appsMetaMany: (n) => `${n} Apps`,
                 privacy: "Datenschutz",
-                terms: "Nutzungsbedingungen",
-                support: "Support & FAQ",
-                empty: "Noch keine Apps veröffentlicht.",
-                contact: "Fragen?",
+                terms: "Nutzungsbed.",
+                support: "Support",
+                empty: "Noch keine Apps veröffentlicht — bald.",
                 rights: "Alle Rechte vorbehalten.",
+                contact: "Kontakt",
+                github: "GitHub",
+                impressum: "Impressum",
+                impressumSuffix: "/de.html",
+                footerTagline: "Zwei Entwickler, mehrere Apps, eine Haltung: ruhige Software, die dich machen lässt.",
+                footerLegal: "© 2026 Casy Studio · Alle Rechte vorbehalten.",
+                statusLive: "Live",
+                statusBeta: "TestFlight",
+                statusSoon: "Bald",
                 privacySuffix: "/de.html",
                 termsSuffix: "/de.html",
                 supportSuffix: "/de.html",
-                impressum: "Impressum",
-                impressumSuffix: "/de.html",
             }
         };
 
         const apps = {
-            sequenz:        { name: "SQNZ / Sequenz",   en: "Build, run, and master interval timers for any workout.",           de: "Erstelle und steuere Intervall-Timer für jedes Training.",         platform: "iOS & Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz" },
-            shutterlife:    { name: "ShutterLife",       en: "Read and track the shutter count of your camera from photos.",     de: "Lese und verfolge den Auslösezähler deiner Kamera aus Fotos.",     platform: "iOS & macOS",        folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife" },
-            talktome:       { name: "TalkToMe",          en: "Accessible communication for people who need a voice.",             de: "Barrierefreie Kommunikation für Menschen die eine Stimme brauchen.", platform: "macOS",          folder: "talktome" },
-            clearmind:      { name: "ClearMind",         en: "Simple tools for focus, breathing, and mindfulness.",               de: "Einfache Tools für Fokus, Atmung und Achtsamkeit.",               platform: "iOS",               folder: "clearmind" },
-            elektohub:      { name: "ElektoHub",         en: "Manage and monitor your smart home devices in one place.",          de: "Verwalte und überwache deine Smart-Home-Geräte an einem Ort.",    platform: "iOS",               folder: "elektohub" },
-            feiertagswarner:{ name: "FeiertagsWarner",   en: "Never miss a German holiday. Get notified ahead of time.",          de: "Verpasse keinen Feiertag. Werde rechtzeitig erinnert.",           platform: "iOS",               folder: "feiertagswarner" },
-            finanzen:       { name: "Finanzen",          en: "Track your income, expenses, and savings at a glance.",             de: "Behalte Einnahmen, Ausgaben und Ersparnisse im Blick.",           platform: "iOS",               folder: "finanzen" },
-            riseup:         { name: "RiseUp",            en: "Daily motivation and habit tracking to keep you going.",            de: "Tägliche Motivation und Gewohnheits-Tracking.",                   platform: "iOS",               folder: "riseup" },
-            spindtracker:   { name: "SpindTracker",      en: "Keep track of your locker assignments and access codes.",           de: "Behalte deine Spind-Zuweisungen und Zugangscodes im Blick.",      platform: "iOS",               folder: "spindtracker" },
-            trynk:          { name: "Trynk",             en: "Discover drinks, bars, and nightlife with friends.",                de: "Entdecke Drinks, Bars und Nachtleben mit Freunden.",              platform: "iOS",               folder: "trynk" },
-            shutterlifeweb: { name: "ShutterLife Web",   en: "The web companion for your ShutterLife photo library.",             de: "Die Web-Plattform für deine ShutterLife-Fotobibliothek.",         platform: "Web",               folder: "shutterlife-web" },
-            clearlist:      { name: "ClearList",         en: "A clean, simple to-do list that stays out of your way.",            de: "Eine saubere, einfache To-Do-Liste die dich nicht stört.",        platform: "iOS",               folder: "clearlist" },
+            sequenz:        { name: "SQNZ",              icon: "S",  color: "#FF6B00", status: "live",  en: "Build, run, and master interval timers for any workout.",            de: "Erstelle und steuere Intervall-Timer für jedes Training.",          platform: "iOS · Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Read and track the shutter count of your camera from photos.",       de: "Lese und verfolge den Auslösezähler deiner Kamera aus Fotos.",      platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife" },
+            talktome:       { name: "TalkToMe",          icon: "TM", color: "#8B5CF6", status: "beta",  en: "Accessible communication for people who need a voice.",               de: "Barrierefreie Kommunikation für Menschen, die eine Stimme brauchen.", platform: "macOS",            folder: "talktome" },
+            clearmind:      { name: "ClearMind",         icon: "CM", color: "#10B981", status: "soon",  en: "Simple tools for focus, breathing, and mindfulness.",                 de: "Einfache Tools für Fokus, Atmung und Achtsamkeit.",                 platform: "iOS",               folder: "clearmind" },
+            elektohub:      { name: "ElektoHub",         icon: "EH", color: "#F59E0B", status: "soon",  en: "Manage and monitor your smart home devices in one place.",            de: "Verwalte und überwache deine Smart-Home-Geräte an einem Ort.",      platform: "iOS",               folder: "elektohub" },
+            feiertagswarner:{ name: "FeiertagsWarner",   icon: "FW", color: "#EF4444", status: "soon",  en: "Never miss a German holiday. Get notified ahead of time.",            de: "Verpasse keinen Feiertag. Werde rechtzeitig erinnert.",             platform: "iOS",               folder: "feiertagswarner" },
+            finanzen:       { name: "Finanzen",          icon: "Fi", color: "#06B6D4", status: "soon",  en: "Track your income, expenses, and savings at a glance.",               de: "Behalte Einnahmen, Ausgaben und Ersparnisse im Blick.",             platform: "iOS",               folder: "finanzen" },
+            riseup:         { name: "RiseUp",            icon: "RU", color: "#F97316", status: "soon",  en: "Daily motivation and habit tracking to keep you going.",              de: "Tägliche Motivation und Gewohnheits-Tracking.",                     platform: "iOS",               folder: "riseup" },
+            spindtracker:   { name: "SpindTracker",      icon: "ST", color: "#64748B", status: "soon",  en: "Keep track of your locker assignments and access codes.",             de: "Behalte deine Spind-Zuweisungen und Zugangscodes im Blick.",        platform: "iOS",               folder: "spindtracker" },
+            trynk:          { name: "Trynk",             icon: "Tr", color: "#EC4899", status: "soon",  en: "Discover drinks, bars, and nightlife with friends.",                  de: "Entdecke Drinks, Bars und Nachtleben mit Freunden.",                platform: "iOS",               folder: "trynk" },
+            shutterlifeweb: { name: "ShutterLife Web",   icon: "SW", color: "#3B82F6", status: "soon",  en: "The web companion for your ShutterLife photo library.",               de: "Die Web-Plattform für deine ShutterLife-Fotobibliothek.",           platform: "Web",               folder: "shutterlife-web" },
+            clearlist:      { name: "ClearList",         icon: "CL", color: "#A78BFA", status: "soon",  en: "A clean, simple to-do list that stays out of your way.",              de: "Eine saubere, einfache To-Do-Liste, die dich nicht stört.",         platform: "iOS",               folder: "clearlist" },
         };
 
         let currentLang = "en";
 
+        function statusLabel(status, t) {
+            if (status === "live") return t.statusLive;
+            if (status === "beta") return t.statusBeta;
+            return t.statusSoon;
+        }
+
+        function escape(s) {
+            return String(s).replace(/[&<>"']/g, c => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            }[c]));
+        }
+
         function setLang(lang) {
+            if (!i18n[lang]) return;
             currentLang = lang;
-            document.getElementById("lang-en").classList.toggle("active", lang === "en");
-            document.getElementById("lang-de").classList.toggle("active", lang === "de");
-            document.getElementById("welcome").textContent = i18n[lang].welcome;
-            document.getElementById("title").textContent = i18n[lang].title;
-            document.getElementById("subtitle").textContent = i18n[lang].subtitle;
+            const t = i18n[lang];
+
+            document.documentElement.lang = t.lang;
+
+            const enBtn = document.getElementById("lang-en");
+            const deBtn = document.getElementById("lang-de");
+            enBtn.classList.toggle("active", lang === "en");
+            deBtn.classList.toggle("active", lang === "de");
+            enBtn.setAttribute("aria-pressed", lang === "en" ? "true" : "false");
+            deBtn.setAttribute("aria-pressed", lang === "de" ? "true" : "false");
+
+            document.getElementById("eyebrow").textContent = t.eyebrow;
+            document.getElementById("hero-title").innerHTML =
+                `${escape(t.heroLead)} <span class="accent" id="hero-accent">${escape(t.heroAccent)}</span>`;
+            document.getElementById("lede").textContent = t.lede;
+            document.getElementById("cta-primary").textContent = t.ctaPrimary;
+            document.getElementById("cta-secondary").textContent = t.ctaSecondary;
+            document.getElementById("apps-title").textContent = t.appsTitle;
+            document.getElementById("footer-tagline").textContent = t.footerTagline;
+            document.getElementById("footer-contact").textContent = t.contact;
+            document.getElementById("footer-github").textContent = t.github;
+            const fi = document.getElementById("footer-impressum");
+            fi.textContent = t.impressum;
+            fi.href = t.impressumSuffix
+                ? `shutterlife/impressum/${t.impressumSuffix.replace(/^\//, "")}`
+                : "shutterlife/impressum/";
+            document.getElementById("footer-legal").innerHTML = t.footerLegal;
+
             renderApps();
+        }
+
+        function loadConfig() {
+            try {
+                return JSON.parse(document.getElementById("apps-config").textContent);
+            } catch {
+                return {};
+            }
         }
 
         function renderApps() {
             const lang = currentLang;
             const t = i18n[lang];
-            fetch("config.json")
-                .then(r => r.json())
-                .then(config => {
-                    const grid = document.getElementById("app-grid");
-                    grid.innerHTML = "";
-                    for (const [key, enabled] of Object.entries(config)) {
-                        if (enabled && apps[key]) {
-                            const app = apps[key];
-                            grid.innerHTML += `
-                                <div class="app-card">
-                                    <div style="display:flex;justify-content:space-between;align-items:center">
-                                        <h3>${app.name}</h3>
-                                        <span class="platform-badge">${app.platform}</span>
-                                    </div>
-                                    <p class="tagline">${app[lang]}</p>
-                                    <div class="links">
-                                        <a href="${app.folder}/privacy${t.privacySuffix}">${t.privacy}</a>
-                                        <a href="${app.folder}/terms${t.termsSuffix}">${t.terms}</a>
-                                        <a href="${app.folder}/support${t.supportSuffix}">${t.support}</a>
-                                        <a href="${app.folder}/impressum${t.impressumSuffix}">${t.impressum}</a>
-                                        ${app.appStore ? `<a href="${app.appStore}" class="store-link">App Store ↗</a>` : ""}
+            const grid = document.getElementById("app-grid");
+            const meta = document.getElementById("apps-meta");
+
+            const config = loadConfig();
+            const visible = Object.entries(config)
+                .filter(([key, on]) => on && apps[key])
+                .map(([key]) => ({ key, ...apps[key] }));
+
+            meta.textContent = visible.length === 0
+                ? ""
+                : visible.length === 1
+                    ? t.appsMetaOne
+                    : t.appsMetaMany(visible.length);
+
+            if (visible.length === 0) {
+                grid.innerHTML = `<div class="empty-state">${escape(t.empty)}</div>`;
+                return;
+            }
+
+            grid.innerHTML = visible.map(app => {
+                        const statusClass = `is-${app.status}`;
+                        const storeLink = app.appStore
+                            ? `<a href="${escape(app.appStore)}" class="store-link" rel="noopener" target="_blank" aria-label="${escape(app.name)} on the App Store">App Store ↗</a>`
+                            : "";
+                        return `
+                            <article class="app-card reveal" aria-labelledby="app-${app.key}-title">
+                                <div class="app-card-header">
+                                    <div class="app-icon" style="background:${escape(app.color)}" aria-hidden="true">${escape(app.icon)}</div>
+                                    <div class="app-card-title">
+                                        <div class="app-card-title-row">
+                                            <h3 id="app-${app.key}-title">${escape(app.name)}</h3>
+                                            <span class="status-badge ${statusClass}" aria-label="Status: ${escape(statusLabel(app.status, t))}">${escape(statusLabel(app.status, t))}</span>
+                                        </div>
+                                        <p class="tagline">${escape(app[lang])}</p>
+                                        <div class="badge-row">
+                                            <span class="platform-badge">${escape(app.platform)}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            `;
-                        }
-                    }
-                    if (!grid.innerHTML.trim()) {
-                        grid.innerHTML = `<p style="color:#5C5854">${t.empty}</p>`;
-                    }
-                });
+                                <div class="links">
+                                    <a href="${app.folder}/privacy${t.privacySuffix}">${t.privacy}</a>
+                                    <a href="${app.folder}/support${t.supportSuffix}">${t.support}</a>
+                                    <a href="${app.folder}/terms${t.termsSuffix}">${t.terms}</a>
+                                    ${storeLink}
+                                </div>
+                            </article>
+                        `;
+                    }).join("");
+
+            observeReveals();
         }
 
-        // Initial laden
-        renderApps();
+        // Scroll-reveal: native IntersectionObserver, no library. We never
+        // un-set `.is-visible` — once revealed, the element stays revealed
+        // (avoids re-animating on scroll-up). Reduced-motion users skip
+        // observation entirely; the CSS already paints them visible.
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const revealObserver = (!reduceMotion && "IntersectionObserver" in window)
+            ? new IntersectionObserver((entries, obs) => {
+                  for (const entry of entries) {
+                      if (entry.isIntersecting) {
+                          entry.target.classList.add("is-visible");
+                          obs.unobserve(entry.target);
+                      }
+                  }
+              }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 })
+            : null;
+
+        function observeReveals() {
+            const targets = document.querySelectorAll(".reveal:not(.is-visible)");
+            if (!revealObserver) {
+                targets.forEach(el => el.classList.add("is-visible"));
+                return;
+            }
+            targets.forEach(el => revealObserver.observe(el));
+        }
+
+        // initial paint — keep `currentLang = "en"`, sync UI from i18n source
+        setLang("en");
+        observeReveals();
     </script>
 </body>
 </html>
