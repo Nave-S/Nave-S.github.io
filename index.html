@@ -18,7 +18,10 @@
     <meta property="og:title" content="Casy Studio — Apps that move, focus, and get things done">
     <meta property="og:description" content="Calm, focused apps for iOS, macOS and Apple Watch. Privacy-first. Made by humans.">
     <meta property="og:url" content="https://casystudioco.com/">
-    <meta property="og:image" content="https://casystudioco.com/og-image.svg">
+    <meta property="og:image" content="https://casystudioco.com/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="1200">
+    <meta property="og:image:alt" content="Casy Studio — small apps, made with care.">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="de_DE">
 
@@ -26,11 +29,30 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Casy Studio — Apps that move, focus, and get things done">
     <meta name="twitter:description" content="Calm, focused apps for iOS, macOS and Apple Watch. Privacy-first.">
-    <meta name="twitter:image" content="https://casystudioco.com/og-image.svg">
+    <meta name="twitter:image" content="https://casystudioco.com/og-image.jpg">
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="apple-touch-icon" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
+
+    <!-- App enablement source-of-truth, mirrored from config.json so the
+         landing renders synchronously (no fetch round-trip → no CLS). -->
+    <script type="application/json" id="apps-config">
+    {
+      "sequenz": true,
+      "shutterlife": true,
+      "talktome": false,
+      "clearmind": false,
+      "elektohub": false,
+      "feiertagswarner": false,
+      "finanzen": false,
+      "riseup": false,
+      "spindtracker": false,
+      "trynk": false,
+      "shutterlifeweb": false,
+      "clearlist": false
+    }
+    </script>
 
     <!-- JSON-LD: Organization -->
     <script type="application/ld+json">
@@ -58,10 +80,10 @@
                 <span>Casy Studio</span>
             </a>
             <div class="lang-switch" role="group" aria-label="Language">
-                <a href="#" id="lang-en" class="active" aria-pressed="true" lang="en"
-                   onclick="setLang('en');return false">EN</a>
-                <a href="#" id="lang-de" aria-pressed="false" lang="de"
-                   onclick="setLang('de');return false">DE</a>
+                <button type="button" id="lang-en" class="active" aria-pressed="true" lang="en"
+                        onclick="setLang('en')">EN</button>
+                <button type="button" id="lang-de" aria-pressed="false" lang="de"
+                        onclick="setLang('de')">DE</button>
             </div>
         </header>
 
@@ -215,31 +237,37 @@
             renderApps();
         }
 
+        function loadConfig() {
+            try {
+                return JSON.parse(document.getElementById("apps-config").textContent);
+            } catch {
+                return {};
+            }
+        }
+
         function renderApps() {
             const lang = currentLang;
             const t = i18n[lang];
             const grid = document.getElementById("app-grid");
             const meta = document.getElementById("apps-meta");
 
-            fetch("config.json")
-                .then(r => r.json())
-                .then(config => {
-                    const visible = Object.entries(config)
-                        .filter(([key, on]) => on && apps[key])
-                        .map(([key]) => ({ key, ...apps[key] }));
+            const config = loadConfig();
+            const visible = Object.entries(config)
+                .filter(([key, on]) => on && apps[key])
+                .map(([key]) => ({ key, ...apps[key] }));
 
-                    meta.textContent = visible.length === 0
-                        ? ""
-                        : visible.length === 1
-                            ? t.appsMetaOne
-                            : t.appsMetaMany(visible.length);
+            meta.textContent = visible.length === 0
+                ? ""
+                : visible.length === 1
+                    ? t.appsMetaOne
+                    : t.appsMetaMany(visible.length);
 
-                    if (visible.length === 0) {
-                        grid.innerHTML = `<div class="empty-state">${escape(t.empty)}</div>`;
-                        return;
-                    }
+            if (visible.length === 0) {
+                grid.innerHTML = `<div class="empty-state">${escape(t.empty)}</div>`;
+                return;
+            }
 
-                    grid.innerHTML = visible.map(app => {
+            grid.innerHTML = visible.map(app => {
                         const statusClass = `is-${app.status}`;
                         const storeLink = app.appStore
                             ? `<a href="${escape(app.appStore)}" class="store-link" rel="noopener" target="_blank" aria-label="${escape(app.name)} on the App Store">App Store ↗</a>`
@@ -268,10 +296,6 @@
                             </article>
                         `;
                     }).join("");
-                })
-                .catch(() => {
-                    grid.innerHTML = `<div class="empty-state">${escape(t.empty)}</div>`;
-                });
         }
 
         // initial paint — keep `currentLang = "en"`, sync UI from i18n source
