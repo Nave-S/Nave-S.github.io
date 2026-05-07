@@ -488,6 +488,13 @@ nav a:hover { color: var(--color-accent); }
 .app-card:hover::after {
     box-shadow: 0 0 0 1px var(--color-accent-ring) inset;
 }
+.app-card:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-md), var(--focus-ring);
+}
+@media (prefers-reduced-motion: reduce) {
+    .app-card:hover { transform: none; }
+}
 
 .app-card-header {
     display: flex;
