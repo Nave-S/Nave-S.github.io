@@ -343,11 +343,13 @@ nav a:hover { color: var(--color-accent-ink); }
     border-radius: var(--radius-pill);
     gap: 2px;
 }
+.lang-switch a,
 .lang-switch button {
     appearance: none;
     border: 0;
     cursor: pointer;
     font-family: inherit;
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -362,7 +364,9 @@ nav a:hover { color: var(--color-accent-ink); }
     background: transparent;
     transition: color var(--motion-fast), background var(--motion-fast);
 }
+.lang-switch a:hover,
 .lang-switch button:hover { color: var(--color-text); }
+.lang-switch a.active,
 .lang-switch button.active {
     background: var(--color-accent);
     color: var(--color-text-on-accent);
