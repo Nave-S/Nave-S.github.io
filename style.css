@@ -6,8 +6,8 @@
    See WP-N-2026-05-07-036 for the rationale behind the split.
    ============================================================ */
 
-@import url("css/_tokens.css");
-@import url("css/_layout.css");
-@import url("css/_components.css");
-@import url("css/_utilities.css");
-@import url("css/_print.css");
+@import url("css/tokens.css");
+@import url("css/layout.css");
+@import url("css/components.css");
+@import url("css/utilities.css");
+@import url("css/print.css");
