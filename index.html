@@ -124,7 +124,8 @@
             <div class="site-footer__row">
                 <nav class="site-footer__links" aria-label="Studio">
                     <a href="mailto:casystudioco@gmail.com" id="footer-contact">Contact</a>
-                    <a href="shutterlife/impressum/" id="footer-impressum">Legal Notice</a>
+                    <a href="impressum/" id="footer-impressum">Legal Notice</a>
+                    <a href="datenschutz/" id="footer-privacy">Privacy</a>
                     <a href="https://github.com/Nave-S" rel="noopener" target="_blank" id="footer-github">GitHub</a>
                 </nav>
                 <p class="site-footer__legal" id="footer-legal">&copy; 2026 Adriano Camonita · All rights reserved.</p>
@@ -154,6 +155,8 @@
                 github: "GitHub",
                 impressum: "Legal Notice",
                 impressumSuffix: "",
+                footerPrivacy: "Privacy",
+                footerPrivacySuffix: "",
                 footerTagline: "Two builders, several apps, one philosophy: calm software that gets out of your way.",
                 footerLegal: "© 2026 Adriano Camonita · All rights reserved.",
                 statusLive: "Live",
@@ -183,6 +186,8 @@
                 github: "GitHub",
                 impressum: "Impressum",
                 impressumSuffix: "/de.html",
+                footerPrivacy: "Datenschutz",
+                footerPrivacySuffix: "/de.html",
                 footerTagline: "Zwei Entwickler, mehrere Apps, eine Haltung: ruhige Software, die dich machen lässt.",
                 footerLegal: "© 2026 Adriano Camonita · Alle Rechte vorbehalten.",
                 statusLive: "Live",
@@ -250,8 +255,13 @@
             const fi = document.getElementById("footer-impressum");
             fi.textContent = t.impressum;
             fi.href = t.impressumSuffix
-                ? `shutterlife/impressum/${t.impressumSuffix.replace(/^\//, "")}`
-                : "shutterlife/impressum/";
+                ? `impressum/${t.impressumSuffix.replace(/^\//, "")}`
+                : "impressum/";
+            const fp = document.getElementById("footer-privacy");
+            fp.textContent = t.footerPrivacy;
+            fp.href = t.footerPrivacySuffix
+                ? `datenschutz/${t.footerPrivacySuffix.replace(/^\//, "")}`
+                : "datenschutz/";
             document.getElementById("footer-legal").innerHTML = t.footerLegal;
 
             renderApps();
