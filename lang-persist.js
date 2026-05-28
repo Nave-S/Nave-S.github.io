@@ -40,7 +40,7 @@
 
     // Update preference when user clicks language switcher
     document.addEventListener('DOMContentLoaded', function () {
-        var links = document.querySelectorAll('.lang-switch a');
+        var links = document.querySelectorAll('.lang-switch a, .footer-lang a');
         links.forEach(function (link) {
             link.addEventListener('click', function () {
                 var href = (link.getAttribute('href') || '').trim();
