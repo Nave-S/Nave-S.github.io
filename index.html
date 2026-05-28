@@ -39,7 +39,7 @@
          landing renders synchronously (no fetch round-trip → no CLS). -->
     <script type="application/json" id="apps-config">
     {
-      "sequenz": true,
+      "sequenz": false,
       "shutterlife": true,
       "talktome": false,
       "clearmind": false,
@@ -116,7 +116,8 @@
                     <span class="wordmark-mark" aria-hidden="true">CS</span>
                     <span>Casy Studio</span>
                 </a>
-                <p id="footer-tagline">Two builders, several apps, one philosophy: calm software that gets out of your way.</p>
+                <p id="footer-tagline">Quietly built apps for everyday work.</p>
+                <p class="site-footer__official" id="footer-official">Official Casy Studio site · hosted on GitHub Pages.</p>
             </div>
             <div class="site-footer__row">
                 <nav class="site-footer__links" aria-label="Studio">
@@ -153,7 +154,8 @@
                 impressumSuffix: "",
                 footerPrivacy: "Privacy",
                 footerPrivacySuffix: "",
-                footerTagline: "Two builders, several apps, one philosophy: calm software that gets out of your way.",
+                footerTagline: "Quietly built apps for everyday work.",
+                footerOfficial: "Official Casy Studio site · hosted on GitHub Pages.",
                 footerLegal: "© 2026 Adriano Camonita · All rights reserved.",
                 statusLive: "Live",
                 statusBeta: "TestFlight",
@@ -184,7 +186,8 @@
                 impressumSuffix: "/de.html",
                 footerPrivacy: "Datenschutz",
                 footerPrivacySuffix: "/de.html",
-                footerTagline: "Zwei Entwickler, mehrere Apps, eine Haltung: ruhige Software, die dich machen lässt.",
+                footerTagline: "Sorgfältig gebaute Apps für den Alltag.",
+                footerOfficial: "Offizielle Studio-Seite von Casy Studio · gehostet auf GitHub Pages.",
                 footerLegal: "© 2026 Adriano Camonita · Alle Rechte vorbehalten.",
                 statusLive: "Live",
                 statusBeta: "TestFlight",
@@ -247,6 +250,7 @@
             document.getElementById("cta-secondary").textContent = t.ctaSecondary;
             document.getElementById("apps-title").textContent = t.appsTitle;
             document.getElementById("footer-tagline").textContent = t.footerTagline;
+            document.getElementById("footer-official").textContent = t.footerOfficial;
             document.getElementById("footer-contact").textContent = t.contact;
             const fi = document.getElementById("footer-impressum");
             fi.textContent = t.impressum;
