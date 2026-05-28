@@ -504,6 +504,10 @@ nav a:hover { color: var(--color-accent-ink); }
 .site-footer__brand { display: flex; flex-direction: column; gap: var(--space-2); }
 .site-footer__brand .wordmark { font-size: var(--text-base); }
 .site-footer__brand p { margin: 0; max-width: 42ch; }
+.site-footer__official {
+    color: var(--color-text-faint);
+    font-size: var(--text-xs);
+}
 .site-footer__row {
     display: flex;
     flex-wrap: wrap;
