@@ -1015,6 +1015,154 @@ footer:not(.site-footer) {
     }
 }
 
+/* ============================================================
+   Back-to-Top button
+   Lives on long legal/info sub-pages. Wired up by /back-to-top.js.
+   Hidden until the page is scrolled past ~200px.
+   ============================================================ */
+
+.back-to-top {
+    position: fixed;
+    right: var(--space-5);
+    bottom: var(--space-5);
+    /* Respect iOS home-indicator + notch on mobile Safari. */
+    bottom: calc(var(--space-5) + env(safe-area-inset-bottom, 0px));
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    background: color-mix(in oklab, var(--color-bg-elev) 92%, transparent);
+    color: var(--color-text);
+    font-size: var(--text-lg);
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition:
+        opacity var(--motion-base),
+        transform var(--motion-base),
+        visibility 0s linear var(--motion-base),
+        background var(--motion-fast),
+        border-color var(--motion-fast),
+        color var(--motion-fast);
+    z-index: 50;
+    /* Avoid Safari double-tap zoom on the icon. */
+    touch-action: manipulation;
+}
+@supports ((backdrop-filter: blur(14px)) or (-webkit-backdrop-filter: blur(14px))) {
+    .back-to-top {
+        background: color-mix(in oklab, var(--color-bg-elev) 70%, transparent);
+        backdrop-filter: blur(14px) saturate(140%);
+        -webkit-backdrop-filter: blur(14px) saturate(140%);
+    }
+}
+.back-to-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+        opacity var(--motion-base),
+        transform var(--motion-base),
+        visibility 0s,
+        background var(--motion-fast),
+        border-color var(--motion-fast),
+        color var(--motion-fast);
+}
+.back-to-top:hover {
+    color: var(--color-accent-ink);
+    border-color: var(--color-accent-ring);
+}
+.back-to-top:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+.back-to-top svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+@media (max-width: 380px) {
+    .back-to-top {
+        right: var(--space-4);
+        bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .back-to-top {
+        transition: opacity 0s, visibility 0s;
+    }
+    .back-to-top.is-visible {
+        transition: opacity 0s, visibility 0s;
+    }
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ============================================================
+   Footer language switch (second copy at the bottom of long pages)
+   ============================================================ */
+.site-footer__lang {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-top: var(--space-2);
+}
+.site-footer__lang-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+    .site-footer__lang { margin-top: var(--space-3); }
+}
+
+/* ============================================================
+   Table of contents (datenschutz long page)
+   ============================================================ */
+.toc {
+    margin: var(--space-6) 0 var(--space-8);
+    padding: var(--space-5) var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: color-mix(in oklab, var(--color-bg-elev) 85%, transparent);
+}
+.toc__title {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+.toc ol {
+    margin: 0;
+    padding-left: var(--space-6);
+    display: grid;
+    gap: var(--space-1) var(--space-4);
+    grid-template-columns: 1fr;
+}
+@media (min-width: 720px) {
+    .toc ol { grid-template-columns: 1fr 1fr; }
+}
+.toc a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+}
+.toc a:hover,
+.toc a:focus-visible { color: var(--color-accent-ink); }
+
 /* ===== print.css ===== */
 /* ============================================================
    Print — placeholder.

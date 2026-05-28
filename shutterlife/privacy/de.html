@@ -6,6 +6,7 @@
     <title>Datenschutz — ShutterLife</title>
     <link rel="stylesheet" href="../../style.css">
     <script src="/lang-persist.js" defer></script>
+    <script src="/back-to-top.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -98,16 +99,39 @@
         <h2>Kontakt</h2>
         <p>Fragen zum Datenschutz? Kontaktiere uns unter <strong>casystudioco@gmail.com</strong></p>
 
-        <footer>
-            <p style="font-size:0.9em;margin-bottom:8px;line-height:1.8">
-                <a href="../terms/de.html" style="color:#FF6B00;text-decoration:none">Nutzungsbedingungen</a> ·
-                <a href="../support/de.html" style="color:#FF6B00;text-decoration:none">Support</a> ·
-                <a href="https://apps.apple.com/app/shutterlife" style="color:#FF6B00;text-decoration:none">App Store ↗</a> ·
-                <a href="../../impressum/de.html" style="color:#FF6B00;text-decoration:none">Impressum</a> ·
-                <a href="../../" style="color:#FF6B00;text-decoration:none">← Alle Apps</a>
-            </p>
-            <p>&copy; 2026 Adriano Camonita. Alle Rechte vorbehalten.</p>
+        <footer class="site-footer" role="contentinfo">
+            <div class="site-footer__brand">
+                <a href="../../" class="wordmark" aria-label="Casy Studio">
+                    <span class="wordmark-mark" aria-hidden="true">CS</span>
+                    <span>Casy Studio</span>
+                </a>
+                <p>Zwei Entwickler, mehrere Apps, eine Haltung: ruhige Software, die dich machen lässt.</p>
+                <div class="site-footer__lang lang-switch" role="group" aria-label="Sprache">
+                    <span class="site-footer__lang-label">Sprache</span>
+                    <a href="." lang="en">EN</a>
+                    <a href="de.html" class="active" aria-current="page" lang="de">DE</a>
+                </div>
+            </div>
+            <div class="site-footer__row">
+                <nav class="site-footer__links" aria-label="ShutterLife">
+                    <a href="../terms/de.html">Nutzungsbedingungen</a>
+                    <a href="../support/de.html">Support</a>
+                    <a href="https://apps.apple.com/app/shutterlife" rel="noopener">App Store ↗</a>
+                </nav>
+                <nav class="site-footer__links" aria-label="Studio">
+                    <a href="../../">Startseite</a>
+                    <a href="../../#apps-title">Alle Apps</a>
+                    <a href="mailto:casystudioco@gmail.com">Kontakt</a>
+                    <a href="../../impressum/de.html">Impressum</a>
+                    <a href="../../datenschutz/de.html">Studio-Datenschutz</a>
+                </nav>
+                <p class="site-footer__legal">&copy; 2026 Casy Studio · Alle Rechte vorbehalten.</p>
+            </div>
         </footer>
     </div>
+
+    <button type="button" class="back-to-top" data-back-to-top aria-label="Nach oben">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m6 11 6-6 6 6"/></svg>
+    </button>
 </body>
 </html>
