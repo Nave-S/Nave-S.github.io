@@ -7,15 +7,15 @@
     <meta name="theme-color" content="#FAF8F5" media="(prefers-color-scheme: light)">
     <meta name="color-scheme" content="dark light">
 
-    <title>Privacy Policy — SQNZ · Casy Studio</title>
-    <meta name="description" content="Privacy policy for SQNZ — interval timer for iOS and Apple Watch. No tracking, no analytics, all data stays on your device.">
+    <title>Privacy Policy — Sequence Lite · Casy Studio</title>
+    <meta name="description" content="Privacy policy for Sequence Lite — interval timer for iPhone and Apple Watch. No tracking, no analytics, no cloud — all data stays on your device.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://nave-s.github.io/sequenz/privacy/">
 
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Casy Studio">
-    <meta property="og:title" content="Privacy Policy — SQNZ · Casy Studio">
-    <meta property="og:description" content="Privacy policy for SQNZ — interval timer for iOS and Apple Watch.">
+    <meta property="og:title" content="Privacy Policy — Sequence Lite · Casy Studio">
+    <meta property="og:description" content="Privacy policy for Sequence Lite — interval timer for iPhone and Apple Watch.">
     <meta property="og:url" content="https://nave-s.github.io/sequenz/privacy/">
     <meta property="og:image" content="https://nave-s.github.io/og-image.jpg">
     <meta property="og:locale" content="en_US">
@@ -47,58 +47,107 @@
 
         <main id="main">
             <a href="../../" class="back-link">&larr; All Apps</a>
-            <p class="subpage-eyebrow">SQNZ · Sequenz</p>
+            <p class="subpage-eyebrow">Sequence Lite</p>
             <h1 class="page-title">Privacy Policy</h1>
-            <p class="date">Last updated: April 7, 2026</p>
+            <p class="date">Last updated: June 2, 2026</p>
 
             <article class="legal-content">
                 <h2>Overview</h2>
-                <p>SQNZ is an interval timer app for iOS and Apple Watch. We take your privacy seriously. This policy explains what data we collect, how we use it, and your rights.</p>
+                <p>Sequence Lite is an interval timer for iPhone and Apple Watch. The app works entirely offline: it collects no personal data, uses no tracking or analytics services, and sends no data to our own servers or anyone else's. All the timers you create, your workout statistics, and your settings stay exclusively on your device. This policy explains what data is processed, why, and your rights.</p>
 
-                <h2>Data Stored On Your Device</h2>
+                <h2>Controller</h2>
+                <p>Controller within the meaning of Art. 4(7) GDPR, to the extent that personal data is actually processed (see "Data Stored on Your Device" and "Contacting Us"):</p>
+                <p>
+                    Adriano Camonita<br>
+                    Barthstr. 6<br>
+                    44328 Dortmund<br>
+                    Germany<br>
+                    Email: casystudioco@gmail.com
+                </p>
+
+                <h2>Data Stored on Your Device</h2>
+                <p>The following data is stored exclusively, locally on your device:</p>
                 <ul>
-                    <li><strong>Timer configurations</strong> — Your created timers, flows, and settings</li>
-                    <li><strong>Workout statistics</strong> — Session history, streaks, and duration data</li>
-                    <li><strong>Heart rate data</strong> — If you grant HealthKit access, heart rate is read during workouts and stored locally</li>
-                    <li><strong>Notes</strong> — Any personal notes you add to timers</li>
-                    <li><strong>Preferences</strong> — App settings, language, sound preferences</li>
+                    <li><strong>Timer configurations</strong> — the timers and flows you create and their settings</li>
+                    <li><strong>Workout statistics</strong> — history of completed sessions, streaks, and duration</li>
+                    <li><strong>App preferences</strong> — e.g. language, sound, accent color, and behavior</li>
                 </ul>
+                <p>This data lives in your device's standard app storage (sandbox). It is accessible only to Sequence Lite and is never transmitted automatically to any external service.</p>
 
-                <h2>Data We Do NOT Collect</h2>
+                <h2>Data We Do Not Collect</h2>
                 <ul>
-                    <li>We do not collect personal information (name, email, address)</li>
-                    <li>We do not track your location</li>
-                    <li>We do not use analytics or tracking SDKs</li>
-                    <li>We do not sell or share any data with third parties</li>
-                    <li>We do not store any data on external servers</li>
+                    <li>No personal master data (name, email, address) — there is no account and no sign-up</li>
+                    <li>No location or GPS tracking</li>
+                    <li>No analytics, advertising, or tracking SDKs, no advertising identifiers (IDFA)</li>
+                    <li>No health or fitness data — Sequence Lite does <strong>not</strong> use Apple HealthKit and does <strong>not</strong> read heart rate</li>
+                    <li>No microphone access, no voice recordings, no speech recognition</li>
+                    <li>No proprietary cloud sync — the app does not write to iCloud</li>
+                    <li>No selling or sharing of data with third parties</li>
                 </ul>
+                <p>Sequence Lite requests no privacy-sensitive permissions (no microphone, camera, location, or HealthKit). The app's Apple-required Privacy Manifest declares "no tracking" and "no collected data types".</p>
 
-                <h2>Voice Commands</h2>
-                <p>When voice commands are enabled, the microphone is active during workouts. All audio is processed on-device using Apple's Speech Recognition framework. No audio is recorded, stored, or transmitted to any server.</p>
+                <h2>Voice Announcements (Text-to-Speech)</h2>
+                <p>If you enable voice announcements, phase names and countdowns are spoken using Apple's on-device speech synthesis (AVSpeechSynthesizer). This is audio <em>output</em> only: no audio is recorded, no microphone is activated, and nothing is sent to Apple or any other server. Enhanced voices you may have installed via iOS Settings &gt; Accessibility &gt; Spoken Content remain entirely on your device.</p>
 
-                <h2>AI Timer Creator</h2>
-                <p>If you use the AI Timer Creator (requires subscription), your text input is sent to an AI service to generate timer configurations. No personal data beyond the workout description you type is transmitted.</p>
+                <h2>Creating Timers from Text (Paste Import &amp; AI Help)</h2>
+                <p>Sequence Lite can build a timer from text you paste into the app. Processing that text (detecting phases and durations) happens <strong>entirely on your device</strong>.</p>
+                <p>Optionally, you can have the text generated by an AI assistant. In doing so, <strong>Sequence Lite itself sends no text to any AI service.</strong> The app merely copies a prepared prompt to your clipboard and, at your request, opens a third-party app or website (e.g. OpenAI's ChatGPT or Anthropic's Claude). There, you enter the text yourself and paste the result back into Sequence Lite. Whatever you enter into such a third-party service is governed by that provider's own privacy policy — Sequence Lite is not involved and has no access to it.</p>
 
-                <h2>Apple HealthKit</h2>
-                <p>The App can read heart rate data from Apple Health during workouts. This data is used solely to display your heart rate and calculate workout statistics. Health data is never shared with third parties or transmitted off your device.</p>
+                <h2>Apple Watch Sync</h2>
+                <p>If you pair Sequence Lite with an Apple Watch, your timers, favorites, and statistics sync between iPhone and the paired Watch via Apple's WatchConnectivity framework. The transfer is local, between your own devices (Bluetooth / direct radio); beyond the temporary delivery buffer the system uses, no data is stored on Apple servers. Legal basis: Art. 6(1)(b) GDPR (providing the expected app feature).</p>
 
-                <h2>iCloud Sync</h2>
-                <p>If you enable iCloud sync, your timer configurations are synced via your personal iCloud account. This data is protected by Apple's iCloud security and is not accessible to us.</p>
+                <h2>Pause on Call (Apple Watch)</h2>
+                <p>The Watch app observes whether a phone call is currently active via Apple's CallKit framework, so a running timer can auto-pause when you take a call. No call metadata (caller, number, duration) is read, stored, transmitted, or logged — only the on/off signal is held in memory for the duration of the running timer. Legal basis: Art. 6(1)(b) GDPR. You can disable this in Settings &gt; Timer Behavior &gt; Pause on interruption.</p>
+
+                <h2>Notifications</h2>
+                <p>The app uses local notifications to alert you, e.g., when a timer ends — even if the screen is off. iOS asks for your permission once before any notification is sent; you can change this anytime in iOS Settings. No push tokens are registered with any remote server; all notifications are scheduled locally on your device.</p>
+
+                <h2>Sharing Timers (.sqtimer File and QR Code)</h2>
+                <p>You can export a timer as a file (<code>.sqtimer</code> extension) or as a QR code to share it with others. Such a file or code contains only the timer configuration (name, phases, durations, colors). Please note: if you give a timer a free-text name or note that contains personal information, that information will be included in the shared file. Sharing only ever happens actively, initiated by you, via the system Share Sheet, and only to the destination you select there (e.g. AirDrop, Messages, Mail). Sequence Lite transmits nothing to our own servers in the process.</p>
+
+                <h2>iCloud Backup</h2>
+                <p>Sequence Lite stores its data in the standard iOS app storage. If you have enabled iCloud device backup in iOS Settings, your timer configurations and statistics may be included in that backup. Apple encrypts iCloud backups; with "Advanced Data Protection" enabled this is end-to-end. The app itself does not write to iCloud — there is no proprietary cloud sync. This backup is subject to Apple's privacy terms.</p>
 
                 <h2>In-App Purchases</h2>
-                <p>Purchases are processed through Apple's App Store. We do not have access to your payment information.</p>
+                <p>Sequence Lite offers optional in-app purchases (e.g. Premium unlock). These are handled entirely through Apple's App Store / StoreKit. Sequence Lite has <strong>no access</strong> to your payment information. You manage purchases through your Apple ID. Payment data is processed by Apple as an independent controller.</p>
+
+                <h2>Distribution and Apple</h2>
+                <p>Sequence Lite is distributed through Apple's App Store. Apple may collect diagnostic, usage, and download metadata independently from this app under <a href="https://www.apple.com/legal/privacy/" rel="noopener">Apple's own privacy policy</a>. Sequence Lite has no access to that data and is not the controller in this respect.</p>
+                <p><strong>System crash reports:</strong> iOS may generate anonymous crash reports and share them with Apple and with us, the developer, via App Store Connect — provided you have enabled "Share with App Developers" in your device settings. Sequence Lite implements no crash reporting of its own. These reports contain no personal data and are used solely for diagnosing crashes. You can opt out anytime under iOS Settings &gt; Privacy &amp; Security &gt; Analytics &amp; Improvements.</p>
+                <p><strong>International data transfers:</strong> Apple Inc. is headquartered in the United States. Any transfers of diagnostic and usage metadata to Apple's US infrastructure are covered by the EU-US Data Privacy Framework (Commission Implementing Decision (EU) 2023/1795 of 10 July 2023), under which Apple is self-certified. Since Sequence Lite has no access to that data flow, Apple acts as an independent controller under its own privacy policy.</p>
+
+                <h2>Hosting of This Website (GitHub Pages)</h2>
+                <p>This website is hosted by GitHub, Inc. When the pages are accessed, GitHub processes technically necessary server log data (including IP address and time of access) to ensure secure and reliable delivery of the pages (Art. 6(1)(f) GDPR). We ourselves have no access to these logs. GitHub is certified under the EU-US Data Privacy Framework; details are governed by GitHub's own privacy policy.</p>
+
+                <h2>Legal Basis</h2>
+                <p>When you simply use the app, no personal data within the meaning of Art. 4(1) GDPR is processed on our side. The exclusively local storage of your timers and statistics on your device occurs under your sole control and does not constitute processing by the provider within the meaning of Art. 4(2) GDPR. The information obligations under Art. 13 GDPR do not apply in this respect; the information here is provided voluntarily for transparency. Where the app provides system-level features such as Watch sync or pause-on-call detection, the legal basis is Art. 6(1)(b) GDPR (providing the expected feature); if you contact us, the next section applies.</p>
+
+                <h2>Contacting Us</h2>
+                <p>If you contact us by email (contact details in the Legal Notice), we process the information you provide (e.g., email address, name, content of your inquiry) solely to handle your request. The legal basis is Art. 6(1)(b) GDPR or Art. 6(1)(f) GDPR (legitimate interest in responding). <strong>Storage duration:</strong> The data is deleted once your request has been fully handled and no statutory retention obligations apply.</p>
+
+                <h2>Storage Duration</h2>
+                <p>Your app data remains on your device until you delete it yourself or uninstall the app. There is no automatic expiry. You can remove data within the app (Settings &gt; Data: "Delete all timers" / "Delete all flows"). Uninstalling removes the entire app sandbox via iOS.</p>
 
                 <h2>Children's Privacy</h2>
-                <p>The App is not directed at children under 13. We do not knowingly collect data from children.</p>
+                <p>The app is not specifically directed at children. Since Sequence Lite collects no personal data at all, it collects no data from children either.</p>
 
-                <h2>Your Rights</h2>
-                <p>All your data is stored locally on your device. You can delete all data at any time through Settings > Data & Privacy in the App. Deleting the App removes all locally stored data.</p>
+                <h2>Your Rights Under GDPR</h2>
+                <p>Under the GDPR you have the following rights: access (Art. 15), rectification (Art. 16), erasure (Art. 17), restriction of processing (Art. 18), data portability (Art. 20), and objection (Art. 21). Since Sequence Lite does not collect or store any personal data on our side, there is no personal data for you to request, modify, or delete from us — all app data remains exclusively on your device under your full control and can be removed at any time within the app or by uninstalling. Sequence Lite does not engage in automated decision-making, including profiling (Art. 22 GDPR).</p>
+
+                <h2>Right to Lodge a Complaint</h2>
+                <p>You have the right to lodge a complaint with a data protection supervisory authority (Art. 77 GDPR). The competent authority for the controller is:</p>
+                <p>
+                    Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen (LDI NRW)<br>
+                    Kavalleriestraße 2–4<br>
+                    40213 Düsseldorf<br>
+                    Germany
+                </p>
 
                 <h2>Changes</h2>
                 <p>We may update this policy from time to time. Changes will be posted on this page with an updated date.</p>
 
                 <h2>Contact</h2>
-                <p>Questions? Contact us at <strong>support@sqnz-app.com</strong></p>
+                <p>Privacy questions? Contact us at <strong>casystudioco@gmail.com</strong></p>
             </article>
         </main>
 
@@ -111,16 +160,17 @@
                 <p>Quietly built apps for everyday work.</p>
             </div>
             <div class="site-footer__row">
-                <nav class="site-footer__links" aria-label="SQNZ">
+                <nav class="site-footer__links" aria-label="Sequence Lite">
                     <a href="../terms/">Terms</a>
                     <a href="../support/">Support</a>
-                    <a href="https://apps.apple.com/app/sequenz" rel="noopener">App Store ↗</a>
+                    <a href="../impressum/">Legal Notice</a>
+                    <a href="https://apps.apple.com/app/sequence-lite" rel="noopener">App Store ↗</a>
                 </nav>
                 <nav class="site-footer__links" aria-label="Studio">
                     <a href="../../">Home</a>
                     <a href="../../#apps-title">All apps</a>
                     <a href="mailto:casystudioco@gmail.com">Contact</a>
-                    <a href="../../impressum/">Legal Notice</a>
+                    <a href="../../impressum/">Studio legal notice</a>
                     <a href="../../datenschutz/">Studio privacy</a>
                 </nav>
                 <div class="site-footer__meta">

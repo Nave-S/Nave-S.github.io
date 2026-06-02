@@ -45,6 +45,13 @@
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
+    <url>
+        <loc>https://casystudioco.com/sequenz/impressum/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/sequenz/impressum/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/sequenz/impressum/de.html"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
 
     <url>
         <loc>https://casystudioco.com/shutterlife/privacy/</loc>
