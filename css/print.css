@@ -1,6 +1,44 @@
 /* ============================================================
-   Print — placeholder.
-   The site has no print-specific rules yet. This file exists so
-   the @import chain has a stable slot for future print styles
-   (legal pages are the most likely candidate to print).
+   Print — legal pages are the primary print target.
+   Plain white page, black ink, no chrome (topbar, language
+   switch, back-to-top, aurora) so a printed privacy policy or
+   legal notice reads like a document, not a screenshot.
    ============================================================ */
+
+@media print {
+    body {
+        background: #fff !important;
+        color: #000;
+    }
+    body::before { display: none; }
+
+    .topbar,
+    .lang-switch,
+    .back-link,
+    .back,
+    .back-to-top,
+    .skip-link,
+    .footer-lang,
+    .hero-cta {
+        display: none !important;
+    }
+
+    h1, h2, h3, h4, p, li, strong, .date {
+        color: #000 !important;
+    }
+
+    a {
+        color: #000 !important;
+        text-decoration: underline;
+    }
+
+    .legal-content > h2 {
+        border-top-color: #ccc;
+        break-after: avoid;
+    }
+
+    .container {
+        max-width: none;
+        padding: 0;
+    }
+}

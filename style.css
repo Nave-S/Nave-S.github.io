@@ -3,13 +3,15 @@
    ------------------------------------------------------------
    Modular split source: css/{tokens,layout,components,utilities,print}.css
    Inlined here because GitHub Pages had cache/Jekyll issues with @import
-   chain (404s on sub-files). Cascade order is significant:
+   chain (404s on sub-files). Regenerate after editing the split files:
+       { header } ; cat css/tokens.css css/layout.css ... > style.css
+   Cascade order is significant:
        Tokens → Layout → Components → Utilities → Print
    ============================================================ */
 
 /* ===== tokens.css ===== */
 /* ============================================================
-   CasyStudioCo — Design System: Tokens
+   CasyStudioCo — Design System: Tokens ("Aurora Glass")
    ------------------------------------------------------------
    Token layer (`:root`) is the single source of truth for
    colors, type, spacing, radii, shadows and motion. Every
@@ -17,53 +19,64 @@
    studio site is one edit, not fifty.
 
    Tokens
-     --color-*       Surfaces, ink and brand accents
+     --color-*       Surfaces, ink, glass and brand accents
      --font-*        Stack + fluid type scale (clamp)
-     --space-*       4px base, 1..16
+     --space-*       4px base, 1..20
      --radius-*      sm | md | lg | xl | pill
-     --shadow-*      sm | md | lg
+     --shadow-*      sm | md | lg | glow
      --motion-*      fast | base | slow easing curves
      --container-*   max-width + side gutter
 
+   Breakpoints (custom properties cannot drive media queries —
+   these are the canonical values, used as literals throughout
+   and documented here once):
+     phone   ≤ 380px
+     mobile  ≤ 600px
+     tablet  ≤ 720px   (aurora drift animation enables > 720px)
+     desktop ≥ 960px
+
    Theme
-     Defaults to dark (the studio's house mode).
-     `prefers-color-scheme: light` flips the surface/ink tokens
-     while keeping the accent.
+     Defaults to dark — "Aurora Glass": deep warm black, frosted
+     glass surfaces (white-alpha), aurora mesh backdrop, orange
+     glow accents. `prefers-color-scheme: light` flips surfaces
+     and ink while keeping the accent identity.
    ============================================================ */
 
 :root {
     /* Brand */
     --color-accent:        #FF6B00;
-    --color-accent-hover:  #FF8324;
-    --color-accent-ink:    #FF6B00;   /* accent used as TEXT — overridden in light mode */
-    --color-accent-soft:   rgba(255, 107, 0, 0.12);
-    --color-accent-ring:   rgba(255, 107, 0, 0.35);
+    --color-accent-hover:  #FF8A33;
+    --color-accent-ink:    #FF8A33;   /* accent used as TEXT — ≥4.5:1 on --color-bg */
+    --color-accent-grad-2: #FFB066;   /* second stop for gradient headline text */
+    --color-accent-soft:   rgba(255, 107, 0, 0.14);
+    --color-accent-ring:   rgba(255, 107, 0, 0.40);
 
-    /* Secondary mesh accents — tuned to harmonise with #FF6B00 without
-       competing with it. These only appear as low-opacity radial layers
-       in the body background; they never become foreground text colour. */
-    --color-mesh-warm:     rgba(255, 107, 0, 0.18);   /* primary glow */
-    --color-mesh-magenta:  rgba(236, 72, 153, 0.14);  /* deep accent */
-    --color-mesh-violet:   rgba(139, 92, 246, 0.12);  /* atmospheric depth */
+    /* Aurora mesh accents — low-opacity radial layers in the page
+       backdrop only; they never become foreground text colour. */
+    --color-mesh-warm:     rgba(255, 107, 0, 0.16);   /* primary glow */
+    --color-mesh-magenta:  rgba(236, 72, 153, 0.10);  /* deep accent */
+    --color-mesh-violet:   rgba(139, 92, 246, 0.10);  /* atmospheric depth */
 
-    /* Surfaces — dark default */
-    --color-bg:            #0C0C0B;
-    --color-bg-elev:       #131211;
-    --color-surface:       #1A1918;
-    --color-surface-hover: #221F1D;
-    --color-border:        #2A2825;
-    --color-border-strong: #3A3733;
+    /* Surfaces — dark default. Glass surfaces are white-alpha so
+       they pick up the aurora behind them. */
+    --color-bg:            #0A0908;
+    --color-bg-elev:       #131110;
+    --color-surface:       rgba(255, 255, 255, 0.04);
+    --color-surface-hover: rgba(255, 255, 255, 0.07);
+    --color-glass:         rgba(16, 14, 12, 0.62);    /* frosted topbar */
+    --color-border:        rgba(255, 255, 255, 0.09);
+    --color-border-strong: rgba(255, 255, 255, 0.16);
 
     /* Ink */
-    --color-text:          #F2EDE7;
-    --color-text-muted:    #B5B0AA;
+    --color-text:          #F5F1EB;
+    --color-text-muted:    #ADA79F;
     --color-text-faint:    #8E8982;
-    --color-text-on-accent:#0C0C0B;
+    --color-text-on-accent:#14100C;
 
     /* Status */
-    --color-success:       #34D399;
-    --color-warn:          #F59E0B;
-    --color-danger:        #EF4444;
+    --color-success:       #5EEAB4;
+    --color-warn:          #FBBF24;
+    --color-danger:        #F87171;
 
     /* Typography */
     --font-sans:
@@ -73,23 +86,23 @@
         ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
     /* Fluid type scale — min, ideal, max */
-    --text-xs:   0.75rem;                                  /* 12 */
-    --text-sm:   0.875rem;                                 /* 14 */
-    --text-base: 1rem;                                     /* 16 */
+    --text-xs:   0.75rem;                                     /* 12 */
+    --text-sm:   0.875rem;                                    /* 14 */
+    --text-base: 1rem;                                        /* 16 */
     --text-lg:   clamp(1.0625rem, 0.98rem + 0.4vw, 1.25rem);  /* 17–20 */
     --text-xl:   clamp(1.25rem, 1.10rem + 0.7vw, 1.5rem);     /* 20–24 */
-    --text-2xl:  clamp(1.5rem, 1.25rem + 1.2vw, 2rem);        /* 24–32 */
+    --text-2xl:  clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem);     /* 24–36 */
     --text-3xl:  clamp(2rem, 1.5rem + 2.4vw, 3rem);           /* 32–48 */
-    --text-4xl:  clamp(2.5rem, 1.6rem + 4vw, 4.25rem);        /* 40–68 */
+    --text-4xl:  clamp(2.75rem, 1.85rem + 4.5vw, 5.5rem);     /* 44–88, hero */
 
-    --leading-tight: 1.15;
+    --leading-tight: 1.08;
     --leading-snug:  1.35;
     --leading-normal:1.55;
     --leading-loose: 1.7;
 
-    --tracking-tight: -0.02em;
+    --tracking-tight: -0.03em;
     --tracking-normal: 0;
-    --tracking-wide: 0.04em;
+    --tracking-wide: 0.06em;
 
     /* Spacing — 4px base */
     --space-1:  0.25rem;   /* 4  */
@@ -106,24 +119,25 @@
 
     /* Radii */
     --radius-sm:   6px;
-    --radius-md:   10px;
-    --radius-lg:   16px;
-    --radius-xl:   22px;
+    --radius-md:   12px;
+    --radius-lg:   20px;
+    --radius-xl:   28px;
     --radius-pill: 999px;
 
     /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
     --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.35);
     --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.45);
+    --shadow-glow: 0 0 48px rgba(255, 107, 0, 0.25);
 
     /* Motion */
-    --motion-fast: 120ms cubic-bezier(0.2, 0.7, 0.2, 1);
-    --motion-base: 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
-    --motion-slow: 360ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    --motion-fast: 140ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    --motion-base: 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    --motion-slow: 380ms cubic-bezier(0.2, 0.7, 0.2, 1);
 
     /* Container */
-    --container-max: 960px;
-    --container-pad: clamp(1rem, 4vw, 2.25rem);
+    --container-max: 1080px;
+    --container-pad: clamp(1.25rem, 4vw, 2.5rem);
 
     /* Focus ring */
     --focus-ring: 0 0 0 3px var(--color-accent-ring);
@@ -133,30 +147,37 @@
 
 @media (prefers-color-scheme: light) {
     :root {
-        --color-bg:            #FAF8F5;
+        --color-bg:            #FAF7F2;
         --color-bg-elev:       #FFFFFF;
-        --color-surface:       #FFFFFF;
-        --color-surface-hover: #F4F1EC;
-        --color-border:        #E6E1DA;
-        --color-border-strong: #D5CFC6;
+        --color-surface:       rgba(255, 255, 255, 0.65);
+        --color-surface-hover: rgba(255, 255, 255, 0.92);
+        --color-glass:         rgba(255, 253, 250, 0.72);
+        --color-border:        rgba(26, 23, 20, 0.10);
+        --color-border-strong: rgba(26, 23, 20, 0.18);
 
-        --color-text:          #14110F;
-        --color-text-muted:    #46423D;
-        --color-text-faint:    #6B6661;
-        --color-text-on-accent:#0C0C0B;
+        --color-text:          #16120E;
+        --color-text-muted:    #4E4942;
+        --color-text-faint:    #6F6962;
+        --color-text-on-accent:#14100C;
 
         --color-accent-ink:    #B84800;
+        --color-accent-grad-2: #E06A00;
         --color-accent-soft:   rgba(255, 107, 0, 0.10);
         --color-accent-ring:   rgba(255, 107, 0, 0.35);
 
-        /* Mesh layers stay warmer & lighter on the bright surface */
+        --color-success:       #1F8A4D;
+        --color-warn:          #A86200;
+        --color-danger:        #C2410C;
+
+        /* Aurora layers stay warmer & lighter on the bright surface */
         --color-mesh-warm:     rgba(255, 107, 0, 0.10);
-        --color-mesh-magenta:  rgba(236, 72, 153, 0.08);
+        --color-mesh-magenta:  rgba(236, 72, 153, 0.07);
         --color-mesh-violet:   rgba(139, 92, 246, 0.07);
 
         --shadow-sm: 0 1px 2px rgba(20, 17, 15, 0.06);
         --shadow-md: 0 6px 18px rgba(20, 17, 15, 0.08);
         --shadow-lg: 0 18px 48px rgba(20, 17, 15, 0.12);
+        --shadow-glow: 0 0 48px rgba(255, 107, 0, 0.18);
 
         color-scheme: light;
     }
@@ -182,15 +203,15 @@ body {
     font-size: var(--text-base);
     line-height: var(--leading-normal);
     color: var(--color-text);
-    /* Multi-layer mesh gradient — atmospheric backdrop for the entire page
-       instead of the old boxed hero glow. Layers are stacked on top of the
-       solid surface token so light/dark mode just works. Kept to three
-       radial layers for performance (Lighthouse-safe). */
+    /* Aurora backdrop — static radial layers stacked on the solid
+       surface token so light/dark mode just works. Kept to three
+       layers for performance (Lighthouse-safe). The animated drift
+       layer lives on body::before and only enables on desktop. */
     background-color: var(--color-bg);
     background-image:
-        radial-gradient(at 18% 8%,  var(--color-mesh-warm)    0%, transparent 55%),
-        radial-gradient(at 88% 22%, var(--color-mesh-magenta) 0%, transparent 60%),
-        radial-gradient(at 50% 95%, var(--color-mesh-violet)  0%, transparent 65%);
+        radial-gradient(42% 38% at 18% 8%,  var(--color-mesh-warm)    0%, transparent 70%),
+        radial-gradient(36% 32% at 85% 18%, var(--color-mesh-magenta) 0%, transparent 70%),
+        radial-gradient(50% 44% at 60% 96%, var(--color-mesh-violet)  0%, transparent 70%);
     background-attachment: fixed;
     background-repeat: no-repeat;
     min-height: 100dvh;
@@ -203,6 +224,29 @@ body {
    over-paint). Fall back to scrolled background — visually identical. */
 @media (max-width: 720px) {
     body { background-attachment: scroll; }
+}
+
+/* Aurora drift — desktop + motion-tolerant users only. A blurred,
+   slowly breathing duplicate of the mesh adds the "alive" quality
+   without costing mobile paint budget. */
+@media (min-width: 721px) and (prefers-reduced-motion: no-preference) {
+    body::before {
+        content: "";
+        position: fixed;
+        inset: -20%;
+        z-index: -1;
+        pointer-events: none;
+        background:
+            radial-gradient(42% 38% at 18% 12%, var(--color-mesh-warm)    0%, transparent 70%),
+            radial-gradient(36% 32% at 85% 8%,  var(--color-mesh-magenta) 0%, transparent 70%),
+            radial-gradient(50% 44% at 70% 88%, var(--color-mesh-violet)  0%, transparent 70%);
+        filter: blur(40px);
+        animation: aurora-drift 28s cubic-bezier(0.2, 0.7, 0.2, 1) infinite alternate;
+    }
+    @keyframes aurora-drift {
+        from { transform: translate3d(-2%, -1%, 0) scale(1); }
+        to   { transform: translate3d(2%, 2%, 0) scale(1.06); }
+    }
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -235,11 +279,11 @@ a:hover { color: var(--color-accent-hover); }
 .container {
     max-width: var(--container-max);
     margin: 0 auto;
-    padding: var(--space-12) var(--container-pad) var(--space-16);
+    padding: var(--space-6) var(--container-pad) var(--space-16);
 }
 
 /* Slim container for legal/text pages */
-.container.container--narrow { max-width: 720px; }
+.container.container--narrow { max-width: 760px; }
 
 /* ============================================================
    Base typography
@@ -250,7 +294,7 @@ h1, h2, h3, h4 {
     color: var(--color-text);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
-    font-weight: 800;
+    font-weight: 700;
 }
 
 h1 { font-size: var(--text-3xl); }
@@ -278,7 +322,7 @@ li { margin-bottom: var(--space-1); }
 
 .section-title {
     font-size: var(--text-2xl);
-    font-weight: 800;
+    font-weight: 700;
     color: var(--color-text);
     letter-spacing: var(--tracking-tight);
 }
@@ -301,15 +345,32 @@ h1.page-title {
 }
 
 /* ============================================================
-   Top bar (brand + lang)
+   Top bar — frosted glass pill, sticky
+   Same markup on landing and every sub-page; only blurs where
+   the browser actually supports backdrop-filter (solid glass
+   token is the fallback either way).
    ============================================================ */
 
 .topbar {
+    position: sticky;
+    top: var(--space-4);
+    z-index: 40;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-4);
     margin-bottom: var(--space-12);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-glass);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-sm);
+}
+@supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+    .topbar {
+        backdrop-filter: blur(20px) saturate(140%);
+        -webkit-backdrop-filter: blur(20px) saturate(140%);
+    }
 }
 
 .wordmark {
@@ -317,21 +378,22 @@ h1.page-title {
     align-items: center;
     gap: var(--space-2);
     color: var(--color-text);
-    font-weight: 800;
-    letter-spacing: var(--tracking-tight);
+    font-weight: 700;
+    letter-spacing: -0.01em;
     font-size: var(--text-base);
 }
 .wordmark-mark {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    background: var(--color-accent);
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-grad-2));
     color: var(--color-text-on-accent);
     display: grid;
     place-items: center;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 900;
     letter-spacing: -0.04em;
+    box-shadow: 0 2px 12px var(--color-accent-ring);
 }
 
 /* Sub-page back link (legacy) */
@@ -352,107 +414,116 @@ nav a { color: var(--color-text-muted); font-size: var(--text-sm); font-weight: 
 nav a:hover { color: var(--color-accent-ink); }
 
 /* ============================================================
-   Hero — boxless, big type, mono eyebrow
-   The hero no longer owns its own background or border. The mesh
-   gradient on <body> carries the atmosphere; this block only owns
-   typography + spacing. WP-031 mobile overflow fix is preserved by
-   `overflow: clip` on html/body, not on `.hero`.
+   Hero — centered, oversized type, gradient accent, glow CTA
+   The aurora on <body> carries the atmosphere; this block owns
+   typography + spacing only.
    ============================================================ */
 
 .hero {
     position: relative;
-    padding: var(--space-12) 0 var(--space-16);
+    padding: clamp(3.5rem, 9vw, 7rem) 0 clamp(2.5rem, 6vw, 4.5rem);
+    text-align: center;
 }
 .hero .eyebrow {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: 600;
-    letter-spacing: 0;
-    text-transform: none;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
     color: var(--color-text-muted);
-    margin-bottom: var(--space-5);
-    /* Subtle accent dot replaces the old border pill. */
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    padding: var(--space-2) var(--space-4);
+    margin-bottom: var(--space-8);
 }
 .hero .eyebrow::before {
     content: "";
-    width: 8px; height: 8px;
+    width: 6px; height: 6px;
     border-radius: 50%;
     background: var(--color-accent);
-    box-shadow: 0 0 0 4px var(--color-accent-soft);
+    box-shadow: 0 0 8px var(--color-accent);
     flex-shrink: 0;
 }
 .hero h1 {
-    font-size: clamp(2.5rem, 7vw, 5.5rem);
-    line-height: 1.02;
-    letter-spacing: -0.035em;
-    font-weight: 800;
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    font-weight: 700;
     color: var(--color-text);
-    margin-bottom: var(--space-6);
-    max-width: 16ch;
+    margin: 0 auto var(--space-6);
+    max-width: 17ch;
     overflow-wrap: break-word;
-    hyphens: auto;
 }
 .hero h1 .accent {
-    color: var(--color-accent-ink);
-    /* Hairline italic-feel via slight tracking; keeps system stack only */
-    font-style: normal;
+    background: linear-gradient(100deg,
+        var(--color-accent) 10%,
+        var(--color-accent-grad-2) 50%,
+        var(--color-accent) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 .hero .lede {
     font-size: var(--text-lg);
     color: var(--color-text-muted);
     line-height: var(--leading-snug);
-    max-width: 56ch;
-    margin-bottom: var(--space-8);
+    max-width: 52ch;
+    margin: 0 auto var(--space-10);
 }
 
 .hero-cta {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-4) var(--space-6);
+    gap: var(--space-4);
     align-items: center;
+    justify-content: center;
 }
 .hero-cta__primary {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
     min-height: 48px;
-    padding: 0 var(--space-6);
+    padding: 0 var(--space-8);
     background: var(--color-accent);
     color: var(--color-text-on-accent);
     border-radius: var(--radius-pill);
     font-weight: 700;
     font-size: var(--text-base);
     letter-spacing: -0.01em;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-glow);
     transition: background var(--motion-fast), transform var(--motion-fast), box-shadow var(--motion-base);
 }
 .hero-cta__primary:hover {
     background: var(--color-accent-hover);
     color: var(--color-text-on-accent);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow), var(--shadow-md);
 }
 .hero-cta__secondary {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
+    gap: var(--space-2);
     min-height: 48px;
-    padding: 0 var(--space-2);
+    padding: 0 var(--space-6);
     color: var(--color-text);
     font-weight: 600;
     font-size: var(--text-base);
-    border-bottom: 1px solid transparent;
-    transition: color var(--motion-fast), border-color var(--motion-fast);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    transition: background var(--motion-fast), transform var(--motion-fast), border-color var(--motion-fast);
 }
 .hero-cta__secondary:hover {
-    color: var(--color-accent-ink);
-    border-bottom-color: var(--color-accent-ink);
+    color: var(--color-text);
+    background: var(--color-surface-hover);
+    transform: translateY(-2px);
 }
 @media (prefers-reduced-motion: reduce) {
-    .hero-cta__primary:hover { transform: none; }
+    .hero-cta__primary:hover,
+    .hero-cta__secondary:hover { transform: none; }
 }
 
 /* ============================================================
@@ -475,13 +546,15 @@ nav a:hover { color: var(--color-accent-ink); }
 }
 
 /* ============================================================
-   App grid (wrapper — cards live in _components.css)
+   App grid — bento (cards live in components.css)
+   First (featured) card may span the full row via the
+   `app-card--featured` modifier rendered by the landing JS.
    ============================================================ */
 
 .app-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
-    gap: var(--space-5);
+    gap: var(--space-4);
     margin-bottom: var(--space-16);
     /* reserve space so async render of cards does not shift the page (CLS) */
     min-height: 280px;
@@ -493,7 +566,7 @@ nav a:hover { color: var(--color-accent-ink); }
 
 .site-footer {
     margin-top: var(--space-16);
-    padding-top: var(--space-8);
+    padding-top: var(--space-10);
     border-top: 1px solid var(--color-border);
     color: var(--color-text-muted);
     font-size: var(--text-sm);
@@ -549,15 +622,14 @@ footer:not(.site-footer) {
 }
 
 @media (max-width: 600px) {
-    .container { padding: var(--space-8) var(--container-pad) var(--space-12); }
-    .topbar { margin-bottom: var(--space-8); }
-    .hero { padding: var(--space-6) 0 var(--space-12); }
+    .container { padding: var(--space-4) var(--container-pad) var(--space-12); }
+    .topbar { margin-bottom: var(--space-8); top: var(--space-2); }
     .hero h1 { max-width: none; }
     .app-grid { gap: var(--space-4); }
 }
 
 @media (max-width: 380px) {
-    .container { padding: var(--space-6) var(--space-4) var(--space-10); }
+    .container { padding: var(--space-3) var(--space-4) var(--space-10); }
     .topbar { gap: var(--space-2); }
     .wordmark span:not(.wordmark-mark) { display: none; }
     .site-footer__row { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
@@ -608,7 +680,7 @@ footer:not(.site-footer) {
 }
 
 /* ============================================================
-   App cards
+   App cards — frosted glass with top hairline highlight
    ============================================================ */
 
 .app-card {
@@ -617,10 +689,10 @@ footer:not(.site-footer) {
     flex-direction: column;
     gap: var(--space-5);
     padding: var(--space-6);
-    /* Solid fallback first (Firefox + browsers without backdrop-filter). */
+    /* Solid fallback first (browsers without backdrop-filter). */
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     transition:
         transform var(--motion-base),
         border-color var(--motion-base),
@@ -628,38 +700,28 @@ footer:not(.site-footer) {
         box-shadow var(--motion-base);
     isolation: isolate;
     min-height: 240px;
+    overflow: hidden;
 }
-/* Apple Liquid Glass surface — only when the browser can actually blur. */
 @supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
     .app-card {
-        background: color-mix(in oklab, var(--color-surface) 55%, transparent);
         backdrop-filter: blur(20px) saturate(140%);
         -webkit-backdrop-filter: blur(20px) saturate(140%);
-        border-color: color-mix(in oklab, var(--color-text) 12%, transparent);
     }
 }
-.app-card::after {
+/* Top hairline — the "lit edge" that sells the glass. */
+.app-card::before {
     content: "";
     position: absolute;
-    inset: 0;
-    border-radius: inherit;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-border-strong), transparent);
     pointer-events: none;
-    box-shadow: 0 0 0 1px transparent inset;
-    transition: box-shadow var(--motion-base);
 }
 .app-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--color-accent-ring);
+    transform: translateY(-4px);
+    border-color: var(--color-border-strong);
     background: var(--color-surface-hover);
     box-shadow: var(--shadow-lg);
-}
-@supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
-    .app-card:hover {
-        background: color-mix(in oklab, var(--color-surface-hover) 65%, transparent);
-    }
-}
-.app-card:hover::after {
-    box-shadow: 0 0 0 1px var(--color-accent-ring) inset;
 }
 .app-card:focus-within {
     border-color: var(--color-accent);
@@ -667,6 +729,48 @@ footer:not(.site-footer) {
 }
 @media (prefers-reduced-motion: reduce) {
     .app-card:hover { transform: none; }
+}
+
+/* Featured card — first live app spans the full grid row and gets
+   a decorative icon medallion (aria-hidden, rendered by JS). */
+.app-card--featured { grid-column: 1 / -1; }
+@media (min-width: 720px) {
+    .app-card--featured {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: var(--space-8);
+        align-items: center;
+        padding: var(--space-8);
+    }
+    .app-card--featured .app-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
+        min-width: 0;
+    }
+}
+.app-card--featured .app-card-visual {
+    display: none;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    background:
+        radial-gradient(80% 90% at 70% 20%, var(--color-accent-soft), transparent 65%),
+        var(--color-bg-elev);
+    place-items: center;
+}
+@media (min-width: 720px) {
+    .app-card--featured .app-card-visual { display: grid; }
+}
+.app-card--featured .app-card-visual .app-icon {
+    width: 96px;
+    height: 96px;
+    border-radius: 24px;
+    font-size: 34px;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.25),
+        0 18px 48px rgba(0,0,0,0.45),
+        var(--shadow-glow);
 }
 
 .app-card-header {
@@ -703,9 +807,9 @@ footer:not(.site-footer) {
 
 .app-card h3 {
     font-size: var(--text-lg);
-    font-weight: 800;
+    font-weight: 700;
     color: var(--color-text);
-    letter-spacing: var(--tracking-tight);
+    letter-spacing: -0.01em;
     margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -741,7 +845,7 @@ footer:not(.site-footer) {
     border-radius: var(--radius-pill);
     border: 1px solid var(--color-border);
     color: var(--color-text-muted);
-    background: color-mix(in oklab, var(--color-bg-elev) 75%, transparent);
+    background: var(--color-surface);
     white-space: nowrap;
     line-height: 1;
 }
@@ -761,14 +865,17 @@ footer:not(.site-footer) {
 }
 .status-badge.is-live {
     color: var(--color-success);
-    border-color: rgba(52, 211, 153, 0.35);
-    background: rgba(52, 211, 153, 0.08);
+    border-color: color-mix(in oklab, var(--color-success) 35%, transparent);
+    background: color-mix(in oklab, var(--color-success) 9%, transparent);
 }
-.status-badge.is-live::before { background: var(--color-success); box-shadow: 0 0 0 3px rgba(52,211,153,0.15); }
+.status-badge.is-live::before {
+    background: var(--color-success);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-success) 15%, transparent);
+}
 .status-badge.is-beta {
     color: var(--color-warn);
-    border-color: rgba(245, 158, 11, 0.35);
-    background: rgba(245, 158, 11, 0.08);
+    border-color: color-mix(in oklab, var(--color-warn) 35%, transparent);
+    background: color-mix(in oklab, var(--color-warn) 9%, transparent);
 }
 .status-badge.is-beta::before { background: var(--color-warn); }
 .status-badge.is-soon {
@@ -785,6 +892,7 @@ footer:not(.site-footer) {
     padding-top: var(--space-4);
     border-top: 1px solid var(--color-border);
 }
+.app-card--featured .links { margin-top: 0; }
 .app-card .links a {
     color: var(--color-text-muted);
     font-size: var(--text-xs);
@@ -802,11 +910,13 @@ footer:not(.site-footer) {
     color: var(--color-text-on-accent);
     background: var(--color-accent);
     padding: 8px 14px;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-pill);
     text-transform: none;
     letter-spacing: 0;
     font-size: var(--text-xs);
     font-weight: 700;
+    min-height: 0;
+    transition: background var(--motion-fast);
 }
 .app-card .links a.store-link:hover {
     background: var(--color-accent-hover);
@@ -819,8 +929,8 @@ footer:not(.site-footer) {
     text-align: center;
     color: var(--color-text-muted);
     background: var(--color-surface);
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-lg);
+    border: 1px dashed var(--color-border-strong);
+    border-radius: var(--radius-xl);
 }
 
 /* ============================================================
@@ -853,11 +963,21 @@ footer:not(.site-footer) {
 }
 
 .faq {
+    position: relative;
     background: var(--color-surface);
-    border-radius: var(--radius-md);
-    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
     margin-bottom: var(--space-3);
     border: 1px solid var(--color-border);
+    overflow: hidden;
+}
+.faq::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-border-strong), transparent);
+    pointer-events: none;
 }
 .faq h3 { font-size: var(--text-base); margin-bottom: var(--space-2); color: var(--color-text); }
 .faq p { margin-bottom: 0; font-size: var(--text-sm); }
@@ -875,7 +995,7 @@ footer:not(.site-footer) {
     padding: var(--space-3) var(--space-6);
     background: var(--color-accent);
     color: var(--color-text-on-accent);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-pill);
     font-weight: 700;
     font-size: var(--text-base);
     box-shadow: var(--shadow-sm);
@@ -883,6 +1003,9 @@ footer:not(.site-footer) {
     margin-top: var(--space-2);
 }
 .btn:hover { background: var(--color-accent-hover); color: var(--color-text-on-accent); transform: translateY(-1px); }
+@media (prefers-reduced-motion: reduce) {
+    .btn:hover { transform: none; }
+}
 
 /* ============================================================
    Sub-page pattern (Privacy / Support / Terms / Impressum)
@@ -941,8 +1064,8 @@ footer:not(.site-footer) {
 /* ============================================================
    Component responsive overrides
    These must live AFTER the component base styles to win the
-   cascade; that's why they sit in _components.css rather than
-   _layout.css alongside the layout-level breakpoints.
+   cascade; that's why they sit in components.css rather than
+   layout.css alongside the layout-level breakpoints.
    ============================================================ */
 
 @media (max-width: 600px) {
@@ -1034,7 +1157,7 @@ footer:not(.site-footer) {
     justify-content: center;
     border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-pill);
-    background: color-mix(in oklab, var(--color-bg-elev) 92%, transparent);
+    background: var(--color-glass);
     color: var(--color-text);
     font-size: var(--text-lg);
     line-height: 1;
@@ -1056,7 +1179,6 @@ footer:not(.site-footer) {
 }
 @supports ((backdrop-filter: blur(14px)) or (-webkit-backdrop-filter: blur(14px))) {
     .back-to-top {
-        background: color-mix(in oklab, var(--color-bg-elev) 70%, transparent);
         backdrop-filter: blur(14px) saturate(140%);
         -webkit-backdrop-filter: blur(14px) saturate(140%);
     }
@@ -1164,8 +1286,8 @@ footer:not(.site-footer) {
     margin: var(--space-6) 0 var(--space-8);
     padding: var(--space-5) var(--space-6);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: color-mix(in oklab, var(--color-bg-elev) 85%, transparent);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
 }
 .toc__title {
     margin: 0 0 var(--space-3);
@@ -1195,8 +1317,47 @@ footer:not(.site-footer) {
 
 /* ===== print.css ===== */
 /* ============================================================
-   Print — placeholder.
-   The site has no print-specific rules yet. This file exists so
-   the @import chain has a stable slot for future print styles
-   (legal pages are the most likely candidate to print).
+   Print — legal pages are the primary print target.
+   Plain white page, black ink, no chrome (topbar, language
+   switch, back-to-top, aurora) so a printed privacy policy or
+   legal notice reads like a document, not a screenshot.
    ============================================================ */
+
+@media print {
+    body {
+        background: #fff !important;
+        color: #000;
+    }
+    body::before { display: none; }
+
+    .topbar,
+    .lang-switch,
+    .back-link,
+    .back,
+    .back-to-top,
+    .skip-link,
+    .footer-lang,
+    .hero-cta {
+        display: none !important;
+    }
+
+    h1, h2, h3, h4, p, li, strong, .date {
+        color: #000 !important;
+    }
+
+    a {
+        color: #000 !important;
+        text-decoration: underline;
+    }
+
+    .legal-content > h2 {
+        border-top-color: #ccc;
+        break-after: avoid;
+    }
+
+    .container {
+        max-width: none;
+        padding: 0;
+    }
+}
+
