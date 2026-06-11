@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview C — Warm Editorial · Casy Studio Redesign</title>
+<style>
+/* ============================================================
+   PREVIEW C — "Warm Editorial"
+   Cream & ink studio-portfolio look: oversized display type with
+   serif italic accents, numbered sections, hairline rules,
+   ink-bordered cards. Orange as a confident print accent.
+   ============================================================ */
+:root {
+    --accent:       #E85D00;
+    --accent-deep:  #C24E00;
+    --accent-soft:  rgba(232, 93, 0, 0.08);
+
+    --bg:           #FAF6EF;
+    --bg-deep:      #F3EDE2;
+    --card:         #FFFDF9;
+    --ink:          #1A1714;
+    --ink-soft:     #57514A;
+    --ink-faint:    #8C857C;
+    --rule:         #DED7CA;
+    --rule-strong:  #1A1714;
+
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, "Segoe UI", sans-serif;
+    --font-serif: "New York", "Iowan Old Style", Georgia, "Times New Roman", serif;
+    --text-hero: clamp(2.9rem, 1.9rem + 6vw, 6rem);
+    --text-2xl: clamp(1.5rem, 1.2rem + 1.5vw, 2.3rem);
+
+    --radius-md: 4px;
+    --radius-lg: 10px;
+    --pill: 999px;
+    --ease: cubic-bezier(0.3, 0.6, 0.2, 1);
+}
+* { margin: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1060px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+
+/* Topbar — hairline under, no glass */
+.topbar { border-bottom: 1px solid var(--rule-strong); background: var(--bg); position: sticky; top: 0; z-index: 10; }
+.topbar-inner {
+    max-width: 1060px; margin: 0 auto;
+    padding: 0.9rem clamp(1.25rem, 4vw, 2.5rem);
+    display: flex; align-items: center; justify-content: space-between;
+}
+.wordmark { display: flex; align-items: baseline; gap: 0.55rem; color: var(--ink); text-decoration: none; font-weight: 700; letter-spacing: -0.01em; }
+.mark {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: var(--accent); align-self: center;
+    color: var(--bg); font-size: 0.68rem; font-weight: 800;
+    display: grid; place-items: center;
+}
+.wordmark .co { font-family: var(--font-serif); font-style: italic; font-weight: 400; color: var(--ink-faint); font-size: 0.9rem; }
+.lang { display: flex; gap: 0; border: 1px solid var(--rule-strong); border-radius: var(--radius-md); overflow: hidden; }
+.lang a { padding: 0.3rem 0.85rem; color: var(--ink-soft); text-decoration: none; font-size: 0.82rem; font-weight: 650; }
+.lang a.active { background: var(--ink); color: var(--bg); }
+
+/* Hero — left aligned, editorial */
+.hero { padding: clamp(4.5rem, 11vw, 8.5rem) 0 clamp(3rem, 7vw, 5rem); }
+.kicker {
+    display: flex; align-items: center; gap: 0.8rem;
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent-deep); margin-bottom: 1.75rem;
+}
+.kicker::after { content: ""; height: 1px; width: 64px; background: var(--accent-deep); }
+h1 {
+    font-size: var(--text-hero);
+    line-height: 1.02; letter-spacing: -0.035em; font-weight: 700;
+    max-width: 14ch;
+}
+h1 .serif { font-family: var(--font-serif); font-style: italic; font-weight: 500; color: var(--accent); letter-spacing: -0.01em; }
+.lede {
+    font-size: clamp(1.05rem, 1rem + 0.5vw, 1.3rem);
+    color: var(--ink-soft); max-width: 50ch; margin: 1.75rem 0 2.5rem;
+}
+.cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 1.6rem; border-radius: var(--radius-md);
+    font-weight: 650; font-size: 0.98rem; text-decoration: none;
+    border: 1px solid var(--rule-strong);
+    transition: all 180ms var(--ease);
+}
+.btn-primary { background: var(--ink); color: var(--bg); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--rule-strong); }
+.btn-ghost { color: var(--ink); background: transparent; }
+.btn-ghost:hover { background: var(--accent-soft); transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--rule-strong); }
+.btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* Numbered section head */
+.section-head {
+    display: flex; align-items: baseline; gap: 1.2rem;
+    border-top: 1px solid var(--rule-strong);
+    padding-top: 1.4rem; margin: 3.5rem 0 2rem;
+}
+.section-head .num { font-family: var(--font-serif); font-style: italic; color: var(--accent); font-size: 1.1rem; }
+.section-head h2 { font-size: var(--text-2xl); letter-spacing: -0.025em; font-weight: 700; }
+.section-head .meta { margin-left: auto; color: var(--ink-faint); font-size: 0.88rem; }
+
+/* Cards — ink borders, print feel */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; padding-bottom: 4.5rem; }
+.card {
+    background: var(--card);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius-lg);
+    padding: 1.9rem;
+    display: flex; flex-direction: column;
+    transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
+}
+.card:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--rule-strong); }
+.card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.3rem; }
+.app-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    display: grid; place-items: center;
+    font-weight: 800; color: #fff; font-size: 1.05rem;
+    border: 1px solid rgba(0,0,0,0.15);
+}
+.badge {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 0.88rem; color: var(--accent-deep);
+}
+.card h3 { font-size: 1.4rem; letter-spacing: -0.02em; font-weight: 700; }
+.card .platform { color: var(--ink-faint); font-size: 0.84rem; font-weight: 550; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 0.2rem; }
+.card p.desc { color: var(--ink-soft); margin: 0.9rem 0 1.4rem; flex: 1; }
+.card .links { display: flex; gap: 1.2rem; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 1.1rem; }
+.card .links a { color: var(--ink-soft); font-size: 0.9rem; text-decoration: none; font-weight: 600; border-bottom: 1px solid transparent; }
+.card .links a:hover { color: var(--accent-deep); border-bottom-color: var(--accent-deep); }
+.card .links a.store { color: var(--accent-deep); }
+
+/* Manifesto band */
+.manifesto { background: var(--bg-deep); border-top: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: clamp(3rem, 7vw, 5rem) 0; }
+.manifesto blockquote {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: clamp(1.4rem, 1.1rem + 1.6vw, 2.2rem);
+    line-height: 1.3; letter-spacing: -0.01em;
+    max-width: 28ch; margin: 0 auto; text-align: center;
+}
+.manifesto blockquote .hl { color: var(--accent); }
+
+/* Footer */
+footer { padding: 2.5rem 0 3rem; text-align: center; color: var(--ink-faint); font-size: 0.88rem; }
+footer .links { display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1rem; }
+footer .links a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
+footer .links a:hover { color: var(--accent-deep); border-bottom-color: var(--accent-deep); }
+</style>
+</head>
+<body>
+<header class="topbar">
+    <div class="topbar-inner">
+        <a href="#" class="wordmark"><span class="mark">CS</span><span>Casy Studio</span><span class="co">est. 2026</span></a>
+        <nav class="lang" aria-label="Language">
+            <a href="#" class="active">EN</a>
+            <a href="#">DE</a>
+        </nav>
+    </div>
+</header>
+
+<div class="wrap">
+    <section class="hero">
+        <p class="kicker">Casy Studio Co.</p>
+        <h1>Small apps, <span class="serif">made with care.</span></h1>
+        <p class="lede">Calm, focused tools for iOS, macOS and Apple Watch — the kind that respect your time and your data.</p>
+        <div class="cta-row">
+            <a href="#apps" class="btn btn-primary">Browse apps →</a>
+            <a href="#" class="btn btn-ghost">Get in touch</a>
+        </div>
+    </section>
+
+    <div class="section-head" id="apps">
+        <span class="num">01</span>
+        <h2>Our Apps</h2>
+        <span class="meta">2 live · more soon</span>
+    </div>
+    <section class="grid">
+        <article class="card">
+            <div class="card-top">
+                <div class="app-icon" style="background:#FF6B00">S</div>
+                <span class="badge">— live</span>
+            </div>
+            <h3>Sequence Lite</h3>
+            <span class="platform">iOS · Apple Watch</span>
+            <p class="desc">Build, run, and master interval timers for any workout. Voice announcements, Watch sync, zero tracking.</p>
+            <div class="links">
+                <a href="#">Privacy</a><a href="#">Support</a><a href="#">Terms</a>
+                <a href="#" class="store">App Store ↗</a>
+            </div>
+        </article>
+        <article class="card">
+            <div class="card-top">
+                <div class="app-icon" style="background:#3B82F6">SL</div>
+                <span class="badge">— live</span>
+            </div>
+            <h3>ShutterLife</h3>
+            <span class="platform">iOS · macOS</span>
+            <p class="desc">Read and track the shutter count of your camera straight from your photos.</p>
+            <div class="links">
+                <a href="#">Privacy</a><a href="#">Support</a><a href="#">Terms</a>
+                <a href="#" class="store">App Store ↗</a>
+            </div>
+        </article>
+        <article class="card">
+            <div class="card-top">
+                <div class="app-icon" style="background:#8B5CF6">TM</div>
+                <span class="badge">— testflight</span>
+            </div>
+            <h3>TalkToMe</h3>
+            <span class="platform">macOS</span>
+            <p class="desc">Accessible communication for people who need a voice.</p>
+            <div class="links"><a href="#">Privacy</a><a href="#">Support</a></div>
+        </article>
+    </section>
+</div>
+
+<section class="manifesto">
+    <div class="wrap">
+        <blockquote>“We build quiet software. <span class="hl">No tracking, no noise</span> — just tools that work.”</blockquote>
+    </div>
+</section>
+
+<footer class="wrap">
+    <div class="links">
+        <a href="#">Contact</a><a href="#">Legal Notice</a><a href="#">Privacy</a>
+    </div>
+    © 2026 Adriano Camonita · All rights reserved.
+</footer>
+</body>
+</html>

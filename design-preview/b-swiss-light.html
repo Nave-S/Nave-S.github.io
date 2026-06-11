@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview B — Swiss Light · Casy Studio Redesign</title>
+<style>
+/* ============================================================
+   PREVIEW B — "Swiss Light"
+   Light-first, apple.com marketing language: huge near-black
+   headlines, generous whitespace, soft gray canvas, white cards
+   with large radii, orange reserved strictly for CTAs & accents.
+   ============================================================ */
+:root {
+    --accent:       #F25C05;
+    --accent-hover: #D95204;
+    --accent-soft:  rgba(242, 92, 5, 0.08);
+
+    --bg:           #FFFFFF;
+    --bg-alt:       #F5F5F7;
+    --card:         #FFFFFF;
+    --border:       #E8E8ED;
+
+    --text:         #1D1D1F;
+    --text-muted:   #6E6E73;
+    --text-faint:   #AEAEB2;
+
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, "Segoe UI", sans-serif;
+    --text-hero: clamp(2.75rem, 1.9rem + 5.5vw, 5.75rem);
+    --text-2xl: clamp(1.6rem, 1.3rem + 1.5vw, 2.5rem);
+
+    --radius-lg: 22px;
+    --radius-xl: 30px;
+    --pill: 999px;
+
+    --shadow-card: 0 4px 24px rgba(29, 29, 31, 0.06);
+    --shadow-card-hover: 0 12px 44px rgba(29, 29, 31, 0.12);
+    --ease: cubic-bezier(0.25, 0.6, 0.25, 1);
+}
+* { margin: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+
+/* Milk-glass topbar */
+.topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(18px) saturate(1.6);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.topbar-inner {
+    max-width: 1040px; margin: 0 auto;
+    padding: 0.8rem clamp(1.25rem, 4vw, 2.5rem);
+    display: flex; align-items: center; justify-content: space-between;
+}
+.wordmark { display: flex; align-items: center; gap: 0.6rem; color: var(--text); text-decoration: none; font-weight: 650; letter-spacing: -0.01em; }
+.mark {
+    width: 30px; height: 30px; border-radius: 9px;
+    background: var(--text);
+    color: #fff; font-size: 0.7rem; font-weight: 800;
+    display: grid; place-items: center;
+}
+.lang { display: flex; gap: 0.25rem; background: var(--bg-alt); border-radius: var(--pill); padding: 0.2rem; }
+.lang a { padding: 0.28rem 0.8rem; border-radius: var(--pill); color: var(--text-muted); text-decoration: none; font-size: 0.82rem; font-weight: 600; }
+.lang a.active { background: #fff; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.10); }
+
+/* Hero */
+.hero { padding: clamp(5rem, 13vw, 9.5rem) 0 clamp(3.5rem, 8vw, 6rem); text-align: center; }
+.eyebrow {
+    font-size: 0.85rem; font-weight: 650; letter-spacing: 0.02em;
+    color: var(--accent); margin-bottom: 1.25rem; display: block;
+}
+h1 {
+    font-size: var(--text-hero);
+    line-height: 1.03; letter-spacing: -0.04em; font-weight: 700;
+    max-width: 16ch; margin: 0 auto;
+}
+h1 em { font-style: normal; color: var(--text-faint); }
+.lede {
+    font-size: clamp(1.1rem, 1rem + 0.6vw, 1.45rem);
+    color: var(--text-muted); max-width: 46ch; margin: 1.5rem auto 2.5rem;
+    font-weight: 450; letter-spacing: -0.01em;
+}
+.cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; align-items: center; }
+.btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.9rem 1.8rem; border-radius: var(--pill);
+    font-weight: 600; font-size: 1.02rem; text-decoration: none;
+    transition: all 200ms var(--ease);
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); transform: scale(1.03); }
+.btn-link { color: var(--accent); font-weight: 600; }
+.btn-link:hover { text-decoration: underline; }
+.btn:focus-visible { outline: 3px solid var(--accent-soft); outline-offset: 2px; }
+
+/* App showcase on soft gray band */
+.band { background: var(--bg-alt); padding: clamp(3.5rem, 8vw, 6rem) 0 clamp(4rem, 9vw, 6.5rem); }
+.section-head { text-align: center; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+.section-head h2 { font-size: var(--text-2xl); letter-spacing: -0.03em; font-weight: 700; }
+.section-head p { color: var(--text-muted); margin-top: 0.5rem; font-size: 1.05rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+.card {
+    background: var(--card);
+    border-radius: var(--radius-xl);
+    padding: 2.25rem;
+    box-shadow: var(--shadow-card);
+    transition: transform 250ms var(--ease), box-shadow 250ms var(--ease);
+    display: flex; flex-direction: column;
+}
+.card:hover { transform: translateY(-5px); box-shadow: var(--shadow-card-hover); }
+.app-icon {
+    width: 64px; height: 64px; border-radius: 16px;
+    display: grid; place-items: center;
+    font-weight: 800; color: #fff; font-size: 1.25rem;
+    margin-bottom: 1.4rem;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 8px 20px rgba(0,0,0,0.12);
+}
+.badge {
+    align-self: flex-start;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    border-radius: var(--pill); padding: 0.25rem 0.7rem; margin-bottom: 0.8rem;
+    background: rgba(52, 199, 89, 0.12); color: #1F8A3D;
+}
+.badge.beta { background: rgba(255, 159, 10, 0.14); color: #B25E00; }
+.card h3 { font-size: 1.45rem; letter-spacing: -0.02em; font-weight: 700; }
+.card .platform { color: var(--text-faint); font-size: 0.85rem; font-weight: 550; margin-top: 0.15rem; }
+.card p.desc { color: var(--text-muted); margin: 0.9rem 0 1.5rem; flex: 1; }
+.card .links { display: flex; gap: 1.2rem; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 1.2rem; }
+.card .links a { color: var(--text-muted); font-size: 0.9rem; text-decoration: none; font-weight: 550; }
+.card .links a:hover { color: var(--accent); }
+.card .links a.store { color: var(--accent); font-weight: 650; }
+
+/* Values strip */
+.values { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; padding: clamp(3.5rem, 8vw, 5.5rem) 0; text-align: center; }
+.values h4 { font-size: 1.05rem; letter-spacing: -0.01em; margin-bottom: 0.3rem; }
+.values p { color: var(--text-muted); font-size: 0.92rem; max-width: 30ch; margin: 0 auto; }
+.values .ico { font-size: 1.6rem; display: block; margin-bottom: 0.7rem; }
+
+/* Footer */
+footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0 3rem; text-align: center;
+    color: var(--text-faint); font-size: 0.88rem;
+}
+footer .links { display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1rem; }
+footer .links a { color: var(--text-muted); text-decoration: none; }
+footer .links a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<header class="topbar">
+    <div class="topbar-inner">
+        <a href="#" class="wordmark"><span class="mark">CS</span><span>Casy Studio</span></a>
+        <nav class="lang" aria-label="Language">
+            <a href="#" class="active">EN</a>
+            <a href="#">DE</a>
+        </nav>
+    </div>
+</header>
+
+<section class="hero wrap">
+    <span class="eyebrow">Casy Studio Co.</span>
+    <h1>Small apps,<br>made with care. <em>For every day.</em></h1>
+    <p class="lede">Calm, focused tools for iOS, macOS and Apple Watch — built to respect your time and your data.</p>
+    <div class="cta-row">
+        <a href="#apps" class="btn btn-primary">Browse apps</a>
+        <a href="#" class="btn btn-link">Get in touch ›</a>
+    </div>
+</section>
+
+<section class="band" id="apps">
+    <div class="wrap">
+        <div class="section-head">
+            <h2>Our Apps</h2>
+            <p>Two live on the App Store. More on the way.</p>
+        </div>
+        <div class="grid">
+            <article class="card">
+                <div class="app-icon" style="background: linear-gradient(135deg,#FF6B00,#FF9A4D)">S</div>
+                <span class="badge">Live</span>
+                <h3>Sequence Lite</h3>
+                <span class="platform">iOS · Apple Watch</span>
+                <p class="desc">Build, run, and master interval timers for any workout. Voice announcements, Watch sync, zero tracking.</p>
+                <div class="links">
+                    <a href="#">Privacy</a><a href="#">Support</a><a href="#">Terms</a>
+                    <a href="#" class="store">App Store ↗</a>
+                </div>
+            </article>
+            <article class="card">
+                <div class="app-icon" style="background: linear-gradient(135deg,#3B82F6,#7DB0FA)">SL</div>
+                <span class="badge">Live</span>
+                <h3>ShutterLife</h3>
+                <span class="platform">iOS · macOS</span>
+                <p class="desc">Read and track the shutter count of your camera straight from your photos.</p>
+                <div class="links">
+                    <a href="#">Privacy</a><a href="#">Support</a><a href="#">Terms</a>
+                    <a href="#" class="store">App Store ↗</a>
+                </div>
+            </article>
+            <article class="card">
+                <div class="app-icon" style="background: linear-gradient(135deg,#8B5CF6,#B794F6)">TM</div>
+                <span class="badge beta">TestFlight</span>
+                <h3>TalkToMe</h3>
+                <span class="platform">macOS</span>
+                <p class="desc">Accessible communication for people who need a voice.</p>
+                <div class="links"><a href="#">Privacy</a><a href="#">Support</a></div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="values wrap">
+    <div><span class="ico" aria-hidden="true">🔒</span><h4>Privacy-first</h4><p>No tracking, no analytics SDKs, no accounts. Your data stays yours.</p></div>
+    <div><span class="ico" aria-hidden="true">🪶</span><h4>Calm by design</h4><p>Tools that stay out of your way and respect your attention.</p></div>
+    <div><span class="ico" aria-hidden="true">🍎</span><h4>Native everywhere</h4><p>Built with Swift for iPhone, Mac and Apple Watch — fast and familiar.</p></div>
+</section>
+
+<footer>
+    <div class="links">
+        <a href="#">Contact</a><a href="#">Legal Notice</a><a href="#">Privacy</a>
+    </div>
+    © 2026 Adriano Camonita · All rights reserved.
+</footer>
+</body>
+</html>
