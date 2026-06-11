@@ -293,13 +293,16 @@
                 return;
             }
 
+            // First live app gets the featured (full-row) bento slot.
+            const featuredKey = (visible.find(app => app.status === "live") || {}).key;
+
             grid.innerHTML = visible.map(app => {
                         const statusClass = `is-${app.status}`;
+                        const featured = app.key === featuredKey;
                         const storeLink = app.appStore
                             ? `<a href="${escape(app.appStore)}" class="store-link" rel="noopener" target="_blank" aria-label="${escape(app.name)} on the App Store">App Store ↗</a>`
                             : "";
-                        return `
-                            <article class="app-card reveal" aria-labelledby="app-${app.key}-title">
+                        const cardInner = `
                                 <div class="app-card-header">
                                     <div class="app-icon" style="background:${escape(app.color)}" aria-hidden="true">${escape(app.icon)}</div>
                                     <div class="app-card-title">
@@ -318,7 +321,20 @@
                                     <a href="${app.folder}/support${t.supportSuffix}">${t.support}</a>
                                     <a href="${app.folder}/terms${t.termsSuffix}">${t.terms}</a>
                                     ${storeLink}
+                                </div>`;
+                        if (featured) {
+                            return `
+                            <article class="app-card app-card--featured reveal" aria-labelledby="app-${app.key}-title">
+                                <div class="app-card-body">${cardInner}</div>
+                                <div class="app-card-visual" aria-hidden="true">
+                                    <div class="app-icon" style="background:${escape(app.color)}">${escape(app.icon)}</div>
                                 </div>
+                            </article>
+                            `;
+                        }
+                        return `
+                            <article class="app-card reveal" aria-labelledby="app-${app.key}-title">
+                                ${cardInner}
                             </article>
                         `;
                     }).join("");
