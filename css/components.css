@@ -96,6 +96,13 @@
 /* Featured card — first live app spans the full grid row and gets
    a decorative icon medallion (aria-hidden, rendered by JS). */
 .app-card--featured { grid-column: 1 / -1; }
+.app-card--featured .app-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    min-width: 0;
+    flex: 1;
+}
 @media (min-width: 720px) {
     .app-card--featured {
         display: grid;
@@ -103,12 +110,6 @@
         gap: var(--space-8);
         align-items: center;
         padding: var(--space-8);
-    }
-    .app-card--featured .app-card-body {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-5);
-        min-width: 0;
     }
 }
 .app-card--featured .app-card-visual {
