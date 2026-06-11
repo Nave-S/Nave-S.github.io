@@ -984,6 +984,20 @@ footer:not(.site-footer) {
 .faq p { margin-bottom: 0; font-size: var(--text-sm); }
 
 /* ============================================================
+   Callout — accent-tinted note box (e.g. "authoritative legal
+   notice" pointer on app impressum pages). Replaces the old
+   inline-styled paragraphs; works in dark and light mode.
+   ============================================================ */
+
+.callout {
+    background: var(--color-accent-soft);
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+    margin: var(--space-4) 0;
+}
+
+/* ============================================================
    Buttons
    ============================================================ */
 
