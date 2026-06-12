@@ -196,12 +196,18 @@ h1.page-title {
     letter-spacing: -0.01em;
     font-size: var(--text-base);
 }
+/* Badge renders the hand-drawn CS glyph from favicon.svg (inlined as a
+   data URI so the brand mark is identical everywhere); the "CS" text in
+   the span stays for robustness but is made transparent. */
 .wordmark-mark {
     width: 30px;
     height: 30px;
     border-radius: 9px;
-    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-grad-2));
-    color: var(--color-text-on-accent);
+    background-image:
+        url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='s' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23FFFFFF' stop-opacity='0.32'/><stop offset='1' stop-color='%23FFFFFF' stop-opacity='0'/></linearGradient></defs><rect width='64' height='32' fill='url(%23s)'/><g fill='none' stroke='%2314100C' stroke-width='7' stroke-linecap='round'><path d='M30.7 24 A10.5 10.5 0 1 0 30.7 40'/><path d='M49 23.3 A5.5 5.5 0 1 0 44.5 32 A5.5 5.5 0 1 1 40 40.7'/></g></svg>"),
+        linear-gradient(135deg, var(--color-accent), var(--color-accent-grad-2));
+    background-size: 100% 100%;
+    color: transparent;
     display: grid;
     place-items: center;
     font-size: 13px;
