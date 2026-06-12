@@ -784,6 +784,37 @@ footer:not(.site-footer) {
         var(--shadow-glow);
 }
 
+/* Screenshot variant — a framed portrait app shot replaces the medallion.
+   Unlike the medallion it stays visible on mobile (stacked under the copy),
+   so the live app shows a real screenshot at every breakpoint. */
+.app-card--featured .app-card-visual--shot {
+    display: flex;
+    aspect-ratio: auto;
+    border: none;
+    background: none;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+}
+/* Height-capped to the card's text column: the shot lines up with the
+   title edge on top and the description text at the bottom (~440px),
+   never overflows, and keeps its portrait aspect via width/height:auto.
+   NOTE: keep this in css/components.css — it was lost once when it lived
+   only in style.css and a regen dropped it (WP-005 regression). */
+.app-shot {
+    display: block;
+    margin-inline: auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 440px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow:
+        0 18px 48px rgba(0,0,0,0.45),
+        var(--shadow-glow);
+}
+
 .app-card-header {
     display: flex;
     gap: var(--space-4);
@@ -1125,6 +1156,14 @@ footer:not(.site-footer) {
     color: var(--color-accent-ink);
 }
 
+/* Action-row grouping: the trigger absorbs the auto-margin so the
+   "Details" + orange "App Store" pill sit together on the right, with
+   the legal links left. The store pill normally carries the auto-margin
+   itself (cards without a trigger); when a trigger precedes it we cancel
+   that so the two buttons stay flush as a pair. */
+.app-card .links .detail-trigger { margin-left: auto; }
+.app-card .links .detail-trigger + .store-link { margin-left: 0; }
+
 /* ============================================================
    App-detail overlay (modal dialog)
    Vanilla, no dependency. `[hidden]` keeps it out of the layout
@@ -1399,6 +1438,9 @@ footer:not(.site-footer) {
     .app-card { padding: var(--space-5); min-height: 0; }
     .app-icon { width: 48px; height: 48px; font-size: 20px; border-radius: 12px; }
     .app-card .links { gap: var(--space-2) var(--space-3); }
+    /* Drop the auto-push so the action row wraps left-to-right and never
+       leaves the trigger and store pill stranded on opposite sides. */
+    .app-card .links .detail-trigger { margin-left: 0; }
     .app-card-title-row { gap: var(--space-2); }
 }
 

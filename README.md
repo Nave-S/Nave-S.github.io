@@ -66,9 +66,29 @@ Eine App kann ein Detail-Overlay bekommen — ein Modal mit durchblätterbarer S
 3. Fertig — die Card rendert automatisch den Detail-Button, der das barrierearme Overlay öffnet: Galerie durchblätterbar per Pfeil-Buttons, Tastatur (←/→) und Swipe; Beschreibung + Abschnitte; „Im App Store ansehen"-Button; Schließen per Button/Esc/Backdrop. Fokus-Trap, Scroll-Lock und `prefers-reduced-motion` sind eingebaut.
 4. Texte **immer EN + DE** pflegen. Inhaltlich treu bleiben — **keine erfundenen Features** (Quelle z. B. die echte App-Store-Beschreibung via iTunes-Lookup: `https://itunes.apple.com/lookup?id=<APP-ID>&country=de`).
 
-## Design ändern
+## Design ändern (CSS)
 
-Nur `style.css` bearbeiten — wirkt auf alle Seiten.
+> ⚠️ **`style.css` ist generiert — niemals direkt bearbeiten.** Es entsteht durch
+> Verketten der Quell-Teile in `css/`. Wer nur `style.css` ändert, verliert die
+> Änderung beim nächsten Regenerieren (genau das ist 2026-06-12 passiert: die
+> `.app-shot`-Regel stand nur in `style.css` und wurde beim Regen verschluckt).
+
+**Immer so vorgehen:**
+
+1. Die passende Quell-Datei in `css/` bearbeiten — Cascade-Reihenfolge ist signifikant:
+   `tokens.css` → `layout.css` → `components.css` → `utilities.css` → `print.css`.
+2. `style.css` aus den Teilen neu erzeugen (Header behalten, Teile in dieser Reihenfolge):
+   ```bash
+   { sed -n '1,10p' style.css; \
+     for f in tokens layout components utilities print; do \
+       printf '\n/* ===== %s.css ===== */\n' "$f"; cat "css/$f.css"; done; } > style.css.new \
+   && mv style.css.new style.css
+   ```
+3. **Regressions-Check vor dem Commit:** `git diff main -- style.css` ansehen —
+   es darf **keine** bestehende Regel verschwinden, nur die gewollte Änderung auftauchen.
+4. `style.css` **und** die geänderten `css/`-Teile zusammen committen.
+
+`style.css` ist inlined (kein `@import`), weil GitHub Pages den Import-Chain teils als 404 auslieferte.
 
 ## URLs für App Store Connect
 
