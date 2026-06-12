@@ -809,6 +809,13 @@ footer:not(.site-footer) {
         inset 0 1px 0 rgba(255,255,255,0.2),
         0 4px 12px rgba(0,0,0,0.25);
 }
+/* Real app icon (apps/icons/<folder>.png) — same footprint and rounded
+   mask as the monogram badge, so live apps and fallbacks line up. */
+.app-icon--img {
+    display: block;
+    object-fit: cover;
+    background: var(--color-bg-elev);
+}
 
 .app-card h3 {
     font-size: var(--text-lg);
