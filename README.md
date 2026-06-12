@@ -43,6 +43,29 @@ Die erste Live-App bekommt die volle Featured-Card. Statt des Icon-Medaillons ka
 2. In `index.html` im `apps`-Objekt: `screenshot: "apps/screenshots/<folder>.png"` ergänzen.
 3. Fertig — nur Apps mit `screenshot`-Feld zeigen in der Featured-Card einen Screenshot (gerahmt, responsive, auf Mobil gestapelt). Ohne Feld bleibt das Icon-Medaillon.
 
+## App-Detail-Overlay (Galerie + Beschreibung, optional)
+
+Eine App kann ein Detail-Overlay bekommen — ein Modal mit durchblätterbarer Screenshot-Galerie + Beschreibung, wie eine Mini-App-Store-Seite. Rein datengetrieben: **nur Apps mit einem `detail`-Objekt** zeigen einen „Details ansehen / View details"-Button und öffnen das Overlay. Apps ohne `detail` bleiben unverändert (nur Card + App-Store-Button).
+
+1. Screenshots web-optimieren (Hochformat, Breite ~640px) nach `apps/screenshots/<folder>/`:
+   ```
+   sips --resampleWidth 640 <screenshot.png> --out apps/screenshots/<folder>/01.png
+   ```
+   Mehrere durchnummerieren: `01.png`, `02.png`, …
+2. In `index.html` im `apps`-Objekt das `detail`-Objekt ergänzen:
+   ```js
+   detail: {
+       screenshots: ["apps/screenshots/<folder>/01.png", "apps/screenshots/<folder>/02.png"],
+       description: { en: "What the app does — core sentence.", de: "Was die App macht — Kernsatz." },
+       sections: [
+           { title: { en: "How it works", de: "So funktioniert's" },
+             body:  { en: "…", de: "…" } },
+       ],
+   }
+   ```
+3. Fertig — die Card rendert automatisch den Detail-Button, der das barrierearme Overlay öffnet: Galerie durchblätterbar per Pfeil-Buttons, Tastatur (←/→) und Swipe; Beschreibung + Abschnitte; „Im App Store ansehen"-Button; Schließen per Button/Esc/Backdrop. Fokus-Trap, Scroll-Lock und `prefers-reduced-motion` sind eingebaut.
+4. Texte **immer EN + DE** pflegen. Inhaltlich treu bleiben — **keine erfundenen Features** (Quelle z. B. die echte App-Store-Beschreibung via iTunes-Lookup: `https://itunes.apple.com/lookup?id=<APP-ID>&country=de`).
+
 ## Design ändern
 
 Nur `style.css` bearbeiten — wirkt auf alle Seiten.
