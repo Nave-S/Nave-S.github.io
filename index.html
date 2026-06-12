@@ -353,6 +353,27 @@
 
         let currentLang = "en";
 
+        // Per-app deep link: /?app=<folder> (fallback #<folder>) pre-selects an
+        // app so an app-folder URL (e.g. /shutterlife/) lands here with that app
+        // featured on top. Resolved ONCE to a known app key; null when
+        // absent/unknown. Consumed by renderApps() (reorder) and
+        // runDeepLinkFocus() (scroll + highlight).
+        function resolveAppKey(token) {
+            if (!token) return null;
+            const v = String(token).trim().toLowerCase();
+            if (!v) return null;
+            if (apps[v]) return v;                                          // a key
+            return Object.keys(apps).find(k => apps[k].folder === v) || null; // or folder
+        }
+        function readDeepLinkApp() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const raw = params.get("app") || (window.location.hash || "").replace(/^#/, "");
+                return resolveAppKey(raw);
+            } catch { return null; }
+        }
+        const deepLinkApp = readDeepLinkApp();
+
         function statusLabel(status, t) {
             if (status === "live") return t.statusLive;
             if (status === "beta") return t.statusBeta;
@@ -424,6 +445,17 @@
                 .filter(([key, on]) => on && apps[key])
                 .map(([key]) => ({ key, ...apps[key] }));
 
+            // Deep-link: if /?app=<folder> targets a visible, LIVE app, move it
+            // to the front so it claims the featured slot. Unknown / hidden /
+            // non-live → left as-is (normal order). Runs on every render, so the
+            // ordering survives a language-switch re-render.
+            if (deepLinkApp) {
+                const di = visible.findIndex(a => a.key === deepLinkApp);
+                if (di > 0 && visible[di].status === "live") {
+                    visible.unshift(visible.splice(di, 1)[0]);
+                }
+            }
+
             meta.textContent = visible.length === 0
                 ? ""
                 : visible.length === 1
@@ -487,14 +519,14 @@
                                     ${iconHtml(96, true)}
                                 </div>`;
                             return `
-                            <article class="app-card app-card--featured reveal" aria-labelledby="app-${app.key}-title">
+                            <article class="app-card app-card--featured reveal" data-app="${escape(app.key)}" aria-labelledby="app-${app.key}-title">
                                 <div class="app-card-body">${cardInner}</div>
                                 ${visual}
                             </article>
                             `;
                         }
                         return `
-                            <article class="app-card reveal" aria-labelledby="app-${app.key}-title">
+                            <article class="app-card reveal" data-app="${escape(app.key)}" aria-labelledby="app-${app.key}-title">
                                 ${cardInner}
                             </article>
                         `;
@@ -526,6 +558,26 @@
                 return;
             }
             targets.forEach(el => revealObserver.observe(el));
+        }
+
+        // Deep-link focus — scroll to + briefly highlight the pre-selected app,
+        // ONCE on initial load (not on language-switch re-renders). Only fires
+        // when the featured card actually is the deep-linked app (i.e. it was
+        // visible + live); otherwise the page is in normal order and there is
+        // nothing to focus. Honors prefers-reduced-motion: no smooth scroll,
+        // no pulse — just snap into the correct position.
+        function runDeepLinkFocus() {
+            if (!deepLinkApp) return;
+            const card = document.querySelector(`.app-card--featured[data-app="${deepLinkApp}"]`);
+            if (!card) return;
+            card.classList.add("is-visible"); // ensure painted (reveal may not have fired yet)
+            if (reduceMotion) {
+                card.scrollIntoView({ block: "start" });
+                return;
+            }
+            card.scrollIntoView({ behavior: "smooth", block: "start" });
+            card.classList.add("app-card--deeplink");
+            setTimeout(() => card.classList.remove("app-card--deeplink"), 1400);
         }
 
         /* ============================================================
@@ -714,6 +766,7 @@
         try { savedLang = localStorage.getItem("casy_lang"); } catch (e) {}
         setLang(i18n[savedLang] ? savedLang : "en");
         observeReveals();
+        requestAnimationFrame(runDeepLinkFocus);
     </script>
 </body>
 </html>
