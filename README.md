@@ -66,6 +66,16 @@ Eine App kann ein Detail-Overlay bekommen — ein Modal mit durchblätterbarer S
 3. Fertig — die Card rendert automatisch den Detail-Button, der das barrierearme Overlay öffnet: Galerie durchblätterbar per Pfeil-Buttons, Tastatur (←/→) und Swipe; Beschreibung + Abschnitte; „Im App Store ansehen"-Button; Schließen per Button/Esc/Backdrop. Fokus-Trap, Scroll-Lock und `prefers-reduced-motion` sind eingebaut.
 4. Texte **immer EN + DE** pflegen. Inhaltlich treu bleiben — **keine erfundenen Features** (Quelle z. B. die echte App-Store-Beschreibung via iTunes-Lookup: `https://itunes.apple.com/lookup?id=<APP-ID>&country=de`).
 
+## App-Deep-Link (App-Ordner-URL öffnet die Startseite mit der App oben)
+
+Jede App mit eigenem Ordner (`shutterlife/`, `sequenz/`, …) bekommt eine **Weiterleitungs-`index.html`** im Ordner-Root, damit die Ordner-URL (z. B. `https://nave-s.github.io/shutterlife/`) **nicht ins 404 läuft**, sondern auf der Startseite landet — mit genau dieser App **oben hervorgehoben**.
+
+1. Im App-Ordner eine `index.html` anlegen (Vorlage: `shutterlife/index.html` kopieren), darin nur den Folder-Namen anpassen. Sie leitet flackerarm weiter: `<meta http-equiv="refresh">` + `<link rel="canonical">` + sofortiges JS-`location.replace("../?app=<folder>")` + sichtbarer Fallback-Link (für JS-aus/Crawler). Relativer Ziel-Pfad → funktioniert auf jeder Domain; `noindex` auf dem dünnen Stub. **Kein externer Request.**
+2. Die Startseite (`index.html`) liest beim Laden `?app=<folder>` (Fallback `#<folder>`): ist die App **sichtbar (`config.json`/`apps-config`) und `status: "live"`**, rückt sie an die **Featured-/erste Position**, scrollt sanft hin und leuchtet kurz auf (~1,4 s). Unbekannt / versteckt / nicht-live → **normale Reihenfolge**, kein Fehler. `prefers-reduced-motion` schaltet Scroll-Animation + Pulse ab; der Effekt übersteht den Sprach-Switch.
+3. Die bestehenden Rechts-Unterseiten (`<folder>/privacy/`, `…/support/`, `…/terms/`, `…/impressum/`) bleiben **unberührt** — die Weiterleitung sitzt nur im Ordner-Root.
+
+`?app=<folder>` akzeptiert sowohl den App-**Key** als auch den **`folder`**-Namen aus dem `apps`-Objekt in `index.html`. Das Highlight-CSS (`.app-card--deeplink`) lebt in `css/components.css` (nicht nur in `style.css`) — siehe nächste Section.
+
 ## Design ändern (CSS)
 
 > ⚠️ **`style.css` ist generiert — niemals direkt bearbeiten.** Es entsteht durch
