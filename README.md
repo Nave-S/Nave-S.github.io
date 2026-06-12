@@ -34,6 +34,15 @@ Konvention: Sobald eine App live ist, zeigt das Grid ihr echtes App-Icon statt d
 2. In `index.html` im `apps`-Objekt: `status: "live"` setzen und `iconSrc: "apps/icons/<folder>.png"` eintragen
 3. Fertig — das Grid rendert für Apps mit `iconSrc` automatisch das echte Icon (gerundete Maske). Apps ohne `iconSrc` (noch nicht live) behalten das Monogramm-Badge.
 
+## Featured-Card → echter Screenshot (optional)
+
+Die erste Live-App bekommt die volle Featured-Card. Statt des Icon-Medaillons kann sie einen echten App-Screenshot zeigen.
+
+1. Screenshot web-optimieren und ablegen (Hochformat, Breite ~640px, verlustarm):
+   `sips --resampleWidth 640 <pfad-zum-screenshot.png> --out apps/screenshots/<folder>.png`
+2. In `index.html` im `apps`-Objekt: `screenshot: "apps/screenshots/<folder>.png"` ergänzen.
+3. Fertig — nur Apps mit `screenshot`-Feld zeigen in der Featured-Card einen Screenshot (gerahmt, responsive, auf Mobil gestapelt). Ohne Feld bleibt das Icon-Medaillon.
+
 ## Design ändern
 
 Nur `style.css` bearbeiten — wirkt auf alle Seiten.
