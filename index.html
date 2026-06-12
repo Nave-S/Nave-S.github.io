@@ -124,10 +124,56 @@
                     <a href="impressum/" id="footer-impressum">Legal Notice</a>
                     <a href="datenschutz/" id="footer-privacy">Privacy</a>
                 </nav>
-                <p class="site-footer__legal" id="footer-legal">&copy; 2026 Adriano Camonita · All rights reserved.</p>
+                <p class="site-footer__legal" id="footer-legal">&copy; 2026 Casy Studio · All rights reserved.</p>
             </div>
             <p class="site-footer__note" id="footer-hosting">Small studio, small setup: this site runs on GitHub Pages — that's where the github.io address comes from. A domain of its own comes later.</p>
         </footer>
+    </div>
+
+    <!-- App-detail overlay (modal). Markup is static + empty; populated by JS
+         from the chosen app's `detail` object on open. Hidden by default;
+         only ever shown for apps that declare a `detail`. Vanilla, no deps. -->
+    <div class="overlay" id="app-overlay" hidden>
+        <div class="overlay__backdrop" data-overlay-close></div>
+        <div class="overlay__dialog" role="dialog" aria-modal="true"
+             aria-labelledby="overlay-title" id="overlay-dialog">
+            <button type="button" class="overlay__close" id="overlay-close"
+                    data-overlay-close aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <header class="overlay__header">
+                <img class="overlay__icon" id="overlay-icon" alt="" width="56" height="56">
+                <div class="overlay__heading">
+                    <h2 class="overlay__title" id="overlay-title"></h2>
+                    <p class="overlay__platform" id="overlay-platform"></p>
+                </div>
+            </header>
+
+            <div class="overlay__body">
+                <div class="overlay__gallery" role="group" id="overlay-gallery" aria-label="Screenshots">
+                    <div class="overlay__viewport">
+                        <div class="overlay__track" id="overlay-track"></div>
+                    </div>
+                    <button type="button" class="overlay__nav overlay__nav--prev" id="overlay-prev" aria-label="Previous screenshot">
+                        <span aria-hidden="true">&#8249;</span>
+                    </button>
+                    <button type="button" class="overlay__nav overlay__nav--next" id="overlay-next" aria-label="Next screenshot">
+                        <span aria-hidden="true">&#8250;</span>
+                    </button>
+                    <div class="overlay__indicator">
+                        <span class="overlay__counter" id="overlay-counter" aria-live="polite"></span>
+                        <div class="overlay__dots" id="overlay-dots"></div>
+                    </div>
+                </div>
+
+                <div class="overlay__content">
+                    <p class="overlay__desc" id="overlay-desc"></p>
+                    <div class="overlay__sections" id="overlay-sections"></div>
+                    <a class="btn overlay__store" id="overlay-store" target="_blank" rel="noopener"></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -171,13 +217,24 @@
                 footerPrivacy: "Privacy",
                 footerPrivacySuffix: "",
                 footerTagline: "Apps that mind their own business.",
-                footerLegal: "© 2026 Adriano Camonita · All rights reserved.",
+                footerLegal: "© 2026 Casy Studio · All rights reserved.",
                 footerHosting: "Small studio, small setup: this site runs on GitHub Pages — that's where the github.io address comes from. A domain of its own comes later.",
                 statusLive: "Live",
                 statusBeta: "TestFlight",
                 statusSoon: "Coming soon",
                 iconAlt: (name) => `${name} app icon`,
                 shotAlt: (name) => `${name} app screenshot`,
+                detailsCta: "View details",
+                detailsCtaFor: (name) => `View details for ${name}`,
+                overlayClose: "Close",
+                overlayPrev: "Previous screenshot",
+                overlayNext: "Next screenshot",
+                overlayGallery: "Screenshots",
+                overlayCounter: (i, n) => `${i} / ${n}`,
+                overlayDot: (i, n) => `Show screenshot ${i} of ${n}`,
+                overlayStore: "View on the App Store",
+                overlayStoreFor: (name) => `View ${name} on the App Store`,
+                shotAltN: (name, i, n) => `${name} screenshot ${i} of ${n}`,
                 privacySuffix: "",
                 termsSuffix: "",
                 supportSuffix: "",
@@ -205,13 +262,24 @@
                 footerPrivacy: "Datenschutz",
                 footerPrivacySuffix: "/de.html",
                 footerTagline: "Apps, die nichts von dir wollen.",
-                footerLegal: "© 2026 Adriano Camonita · Alle Rechte vorbehalten.",
+                footerLegal: "© 2026 Casy Studio · Alle Rechte vorbehalten.",
                 footerHosting: "Kleines Studio, kleines Setup: Diese Seite läuft auf GitHub Pages — daher die github.io-Adresse. Eine eigene Domain kommt später.",
                 statusLive: "Live",
                 statusBeta: "TestFlight",
                 statusSoon: "Bald",
                 iconAlt: (name) => `${name} App-Icon`,
                 shotAlt: (name) => `${name} App-Screenshot`,
+                detailsCta: "Details ansehen",
+                detailsCtaFor: (name) => `Details zu ${name} ansehen`,
+                overlayClose: "Schließen",
+                overlayPrev: "Vorheriges Bild",
+                overlayNext: "Nächstes Bild",
+                overlayGallery: "Screenshots",
+                overlayCounter: (i, n) => `${i} / ${n}`,
+                overlayDot: (i, n) => `Screenshot ${i} von ${n} zeigen`,
+                overlayStore: "Im App Store ansehen",
+                overlayStoreFor: (name) => `${name} im App Store ansehen`,
+                shotAltN: (name, i, n) => `${name} Screenshot ${i} von ${n}`,
                 privacySuffix: "/de.html",
                 termsSuffix: "/de.html",
                 supportSuffix: "/de.html",
@@ -223,7 +291,54 @@
             // (apps-config sequenz:false), so its store button is never rendered. Swap in
             // the real App Store URL when Sequence Lite launches.
             sequenz:        { name: "Sequence Lite",     icon: "S",  color: "#FF6B00", status: "live",  en: "Interval timers you build once and run from your wrist.",            de: "Intervall-Timer: einmal bauen, vom Handgelenk starten.",          platform: "iOS · Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz",     iconSrc: "apps/icons/sequenz.png" },
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png",
+                // Detail overlay content. Description + sections condensed from the
+                // App Store listing (iTunes lookup id 6761454875, DE+EN) — kept
+                // faithful, no invented features. Screenshots: web-optimised
+                // ios_01/03/04/05 (sips, ~640px) under apps/screenshots/shutterlife/.
+                detail: {
+                    screenshots: [
+                        "apps/screenshots/shutterlife/01.png",
+                        "apps/screenshots/shutterlife/02.png",
+                        "apps/screenshots/shutterlife/03.png",
+                        "apps/screenshots/shutterlife/04.png",
+                    ],
+                    description: {
+                        en: "Know your camera's true shutter count — before you buy or sell. ShutterLife reads it straight from your camera's image files: no internet, no upload, no account. Works on iPhone, iPad and Mac.",
+                        de: "Kenne den echten Auslösezähler deiner Kamera — vor Kauf und Verkauf. ShutterLife liest ihn direkt aus den Bilddateien deiner Kamera: ohne Internet, ohne Upload, ohne Account. Für iPhone, iPad und Mac.",
+                    },
+                    sections: [
+                        {
+                            title: { en: "How it works", de: "So funktioniert's" },
+                            body: {
+                                en: "Open a camera photo by drag & drop on Mac, or from your photo library on iPhone and iPad — ShutterLife reads the EXIF data and shows the shutter count instantly. The photo must be an unedited original: messaging apps strip EXIF, so share it via AirDrop, email (original size) or a cloud service.",
+                                de: "Öffne ein Kamerafoto per Drag & Drop am Mac oder aus der Foto-Bibliothek auf iPhone und iPad — ShutterLife liest die EXIF-Daten und zeigt sofort den Auslösezähler. Das Foto muss ein unbearbeitetes Original sein: Messenger entfernen die EXIF-Daten, teile es daher per AirDrop, E-Mail (Originalgröße) oder Cloud-Dienst.",
+                            },
+                        },
+                        {
+                            title: { en: "Shutter status at a glance", de: "Verschluss-Status auf einen Blick" },
+                            body: {
+                                en: "A visual ring shows how many of the manufacturer's rated actuations have been reached — a quick read on the shutter's condition, and a real help when pricing a used body.",
+                                de: "Ein visueller Ring zeigt, wie viele der vom Hersteller bewerteten Auslösungen erreicht sind — eine schnelle Orientierung zum Zustand des Verschlusses und eine echte Hilfe bei der Preisbewertung gebrauchter Kameras.",
+                            },
+                        },
+                        {
+                            title: { en: "Wide camera support", de: "Große Kamera-Unterstützung" },
+                            body: {
+                                en: "Canon, Nikon, Sony, Fujifilm and Pentax bodies are supported and validated against reference tools, reading JPG, CR2, CR3, NEF, ARW, RAF, PEF and DNG files. The full model list lives in the app.",
+                                de: "Modelle von Canon, Nikon, Sony, Fujifilm und Pentax werden unterstützt und gegen Referenz-Tools validiert — gelesen werden JPG, CR2, CR3, NEF, ARW, RAF, PEF und DNG. Die vollständige Modell-Liste steht in der App.",
+                            },
+                        },
+                        {
+                            title: { en: "Private by design", de: "Datenschutz von Grund auf" },
+                            body: {
+                                en: "All processing happens on your device. No photos are uploaded, no analytics, no tracking, no internet connection required.",
+                                de: "Die gesamte Verarbeitung findet auf deinem Gerät statt. Keine Fotos werden hochgeladen, keine Auswertung, kein Tracking, keine Internetverbindung nötig.",
+                            },
+                        },
+                    ],
+                },
+            },
             talktome:       { name: "TalkToMe",          icon: "TM", color: "#8B5CF6", status: "beta",  en: "A voice for people who can't use their own.",                          de: "Eine Stimme für alle, die ihre eigene nicht nutzen können.", platform: "macOS",            folder: "talktome" },
             clearmind:      { name: "ClearMind",         icon: "CM", color: "#10B981", status: "soon",  en: "Breathing exercises and short resets for busy heads.",                de: "Atemübungen und kurze Pausen für volle Köpfe.",                 platform: "iOS",               folder: "clearmind" },
             elektohub:      { name: "ElektoHub",         icon: "EH", color: "#F59E0B", status: "soon",  en: "One dashboard for every smart-home device you own.",                  de: "Ein Dashboard für alle Smart-Home-Geräte im Haus.",      platform: "iOS",               folder: "elektohub" },
@@ -329,6 +444,12 @@
                         const storeLink = app.appStore
                             ? `<a href="${escape(app.appStore)}" class="store-link" rel="noopener" target="_blank" aria-label="${escape(app.name)} on the App Store">App Store ↗</a>`
                             : "";
+                        // Apps with a `detail` object get a dedicated overlay trigger.
+                        // It is its OWN action, separate from the store link (no
+                        // nested interactive elements). Delegated click on #app-grid.
+                        const detailTrigger = app.detail
+                            ? `<button type="button" class="detail-trigger" data-detail="${escape(app.key)}" aria-haspopup="dialog" aria-label="${escape(t.detailsCtaFor(app.name))}">${escape(t.detailsCta)}</button>`
+                            : "";
                         // Live apps ship a real icon (iconSrc, rounded mask);
                         // everything else keeps the monogram badge fallback.
                         const iconHtml = (size, decorative) => app.iconSrc
@@ -352,6 +473,7 @@
                                     <a href="${app.folder}/privacy${t.privacySuffix}">${t.privacy}</a>
                                     <a href="${app.folder}/support${t.supportSuffix}">${t.support}</a>
                                     <a href="${app.folder}/terms${t.termsSuffix}">${t.terms}</a>
+                                    ${detailTrigger}
                                     ${storeLink}
                                 </div>`;
                         if (featured) {
@@ -405,6 +527,187 @@
             }
             targets.forEach(el => revealObserver.observe(el));
         }
+
+        /* ============================================================
+           App-detail overlay — modal dialog, vanilla, no dependencies.
+           a11y: role=dialog/aria-modal, focus trap, Esc to close, focus
+           restore to trigger, body scroll-lock (scrollbar-compensated),
+           reduced-motion (CSS-driven). Gallery is navigable by keyboard
+           (←/→), pointer (prev/next + dots) and touch (swipe). Content is
+           rebuilt per-open in the current language from the app's
+           `detail` object — no localisation of an already-open overlay.
+           ============================================================ */
+        const overlay = {
+            root: document.getElementById("app-overlay"),
+            dialog: document.getElementById("overlay-dialog"),
+            icon: document.getElementById("overlay-icon"),
+            title: document.getElementById("overlay-title"),
+            platform: document.getElementById("overlay-platform"),
+            track: document.getElementById("overlay-track"),
+            prev: document.getElementById("overlay-prev"),
+            next: document.getElementById("overlay-next"),
+            counter: document.getElementById("overlay-counter"),
+            dots: document.getElementById("overlay-dots"),
+            desc: document.getElementById("overlay-desc"),
+            sections: document.getElementById("overlay-sections"),
+            store: document.getElementById("overlay-store"),
+            close: document.getElementById("overlay-close"),
+            gallery: document.getElementById("overlay-gallery"),
+            viewport: document.querySelector("#app-overlay .overlay__viewport"),
+        };
+        const FOCUSABLE = 'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
+        let overlayIndex = 0;
+        let overlayCount = 0;
+        let overlayLastFocus = null;
+        let overlayScrollLock = null;
+        let overlayTouchX = null;
+
+        function overlayUpdateGallery() {
+            const t = i18n[currentLang];
+            overlay.track.style.transform = `translateX(${-overlayIndex * 100}%)`;
+            overlay.counter.textContent = t.overlayCounter(overlayIndex + 1, overlayCount);
+            const atStart = overlayIndex === 0;
+            const atEnd = overlayIndex === overlayCount - 1;
+            overlay.prev.setAttribute("aria-disabled", atStart ? "true" : "false");
+            overlay.next.setAttribute("aria-disabled", atEnd ? "true" : "false");
+            overlay.prev.classList.toggle("is-disabled", atStart);
+            overlay.next.classList.toggle("is-disabled", atEnd);
+            Array.from(overlay.dots.children).forEach((dot, i) => {
+                const active = i === overlayIndex;
+                dot.classList.toggle("is-active", active);
+                dot.setAttribute("aria-current", active ? "true" : "false");
+            });
+        }
+
+        function overlayGo(index) {
+            if (overlayCount === 0) return;
+            overlayIndex = Math.max(0, Math.min(index, overlayCount - 1));
+            overlayUpdateGallery();
+        }
+
+        function overlayBuild(app) {
+            const t = i18n[currentLang];
+            const d = app.detail;
+
+            overlay.icon.src = app.iconSrc || "";
+            overlay.icon.alt = t.iconAlt(app.name);
+            overlay.title.textContent = app.name;
+            overlay.platform.textContent = app.platform || "";
+
+            const shots = d.screenshots || [];
+            overlayCount = shots.length;
+            overlay.track.innerHTML = shots.map((src, i) =>
+                `<div class="overlay__slide"><img class="overlay__shot" src="${escape(src)}" alt="${escape(t.shotAltN(app.name, i + 1, shots.length))}" width="640" height="1390" loading="lazy"></div>`
+            ).join("");
+            overlay.dots.innerHTML = shots.map((_, i) =>
+                `<button type="button" class="overlay__dot" data-index="${i}" aria-label="${escape(t.overlayDot(i + 1, shots.length))}"></button>`
+            ).join("");
+            overlay.gallery.classList.toggle("is-single", overlayCount <= 1);
+
+            overlay.desc.textContent = (d.description && d.description[currentLang]) || "";
+            overlay.sections.innerHTML = (d.sections || []).map(s =>
+                `<section class="overlay__section"><h3>${escape(s.title[currentLang])}</h3><p>${escape(s.body[currentLang])}</p></section>`
+            ).join("");
+
+            if (app.appStore) {
+                overlay.store.href = app.appStore;
+                overlay.store.textContent = t.overlayStore;
+                overlay.store.setAttribute("aria-label", t.overlayStoreFor(app.name));
+                overlay.store.hidden = false;
+            } else {
+                overlay.store.hidden = true;
+            }
+
+            overlay.gallery.setAttribute("aria-label", t.overlayGallery);
+            overlay.close.setAttribute("aria-label", t.overlayClose);
+            overlay.prev.setAttribute("aria-label", t.overlayPrev);
+            overlay.next.setAttribute("aria-label", t.overlayNext);
+            overlay.dialog.setAttribute("aria-label", app.name);
+
+            overlayIndex = 0;
+            overlayUpdateGallery();
+        }
+
+        function overlayOpen(key) {
+            const app = apps[key];
+            if (!app || !app.detail) return;
+            overlayLastFocus = document.activeElement;
+            overlayBuild(app);
+
+            // Scroll-lock with scrollbar-width compensation (no layout shift).
+            const sbw = window.innerWidth - document.documentElement.clientWidth;
+            overlayScrollLock = {
+                overflow: document.body.style.overflow,
+                paddingRight: document.body.style.paddingRight,
+            };
+            document.body.style.overflow = "hidden";
+            if (sbw > 0) document.body.style.paddingRight = `${sbw}px`;
+
+            overlay.root.hidden = false;
+            requestAnimationFrame(() => overlay.root.classList.add("is-open"));
+            document.addEventListener("keydown", overlayOnKeydown, true);
+            overlay.close.focus();
+        }
+
+        function overlayCloseModal() {
+            if (overlay.root.hidden) return;
+            overlay.root.classList.remove("is-open");
+            document.removeEventListener("keydown", overlayOnKeydown, true);
+            if (overlayScrollLock) {
+                document.body.style.overflow = overlayScrollLock.overflow;
+                document.body.style.paddingRight = overlayScrollLock.paddingRight;
+                overlayScrollLock = null;
+            }
+            const hide = () => { overlay.root.hidden = true; };
+            if (reduceMotion) hide(); else setTimeout(hide, 200);
+            if (overlayLastFocus && typeof overlayLastFocus.focus === "function") {
+                overlayLastFocus.focus();
+            }
+            overlayLastFocus = null;
+        }
+
+        function overlayOnKeydown(e) {
+            if (e.key === "Escape") { e.preventDefault(); overlayCloseModal(); return; }
+            if (e.key === "ArrowLeft") { e.preventDefault(); overlayGo(overlayIndex - 1); return; }
+            if (e.key === "ArrowRight") { e.preventDefault(); overlayGo(overlayIndex + 1); return; }
+            if (e.key !== "Tab") return;
+            const items = Array.from(overlay.dialog.querySelectorAll(FOCUSABLE))
+                .filter(el => el.offsetParent !== null && !el.hasAttribute("hidden"));
+            if (items.length === 0) { e.preventDefault(); return; }
+            const first = items[0];
+            const last = items[items.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault(); last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault(); first.focus();
+            } else if (!overlay.dialog.contains(document.activeElement)) {
+                e.preventDefault(); first.focus();
+            }
+        }
+
+        // Triggers (delegated — survives re-render on language switch).
+        document.getElementById("app-grid").addEventListener("click", (e) => {
+            const trigger = e.target.closest(".detail-trigger");
+            if (trigger) { e.preventDefault(); overlayOpen(trigger.dataset.detail); }
+        });
+        overlay.root.addEventListener("click", (e) => {
+            if (e.target.closest("[data-overlay-close]")) overlayCloseModal();
+        });
+        overlay.prev.addEventListener("click", () => overlayGo(overlayIndex - 1));
+        overlay.next.addEventListener("click", () => overlayGo(overlayIndex + 1));
+        overlay.dots.addEventListener("click", (e) => {
+            const dot = e.target.closest(".overlay__dot");
+            if (dot) overlayGo(parseInt(dot.dataset.index, 10));
+        });
+        overlay.viewport.addEventListener("touchstart", (e) => {
+            overlayTouchX = e.changedTouches[0].clientX;
+        }, { passive: true });
+        overlay.viewport.addEventListener("touchend", (e) => {
+            if (overlayTouchX === null) return;
+            const dx = e.changedTouches[0].clientX - overlayTouchX;
+            if (Math.abs(dx) > 40) overlayGo(overlayIndex + (dx < 0 ? 1 : -1));
+            overlayTouchX = null;
+        }, { passive: true });
 
         // initial paint — read saved preference (shared with sub-pages via localStorage)
         var savedLang = null;
