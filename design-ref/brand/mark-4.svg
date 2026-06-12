@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Mark 4 — "Geometric Orbit": thin C ring orbiting a bold S core, aurora gradient -->
+  <defs>
+    <linearGradient id="core" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFB066"/>
+      <stop offset="0.6" stop-color="#FF6B00"/>
+      <stop offset="1" stop-color="#EC4899"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke-linecap="round">
+    <path d="M47.5 9.9 A27 27 0 1 0 47.5 54.1" stroke="#FF6B00" stroke-width="5"/>
+    <path d="M39.8 18.5 A9 9 0 1 0 32 32 A9 9 0 1 1 24.2 45.5" stroke="url(#core)" stroke-width="8"/>
+  </g>
+</svg>
