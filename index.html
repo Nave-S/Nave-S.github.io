@@ -177,6 +177,7 @@
                 statusBeta: "TestFlight",
                 statusSoon: "Coming soon",
                 iconAlt: (name) => `${name} app icon`,
+                shotAlt: (name) => `${name} app screenshot`,
                 privacySuffix: "",
                 termsSuffix: "",
                 supportSuffix: "",
@@ -210,6 +211,7 @@
                 statusBeta: "TestFlight",
                 statusSoon: "Bald",
                 iconAlt: (name) => `${name} App-Icon`,
+                shotAlt: (name) => `${name} App-Screenshot`,
                 privacySuffix: "/de.html",
                 termsSuffix: "/de.html",
                 supportSuffix: "/de.html",
@@ -217,8 +219,11 @@
         };
 
         const apps = {
+            // sequenz `appStore` is a placeholder (404). Sequence is hidden in the grid
+            // (apps-config sequenz:false), so its store button is never rendered. Swap in
+            // the real App Store URL when Sequence Lite launches.
             sequenz:        { name: "Sequence Lite",     icon: "S",  color: "#FF6B00", status: "live",  en: "Interval timers you build once and run from your wrist.",            de: "Intervall-Timer: einmal bauen, vom Handgelenk starten.",          platform: "iOS · Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz",     iconSrc: "apps/icons/sequenz.png" },
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife", iconSrc: "apps/icons/shutterlife.png" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png" },
             talktome:       { name: "TalkToMe",          icon: "TM", color: "#8B5CF6", status: "beta",  en: "A voice for people who can't use their own.",                          de: "Eine Stimme für alle, die ihre eigene nicht nutzen können.", platform: "macOS",            folder: "talktome" },
             clearmind:      { name: "ClearMind",         icon: "CM", color: "#10B981", status: "soon",  en: "Breathing exercises and short resets for busy heads.",                de: "Atemübungen und kurze Pausen für volle Köpfe.",                 platform: "iOS",               folder: "clearmind" },
             elektohub:      { name: "ElektoHub",         icon: "EH", color: "#F59E0B", status: "soon",  en: "One dashboard for every smart-home device you own.",                  de: "Ein Dashboard für alle Smart-Home-Geräte im Haus.",      platform: "iOS",               folder: "elektohub" },
@@ -350,12 +355,19 @@
                                     ${storeLink}
                                 </div>`;
                         if (featured) {
+                            // Apps with a `screenshot` show a real, framed app shot;
+                            // the rest fall back to the decorative icon medallion.
+                            const visual = app.screenshot
+                                ? `<div class="app-card-visual app-card-visual--shot">
+                                    <img class="app-shot" src="${escape(app.screenshot)}" alt="${escape(t.shotAlt(app.name))}" width="640" height="1390" loading="lazy">
+                                </div>`
+                                : `<div class="app-card-visual" aria-hidden="true">
+                                    ${iconHtml(96, true)}
+                                </div>`;
                             return `
                             <article class="app-card app-card--featured reveal" aria-labelledby="app-${app.key}-title">
                                 <div class="app-card-body">${cardInner}</div>
-                                <div class="app-card-visual" aria-hidden="true">
-                                    ${iconHtml(96, true)}
-                                </div>
+                                ${visual}
                             </article>
                             `;
                         }

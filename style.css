@@ -784,6 +784,32 @@ footer:not(.site-footer) {
         var(--shadow-glow);
 }
 
+/* Screenshot variant — a framed portrait app shot replaces the medallion.
+   Unlike the medallion it stays visible on mobile (stacked under the copy),
+   so the live app shows a real screenshot at every breakpoint. */
+.app-card--featured .app-card-visual--shot {
+    display: flex;
+    aspect-ratio: auto;
+    border: none;
+    background: none;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+}
+.app-shot {
+    display: block;
+    margin-inline: auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 440px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow:
+        0 18px 48px rgba(0,0,0,0.45),
+        var(--shadow-glow);
+}
+
 .app-card-header {
     display: flex;
     gap: var(--space-4);
