@@ -174,6 +174,7 @@
                 statusLive: "Live",
                 statusBeta: "TestFlight",
                 statusSoon: "Coming soon",
+                iconAlt: (name) => `${name} app icon`,
                 privacySuffix: "",
                 termsSuffix: "",
                 supportSuffix: "",
@@ -205,6 +206,7 @@
                 statusLive: "Live",
                 statusBeta: "TestFlight",
                 statusSoon: "Bald",
+                iconAlt: (name) => `${name} App-Icon`,
                 privacySuffix: "/de.html",
                 termsSuffix: "/de.html",
                 supportSuffix: "/de.html",
@@ -212,8 +214,8 @@
         };
 
         const apps = {
-            sequenz:        { name: "Sequence Lite",     icon: "S",  color: "#FF6B00", status: "live",  en: "Interval timers you build once and run from your wrist.",            de: "Intervall-Timer: einmal bauen, vom Handgelenk starten.",          platform: "iOS · Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz" },
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife" },
+            sequenz:        { name: "Sequence Lite",     icon: "S",  color: "#FF6B00", status: "live",  en: "Interval timers you build once and run from your wrist.",            de: "Intervall-Timer: einmal bauen, vom Handgelenk starten.",          platform: "iOS · Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz",     iconSrc: "apps/icons/sequenz.png" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife", iconSrc: "apps/icons/shutterlife.png" },
             talktome:       { name: "TalkToMe",          icon: "TM", color: "#8B5CF6", status: "beta",  en: "A voice for people who can't use their own.",                          de: "Eine Stimme für alle, die ihre eigene nicht nutzen können.", platform: "macOS",            folder: "talktome" },
             clearmind:      { name: "ClearMind",         icon: "CM", color: "#10B981", status: "soon",  en: "Breathing exercises and short resets for busy heads.",                de: "Atemübungen und kurze Pausen für volle Köpfe.",                 platform: "iOS",               folder: "clearmind" },
             elektohub:      { name: "ElektoHub",         icon: "EH", color: "#F59E0B", status: "soon",  en: "One dashboard for every smart-home device you own.",                  de: "Ein Dashboard für alle Smart-Home-Geräte im Haus.",      platform: "iOS",               folder: "elektohub" },
@@ -318,9 +320,14 @@
                         const storeLink = app.appStore
                             ? `<a href="${escape(app.appStore)}" class="store-link" rel="noopener" target="_blank" aria-label="${escape(app.name)} on the App Store">App Store ↗</a>`
                             : "";
+                        // Live apps ship a real icon (iconSrc, rounded mask);
+                        // everything else keeps the monogram badge fallback.
+                        const iconHtml = (size, decorative) => app.iconSrc
+                            ? `<img class="app-icon app-icon--img" src="${escape(app.iconSrc)}" alt="${decorative ? "" : escape(t.iconAlt(app.name))}" width="${size}" height="${size}" loading="lazy">`
+                            : `<div class="app-icon" style="background:${escape(app.color)}" aria-hidden="true">${escape(app.icon)}</div>`;
                         const cardInner = `
                                 <div class="app-card-header">
-                                    <div class="app-icon" style="background:${escape(app.color)}" aria-hidden="true">${escape(app.icon)}</div>
+                                    ${iconHtml(56)}
                                     <div class="app-card-title">
                                         <div class="app-card-title-row">
                                             <h3 id="app-${app.key}-title">${escape(app.name)}</h3>
@@ -343,7 +350,7 @@
                             <article class="app-card app-card--featured reveal" aria-labelledby="app-${app.key}-title">
                                 <div class="app-card-body">${cardInner}</div>
                                 <div class="app-card-visual" aria-hidden="true">
-                                    <div class="app-icon" style="background:${escape(app.color)}">${escape(app.icon)}</div>
+                                    ${iconHtml(96, true)}
                                 </div>
                             </article>
                             `;
