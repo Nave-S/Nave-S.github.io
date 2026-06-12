@@ -2,82 +2,82 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
-        <loc>https://casystudioco.com/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/"/>
+        <loc>https://nave-s.github.io/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/"/>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
     </url>
 
     <url>
-        <loc>https://casystudioco.com/impressum/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/impressum/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/impressum/de.html"/>
+        <loc>https://nave-s.github.io/impressum/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/impressum/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/impressum/de.html"/>
         <changefreq>yearly</changefreq>
         <priority>0.4</priority>
     </url>
     <url>
-        <loc>https://casystudioco.com/datenschutz/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/datenschutz/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/datenschutz/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.4</priority>
-    </url>
-
-    <url>
-        <loc>https://casystudioco.com/sequenz/privacy/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/sequenz/privacy/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/sequenz/privacy/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://casystudioco.com/sequenz/support/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/sequenz/support/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/sequenz/support/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://casystudioco.com/sequenz/terms/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/sequenz/terms/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/sequenz/terms/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://casystudioco.com/sequenz/impressum/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/sequenz/impressum/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/sequenz/impressum/de.html"/>
+        <loc>https://nave-s.github.io/datenschutz/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/datenschutz/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/datenschutz/de.html"/>
         <changefreq>yearly</changefreq>
         <priority>0.4</priority>
     </url>
 
     <url>
-        <loc>https://casystudioco.com/shutterlife/privacy/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/shutterlife/privacy/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/shutterlife/privacy/de.html"/>
+        <loc>https://nave-s.github.io/sequenz/privacy/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/sequenz/privacy/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/sequenz/privacy/de.html"/>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>https://casystudioco.com/shutterlife/support/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/shutterlife/support/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/shutterlife/support/de.html"/>
+        <loc>https://nave-s.github.io/sequenz/support/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/sequenz/support/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/sequenz/support/de.html"/>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>https://casystudioco.com/shutterlife/terms/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/shutterlife/terms/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/shutterlife/terms/de.html"/>
+        <loc>https://nave-s.github.io/sequenz/terms/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/sequenz/terms/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/sequenz/terms/de.html"/>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>https://casystudioco.com/shutterlife/impressum/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudioco.com/shutterlife/impressum/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudioco.com/shutterlife/impressum/de.html"/>
+        <loc>https://nave-s.github.io/sequenz/impressum/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/sequenz/impressum/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/sequenz/impressum/de.html"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+    <url>
+        <loc>https://nave-s.github.io/shutterlife/privacy/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/shutterlife/privacy/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/shutterlife/privacy/de.html"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://nave-s.github.io/shutterlife/support/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/shutterlife/support/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/shutterlife/support/de.html"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://nave-s.github.io/shutterlife/terms/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/shutterlife/terms/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/shutterlife/terms/de.html"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://nave-s.github.io/shutterlife/impressum/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/shutterlife/impressum/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/shutterlife/impressum/de.html"/>
         <changefreq>yearly</changefreq>
         <priority>0.4</priority>
     </url>
