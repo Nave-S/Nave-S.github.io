@@ -601,6 +601,12 @@ nav a:hover { color: var(--color-accent-ink); }
     font-family: var(--font-mono);
     letter-spacing: 0;
 }
+.site-footer__note {
+    color: var(--color-text-faint);
+    font-size: var(--text-xs);
+    max-width: 64ch;
+    margin: 0;
+}
 
 /* Sub-page footer (legacy <footer>) */
 footer:not(.site-footer) {
