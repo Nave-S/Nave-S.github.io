@@ -76,6 +76,14 @@ a:hover { color: var(--color-accent-hover); }
     box-shadow: var(--focus-ring);
     border-radius: var(--radius-sm);
 }
+/* Windows High Contrast / forced-colors strips box-shadow, so the focus
+   halo above would vanish. Restore a system-colour outline there. */
+@media (forced-colors: active) {
+    :focus-visible {
+        outline: 2px solid CanvasText;
+        outline-offset: 2px;
+    }
+}
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -262,7 +270,6 @@ nav a:hover { color: var(--color-accent-ink); }
     width: 6px; height: 6px;
     border-radius: 50%;
     background: var(--color-accent);
-    box-shadow: 0 0 8px var(--color-accent);
     flex-shrink: 0;
 }
 .hero h1 {
@@ -276,13 +283,10 @@ nav a:hover { color: var(--color-accent-ink); }
     overflow-wrap: break-word;
 }
 .hero h1 .accent {
-    background: linear-gradient(100deg,
-        var(--color-accent) 10%,
-        var(--color-accent-grad-2) 50%,
-        var(--color-accent) 90%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    /* Solid accent ink (calmer, less "AI gradient"); --color-accent-ink is
+       the ≥4.5:1 text-safe accent in both modes. The gradient token
+       (--color-accent-grad-2) stays defined but is no longer used here. */
+    color: var(--color-accent-ink);
 }
 .hero .lede {
     font-size: var(--text-lg);
