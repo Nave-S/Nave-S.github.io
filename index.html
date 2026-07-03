@@ -509,13 +509,16 @@
                 .filter(([key, on]) => on && apps[key])
                 .map(([key]) => ({ key, ...apps[key] }));
 
-            // Deep-link: if /?app=<folder> targets a visible, LIVE app, move it
-            // to the front so it claims the featured slot. Unknown / hidden /
-            // non-live → left as-is (normal order). Runs on every render, so the
-            // ordering survives a language-switch re-render.
+            // Deep-link: if /?app=<folder> targets a visible app, move it to the
+            // front so it claims the featured slot — if it is live OR explicitly
+            // featured. That covers the coming-soon Sequence Lite (status:"soon",
+            // featured:true) so it lands on top by explicit intent, not by config
+            // order, and still works once it flips to live. Unknown / hidden /
+            // neither-live-nor-featured → left as-is (normal order). Runs on every
+            // render, so the ordering survives a language-switch re-render.
             if (deepLinkApp) {
                 const di = visible.findIndex(a => a.key === deepLinkApp);
-                if (di > 0 && visible[di].status === "live") {
+                if (di > 0 && (visible[di].status === "live" || visible[di].featured)) {
                     visible.unshift(visible.splice(di, 1)[0]);
                 }
             }
