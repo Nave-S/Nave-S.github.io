@@ -293,7 +293,7 @@
             // + realStoreUrl() guard mean the store button renders as a disabled
             // "Coming soon" affordance and never links to the 404. At launch: set
             // status:"live" and swap in the real App Store URL — then it links normally.
-            sequenz:        { name: "Sequence Lite",     icon: "S",  color: "#FF6B00", status: "soon",  en: "Interval timers you build once and run from your wrist.",            de: "Intervall-Timer: einmal bauen, vom Handgelenk starten.",          platform: "iOS · Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz",     iconSrc: "apps/icons/sequenz.png",
+            sequenz:        { name: "Sequence Lite",     icon: "S",  color: "#FF6B00", status: "soon",  en: "Interval timers you build once and run from your wrist.",            de: "Intervall-Timer: einmal bauen, vom Handgelenk starten.",          platform: "iOS · Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz",     iconSrc: "apps/icons/sequenz.png", screenshot: "apps/screenshots/sequenz/01.png", featured: true,
                 // Detail overlay content — mirrors the ShutterLife pattern. Description
                 // + sections stay faithful to documented app features (interval timers,
                 // flows, paste-import, Watch sync, pause-on-call, voice cues, on-device
@@ -343,7 +343,7 @@
                     ],
                 },
             },
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png",
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png", featured: true,
                 // Detail overlay content. Description + sections condensed from the
                 // App Store listing (iTunes lookup id 6761454875, DE+EN) — kept
                 // faithful, no invented features. Screenshots: web-optimised
@@ -531,12 +531,22 @@
                 return;
             }
 
-            // First live app gets the featured (full-row) bento slot.
-            const featuredKey = (visible.find(app => app.status === "live") || {}).key;
+            // Featured (full-row bento) cards. Decoupled from status ON PURPOSE:
+            // an app opts in with `featured: true` regardless of whether it is
+            // "live" or still "soon" — so Sequence Lite can be showcased big
+            // while keeping its "Coming soon" badge and dead store button. Any
+            // number of apps may be featured (each spans the full row and they
+            // stack). Fallback: if nothing is flagged, the first live app is
+            // featured so a launched app is always showcased.
+            const featuredKeys = new Set(visible.filter(app => app.featured).map(app => app.key));
+            if (featuredKeys.size === 0) {
+                const firstLive = visible.find(app => app.status === "live");
+                if (firstLive) featuredKeys.add(firstLive.key);
+            }
 
             grid.innerHTML = visible.map(app => {
                         const statusClass = `is-${app.status}`;
-                        const featured = app.key === featuredKey;
+                        const featured = featuredKeys.has(app.key);
                         // Live app with a real URL → clickable App Store pill. App that
                         // declares store intent (appStore set) but isn't live yet →
                         // disabled "Coming soon" pill (never a 404). No appStore → nothing.
