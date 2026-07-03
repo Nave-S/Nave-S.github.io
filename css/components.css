@@ -115,8 +115,10 @@
     .app-card--deeplink { animation: none; }
 }
 
-/* Featured card — first live app spans the full grid row and gets
-   a decorative icon medallion (aria-hidden, rendered by JS). */
+/* Featured card — any app flagged `featured` (see landing JS) spans the full
+   grid row; multiple featured cards simply stack. A featured app with a
+   `screenshot` shows a framed app shot, otherwise a decorative icon medallion
+   (aria-hidden). Featured is decoupled from status, so a "soon" app qualifies. */
 .app-card--featured { grid-column: 1 / -1; }
 .app-card--featured .app-card-body {
     display: flex;

@@ -373,8 +373,8 @@ nav a:hover { color: var(--color-accent-ink); }
 
 /* ============================================================
    App grid — bento (cards live in components.css)
-   First (featured) card may span the full row via the
-   `app-card--featured` modifier rendered by the landing JS.
+   Featured cards span the full row via the `app-card--featured`
+   modifier rendered by the landing JS; multiple featured cards stack.
    ============================================================ */
 
 .app-grid {
