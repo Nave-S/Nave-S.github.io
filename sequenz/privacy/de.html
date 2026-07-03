@@ -96,6 +96,39 @@
                 <h2>Synchronisierung mit der Apple Watch</h2>
                 <p>Wenn du Sequence Lite mit einer Apple Watch koppelst, werden deine Timer, Favoriten und Statistiken zwischen iPhone und gekoppelter Uhr über Apples WatchConnectivity-Framework abgeglichen. Die Übertragung erfolgt lokal zwischen deinen eigenen Geräten (Bluetooth bzw. direkte Funkverbindung); über den vom System genutzten temporären Zustellpuffer hinaus werden keine Daten auf Apple-Servern gespeichert. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Bereitstellung der erwarteten App-Funktion).</p>
 
+                <!-- ============================================================
+                     NICHT VERÖFFENTLICHT — Gesundheitsdaten-Abschnitt, vorbereitet
+                     für den geplanten „Fitness-Modus" (HealthKit) in v1.1. NICHT
+                     auskommentieren, bevor das HealthKit-Feature tatsächlich in der
+                     App ist UND die Anwalts-/DSB-Abnahme erfolgt ist. Die App
+                     verarbeitet heute KEINE Gesundheitsdaten — diese Website ist
+                     öffentlich, eine Veröffentlichung jetzt wäre daher eine
+                     Falschaussage. Bei Aktivierung ZUSÄTZLICH den weiterhin korrekten
+                     sichtbaren Passus „Keine Gesundheits- oder Fitnessdaten — Sequence
+                     Lite nutzt kein Apple HealthKit und liest keine Herzfrequenz" im
+                     Abschnitt „Daten, die NICHT erhoben werden" oben ersetzen.
+                     Quelle: business-hub/legal/2026-07-03-sqnz-healthkit-privacy-paket.md §4.1
+                     ============================================================
+
+                <h2>Gesundheitsdaten (Fitness-Modus / Apple Health)</h2>
+                <p>Die folgende Verarbeitung betrifft ausschließlich unsere iOS-/watchOS-App „Sequence Lite". Über diese Website werden keine Gesundheitsdaten verarbeitet.</p>
+                <p>Der Fitness-Modus ist eine optionale Funktion der App „Sequence Lite" und <strong>standardmäßig ausgeschaltet</strong>. Gesundheitsdaten werden nur verarbeitet, wenn Sie den Fitness-Modus aktiv einschalten und im anschließenden Systemdialog von Apple Health ausdrücklich zustimmen. Der Timer und alle übrigen Funktionen funktionieren vollständig ohne den Fitness-Modus.</p>
+                <ul>
+                    <li><strong>Verantwortlicher:</strong> siehe Abschnitt „Verantwortlicher" (Adriano Camonita, Barthstr. 6, 44328 Dortmund, casystudioco@gmail.com).</li>
+                    <li><strong>Verarbeitete Daten:</strong> <em>Herzfrequenz (Lesezugriff)</em> — während einer laufenden Trainingseinheit aus Apple Health gelesen, um sie live anzuzeigen; nicht dauerhaft gespeichert. <em>Trainingseinheiten/Workouts (Schreibzugriff)</em> — beim Abschluss einer Trainingseinheit wird ein Workout (Trainingsart, Beginn, Ende, Dauer) in Apple Health geschrieben.</li>
+                    <li>Herzfrequenz- und Trainingsdaten sind <strong>besondere Kategorien</strong> (Art. 9 Abs. 1 DSGVO).</li>
+                    <li><strong>Zweck:</strong> Live-Anzeige der Herzfrequenz während des Trainings + Dokumentation abgeschlossener Trainingseinheiten in Apple Health.</li>
+                    <li><strong>Rechtsgrundlage:</strong> ausdrückliche Einwilligung, <strong>Art. 9 Abs. 2 lit. a i.V.m. Art. 6 Abs. 1 lit. a DSGVO</strong>, erteilt — getrennt für Lesen/Schreiben — über den nativen Apple-Health-Dialog.</li>
+                    <li><strong>Speicherung/Dauer:</strong> ausschließlich lokal auf dem Gerät. Gelesene HF-Werte werden nicht dauerhaft gespeichert. Geschriebene Workouts verbleiben im Apple-Health-Speicher — auch nach Deinstallation —, bis Sie sie in Apple Health löschen. Speicherdauer bestimmen Sie selbst.</li>
+                    <li><strong>Empfänger:</strong> keine. Keine Übermittlung an den Anbieter, an Dritte oder Dienstleister; keine Server-/Cloud-Speicherung durch die App; keine Analyse/Werbung/Profiling.</li>
+                    <li><strong>Drittländer:</strong> keine Übermittlung.</li>
+                    <li><strong>iCloud-Hinweis:</strong> Apple Health kann Daten geräteübergreifend via iCloud synchronisieren — ein Systemdienst von Apple, den Sie in den iOS-Einstellungen selbst steuern; außerhalb dieser App und unseres Verantwortungsbereichs. Dafür ist Apple verantwortlich.</li>
+                    <li><strong>Freiwilligkeit:</strong> freiwillig; keine gesetzliche/vertragliche Pflicht; ohne Aktivierung keine Nachteile — nur die Fitness-Funktionen stehen nicht zur Verfügung.</li>
+                    <li><strong>Widerruf (Art. 7 Abs. 3):</strong> jederzeit mit Wirkung für die Zukunft — Fitness-Modus in den App-Einstellungen ausschalten und/oder Health-Berechtigungen in iOS entziehen (z. B. „Einstellungen &gt; Datenschutz &amp; Sicherheit &gt; Health &gt; Sequence Lite"). Rechtmäßigkeit der bis dahin erfolgten Verarbeitung bleibt unberührt. Bereits gespeicherte Workouts löschen Sie in der Apple-Health-App.</li>
+                    <li><strong>Weitere Rechte</strong> (Auskunft, Berichtigung, Löschung, Einschränkung, Übertragbarkeit, Widerspruch, Beschwerde bei der Aufsichtsbehörde LDI NRW): siehe Abschnitt „Deine Rechte nach der DSGVO". Da die App keine Kopie erhält, üben Sie diese Rechte bzgl. der lokalen Daten unmittelbar über Apple Health aus.</li>
+                </ul>
+                     ============================================================ -->
+
                 <h2>Pausieren bei Anruf (Apple Watch)</h2>
                 <p>Die Watch-App erkennt über Apples CallKit-Framework, ob gerade ein Telefonat aktiv ist, damit ein laufender Timer automatisch pausieren kann, wenn du einen Anruf annimmst. Es werden keine Anrufdaten (Anrufer, Nummer, Dauer) gelesen, gespeichert, übertragen oder protokolliert — nur das An/Aus-Signal wird für die Laufzeit des Timers im Arbeitsspeicher gehalten. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO. Du kannst dies in den Einstellungen unter „Timer-Verhalten &gt; Bei Unterbrechung pausieren" deaktivieren.</p>
 
