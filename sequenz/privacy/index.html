@@ -96,6 +96,38 @@
                 <h2>Apple Watch Sync</h2>
                 <p>If you pair Sequence Lite with an Apple Watch, your timers, favorites, and statistics sync between iPhone and the paired Watch via Apple's WatchConnectivity framework. The transfer is local, between your own devices (Bluetooth / direct radio); beyond the temporary delivery buffer the system uses, no data is stored on Apple servers. Legal basis: Art. 6(1)(b) GDPR (providing the expected app feature).</p>
 
+                <!-- ============================================================
+                     NOT PUBLISHED — Health-data section, prepared for the planned
+                     v1.1 "Fitness Mode" (HealthKit). Do NOT uncomment until the
+                     HealthKit feature actually ships in the app AND legal/DPO review
+                     is signed off. The app does NOT process health data today, so
+                     publishing this now would be a false statement (this website is
+                     public, the app currently does not do it). On activation, ALSO
+                     replace the still-correct visible bullet "No health or fitness
+                     data — Sequence Lite does not use Apple HealthKit and does not
+                     read heart rate" in the "Data We Do Not Collect" section above.
+                     Source: business-hub/legal/2026-07-03-sqnz-healthkit-privacy-paket.md §4.1
+                     ============================================================
+
+                <h2>Health data (Fitness Mode / Apple Health)</h2>
+                <p>The following processing relates exclusively to our iOS/watchOS app "Sequence Lite". No health data is processed through this website.</p>
+                <p>Fitness Mode is an optional feature of the "Sequence Lite" app and is switched off by default. Health data is only processed if you actively switch Fitness Mode on and give your explicit consent in the subsequent Apple Health system dialog. The timer and all other features work fully without Fitness Mode.</p>
+                <ul>
+                    <li><strong>Controller:</strong> see the "Controller" section (Adriano Camonita, Barthstr. 6, 44328 Dortmund, casystudioco@gmail.com).</li>
+                    <li><strong>Data processed:</strong> <em>Heart rate (read access)</em> — read from Apple Health during an active training session in order to display it live; not stored permanently. <em>Workouts (write access)</em> — when a training session is completed, a workout (activity type, start, end, duration) is written to Apple Health.</li>
+                    <li>Heart-rate and workout data are <strong>special categories</strong> of personal data (Art. 9(1) GDPR).</li>
+                    <li><strong>Purpose:</strong> live display of heart rate during training and documentation of completed training sessions in Apple Health.</li>
+                    <li><strong>Legal basis:</strong> explicit consent, <strong>Art. 9(2)(a) in conjunction with Art. 6(1)(a) GDPR</strong>, given — separately for reading and writing — through the native Apple Health dialog.</li>
+                    <li><strong>Storage / duration:</strong> exclusively local, on your device. Heart-rate values read are not stored permanently. Workouts written remain in the Apple Health store — even after uninstalling the app — until you delete them in Apple Health. You determine the storage duration yourself.</li>
+                    <li><strong>Recipients:</strong> none. No transmission to the provider, to third parties or to processors; no server or cloud storage by the app; no analysis, advertising or profiling.</li>
+                    <li><strong>Third countries:</strong> no transfer.</li>
+                    <li><strong>iCloud note:</strong> Apple Health can synchronise data across devices via iCloud — a system service provided by Apple that you control yourself in iOS settings; it is outside this app and our area of responsibility. Apple is responsible for it.</li>
+                    <li><strong>Voluntary nature:</strong> voluntary; there is no legal or contractual obligation; no disadvantages if you do not activate it — only the fitness features are then unavailable.</li>
+                    <li><strong>Withdrawal (Art. 7(3)):</strong> at any time with effect for the future — switch Fitness Mode off in the app settings and/or revoke the Health permissions in iOS (e.g. "Settings &gt; Privacy &amp; Security &gt; Health &gt; Sequence Lite"). The lawfulness of processing carried out up to that point remains unaffected. Workouts already stored are deleted by you in the Apple Health app.</li>
+                    <li><strong>Further rights</strong> (access, rectification, erasure, restriction, portability, objection, complaint to the supervisory authority LDI NRW): see the "Your Rights Under GDPR" section. As the app receives no copy, you exercise these rights regarding the local data directly via Apple Health.</li>
+                </ul>
+                     ============================================================ -->
+
                 <h2>Pause on Call (Apple Watch)</h2>
                 <p>The Watch app observes whether a phone call is currently active via Apple's CallKit framework, so a running timer can auto-pause when you take a call. No call metadata (caller, number, duration) is read, stored, transmitted, or logged — only the on/off signal is held in memory for the duration of the running timer. Legal basis: Art. 6(1)(b) GDPR. You can disable this in Settings &gt; Timer Behavior &gt; Pause on interruption.</p>
 
