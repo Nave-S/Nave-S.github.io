@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'">
+    <meta name="referrer" content="no-referrer">
     <meta name="theme-color" content="#0A0908" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#FAF7F2" media="(prefers-color-scheme: light)">
     <meta name="color-scheme" content="dark light">
@@ -86,12 +88,11 @@
 
         <main id="main">
             <section class="hero" aria-labelledby="hero-title">
-                <span class="eyebrow" id="eyebrow">a one-person app studio</span>
                 <h1 id="hero-title">
-                    Tools, <span class="accent" id="hero-accent">not platforms.</span>
+                    Apps. <span class="accent" id="hero-accent">Distilled to the essentials.</span>
                 </h1>
                 <p class="lede" id="lede">
-                    Casy Studio is a one-person shop building apps for iOS, macOS and Apple Watch. Each one does a specific job — and your data stays on your device, not on someone else's server.
+                    We build high-quality apps for iOS and macOS. Useful, thoughtful and made with care.
                 </p>
                 <div class="hero-cta">
                     <a href="#apps-title" class="hero-cta__primary" id="cta-primary">See the apps</a>
@@ -116,7 +117,6 @@
                     <span class="wordmark-mark" aria-hidden="true">CS</span>
                     <span>Casy Studio</span>
                 </a>
-                <p id="footer-tagline">Apps that mind their own business.</p>
             </div>
             <div class="site-footer__row">
                 <nav class="site-footer__links" aria-label="Studio">
@@ -126,7 +126,7 @@
                 </nav>
                 <p class="site-footer__legal" id="footer-legal">&copy; 2026 Adriano Camonita · All rights reserved.</p>
             </div>
-            <p class="site-footer__note" id="footer-hosting">Small studio, small setup: this site runs on GitHub Pages — that's where the github.io address comes from. A domain of its own comes later.</p>
+            <p class="site-footer__note" id="footer-hosting">Small studio, small setup: this site runs on GitHub Pages, which is where the github.io address comes from. A domain of its own comes later.</p>
         </footer>
     </div>
 
@@ -177,7 +177,7 @@
     </div>
 
     <script>
-        /* Copy variants for owner review (WP-N-2026-06-11-004) — active: variant 1.
+        /* Copy variants for owner review (WP-N-2026-06-11-004). Active: custom hero + footer copy per owner request (2026-07-13); eyebrow + footer tagline removed. Variants below kept for history.
          * Hero (lead / accent):
          *   1) EN "Tools," / "not platforms."            DE "Werkzeuge," / "keine Plattformen."
          *   2) EN "One job per app." / "Done properly."  DE "Eine Aufgabe pro App." / "Sauber gelöst."
@@ -196,17 +196,16 @@
         const i18n = {
             en: {
                 lang: "en",
-                eyebrow: "a one-person app studio",
                 ctaPrimary: "See the apps",
                 ctaSecondary: "Email me",
-                heroLead: "Tools,",
-                heroAccent: "not platforms.",
-                lede: "Casy Studio is a one-person shop building apps for iOS, macOS and Apple Watch. Each one does a specific job — and your data stays on your device, not on someone else's server.",
+                heroLead: "Apps.",
+                heroAccent: "Distilled to the essentials.",
+                lede: "We build high-quality apps for iOS and macOS. Useful, thoughtful and made with care.",
                 appsTitle: "The apps",
                 appsMetaOne: "1 app",
                 appsMetaMany: (n) => `${n} apps`,
                 privacy: "Privacy",
-                terms: "Terms",
+                terms: "Notes",
                 support: "Support",
                 empty: "No apps published yet — soon.",
                 rights: "All rights reserved.",
@@ -216,9 +215,8 @@
                 impressumSuffix: "",
                 footerPrivacy: "Privacy",
                 footerPrivacySuffix: "",
-                footerTagline: "Apps that mind their own business.",
                 footerLegal: "© 2026 Adriano Camonita · All rights reserved.",
-                footerHosting: "Small studio, small setup: this site runs on GitHub Pages — that's where the github.io address comes from. A domain of its own comes later.",
+                footerHosting: "Small studio, small setup: this site runs on GitHub Pages, which is where the github.io address comes from. A domain of its own comes later.",
                 statusLive: "Live",
                 statusBeta: "TestFlight",
                 statusSoon: "Coming soon",
@@ -241,17 +239,16 @@
             },
             de: {
                 lang: "de",
-                eyebrow: "Ein-Personen-Studio für Apps",
                 ctaPrimary: "Zu den Apps",
                 ctaSecondary: "Schreib mir",
-                heroLead: "Werkzeuge,",
-                heroAccent: "keine Plattformen.",
-                lede: "Casy Studio ist eine Ein-Personen-Werkstatt für iOS, macOS und Apple Watch. Jede App löst eine konkrete Aufgabe — und deine Daten bleiben auf deinem Gerät, nicht auf fremden Servern.",
+                heroLead: "Apps.",
+                heroAccent: "Reduziert auf das Wesentliche.",
+                lede: "Wir entwickeln hochwertige Apps für iOS und macOS. Nützlich, durchdacht und mit Liebe zum Detail.",
                 appsTitle: "Die Apps",
                 appsMetaOne: "1 App",
                 appsMetaMany: (n) => `${n} Apps`,
                 privacy: "Datenschutz",
-                terms: "Nutzungsbed.",
+                terms: "Hinweise",
                 support: "Support",
                 empty: "Noch keine Apps veröffentlicht — bald.",
                 rights: "Alle Rechte vorbehalten.",
@@ -261,9 +258,8 @@
                 impressumSuffix: "/de.html",
                 footerPrivacy: "Datenschutz",
                 footerPrivacySuffix: "/de.html",
-                footerTagline: "Apps, die nichts von dir wollen.",
                 footerLegal: "© 2026 Adriano Camonita · Alle Rechte vorbehalten.",
-                footerHosting: "Kleines Studio, kleines Setup: Diese Seite läuft auf GitHub Pages — daher die github.io-Adresse. Eine eigene Domain kommt später.",
+                footerHosting: "Kleines Studio, kleines Setup: Diese Seite läuft auf GitHub Pages, daher die github.io-Adresse. Eine eigene Domain kommt später.",
                 statusLive: "Live",
                 statusBeta: "TestFlight",
                 statusSoon: "Bald",
@@ -465,14 +461,12 @@
             enBtn.setAttribute("aria-pressed", lang === "en" ? "true" : "false");
             deBtn.setAttribute("aria-pressed", lang === "de" ? "true" : "false");
 
-            document.getElementById("eyebrow").textContent = t.eyebrow;
             document.getElementById("hero-title").innerHTML =
                 `${escape(t.heroLead)} <span class="accent" id="hero-accent">${escape(t.heroAccent)}</span>`;
             document.getElementById("lede").textContent = t.lede;
             document.getElementById("cta-primary").textContent = t.ctaPrimary;
             document.getElementById("cta-secondary").textContent = t.ctaSecondary;
             document.getElementById("apps-title").textContent = t.appsTitle;
-            document.getElementById("footer-tagline").textContent = t.footerTagline;
             document.getElementById("footer-contact").textContent = t.contact;
             const fi = document.getElementById("footer-impressum");
             fi.textContent = t.impressum;
