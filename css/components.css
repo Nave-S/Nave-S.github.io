@@ -810,19 +810,60 @@
    layout.css alongside the layout-level breakpoints.
    ============================================================ */
 
+/* ------------------------------------------------------------
+   Media cards on single column (≤900px) — restack, don't overlap.
+   At this breakpoint .app-grid collapses to one column (layout.css)
+   and the card is too narrow for the desktop split (copy left /
+   device right, sharing one full-bleed background image): the copy
+   would land on top of the rendered phone and both turn unreadable.
+   So we restack — the copy flows on the card's SOLID DARK surface
+   (media cards are an always-dark context in both themes, see
+   tokens.css), and the mockup becomes its OWN framed media block
+   below the copy: full content width, fixed ratio, cover-cropped
+   toward the device (it sits in the right of the source image).
+   Desktop (≥901px, two-column grid) is left completely untouched.
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+    /* Solid dark panel behind the copy — no image underlay, so the
+       forced light ink (below) always clears contrast. */
+    .app-card--media {
+        padding-right: var(--space-8);   /* drop the reserved device column */
+        min-height: 0;
+        background: var(--color-surface-media);
+    }
+
+    /* Mockup: full-bleed background → framed media block, moved to the
+       bottom of the flex column (source order renders .app-card__bg first). */
+    .app-card--media .app-card__bg {
+        position: static;
+        order: 1;                        /* below copy + foot */
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 2;
+        margin-top: var(--space-6);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border);
+    }
+    .app-card--media .app-card__bg img {
+        height: 100%;
+        object-position: 78% center;     /* device (right of frame) stays in view */
+    }
+    /* The left-dark readability gradient is only for copy-over-image;
+       with the framed layout it would just shade the frame — drop it. */
+    .app-card--media .app-card__bg::after { display: none; }
+
+    /* Copy no longer needs to be pinned to a tall card bottom (the
+       framed image follows it), so relax the auto top margin. */
+    .app-card--media .app-card__foot { margin-top: var(--space-4); }
+}
+
 @media (max-width: 600px) {
     .app-card { padding: var(--space-6); }
-    /* Full-width single card: pull the reserved device area in so the text
-       column keeps a comfortable measure, and push the mockup further right. */
-    .app-card--media {
-        padding-right: 42%;
-        min-height: 420px;
-    }
-    .app-card--media .app-card__bg img { object-position: 86% center; }
+    .app-card--media { padding-right: var(--space-6); }
 }
 
 @media (max-width: 380px) {
     .app-card { padding: var(--space-5); }
-    .app-card--media { padding-right: 34%; min-height: 380px; }
+    .app-card--media { padding-right: var(--space-5); }
     .app-icon { width: 48px; height: 48px; font-size: 18px; border-radius: 13px; }
 }
