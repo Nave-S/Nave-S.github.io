@@ -54,6 +54,15 @@
     --color-glass:         rgba(16, 14, 12, 0.62);    /* frosted topbar */
     --color-border:        rgba(255, 255, 255, 0.09);
     --color-border-strong: rgba(255, 255, 255, 0.16);
+    --color-scrim:         rgba(6, 5, 4, 0.72);       /* modal backdrop dim — stays dark in both themes */
+
+    /* Media-card ink + surface — the app-mockup background is always dark, so
+       these are NOT theme-flipped: light & dark schemes share them. */
+    --color-surface-media:      #131110;                  /* solid left anchor of the readability gradient */
+    --color-ink-on-media:       #F5F1EB;
+    --color-ink-on-media-muted: rgba(245, 241, 235, 0.74);
+    --color-ink-on-media-faint: rgba(245, 241, 235, 0.52);
+    --color-accent-on-media:    #FF8A33;                  /* bright orange — readable on the dark mockup */
 
     /* Ink */
     --color-text:          #F5F1EB;
