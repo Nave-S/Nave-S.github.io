@@ -379,11 +379,16 @@ nav a:hover { color: var(--color-accent-ink); }
 
 .app-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
-    gap: var(--space-4);
+    /* Two faithful keynote cards side by side; stacks to one column below. */
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    align-items: start;
     margin-bottom: var(--space-16);
     /* reserve space so async render of cards does not shift the page (CLS) */
     min-height: 280px;
+}
+@media (max-width: 900px) {
+    .app-grid { grid-template-columns: 1fr; }
 }
 
 /* ============================================================
