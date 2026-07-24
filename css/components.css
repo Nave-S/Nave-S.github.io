@@ -173,6 +173,94 @@
     min-height: 482px;
 }
 
+/* ============================================================
+   Showcase variant (app.devices[]) — copy left, a row of real
+   Apple-bezel device PNGs right. Replaces the single tilted
+   composite mockup with straight, side-by-side devices.
+
+   Apple guideline (hard): the PNGs already carry bezel + screenshot
+   on a transparent background and are used AS-IS — this CSS only
+   sizes/positions them. NO transform:rotate, NO added reflection,
+   shadow or gloss on the device, NO mirror. The card carries its own
+   violet/blue CSS glow ground (a gradient, not an image).
+
+   Always an intrinsically dark context, so ink is forced light
+   (like media cards, below). Spans the full grid row (layout.css).
+   The device row takes a variable number of devices (ShutterLife 2,
+   Sequence 1) and can grow later (Mac, Watch) without markup change.
+   ============================================================ */
+.app-card--showcase {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.35fr);
+    gap: clamp(var(--space-6), 4vw, var(--space-12));
+    align-items: center;
+    padding: clamp(var(--space-6), 4vw, var(--space-10));
+    min-height: 420px;
+}
+/* Violet/blue glow ground — a CSS gradient, no image, no reflection.
+   Declared for the resting AND hover state so the card's generic
+   :hover (which repaints background to a light glass surface) never
+   flashes the violet away; the hover lift/border/shadow still apply. */
+.app-card--showcase,
+.app-card--showcase:hover {
+    background:
+        radial-gradient(66% 78% at 70% 80%, rgba(120, 108, 255, 0.30), rgba(74, 62, 158, 0.12) 46%, transparent 74%),
+        linear-gradient(150deg, #151125 0%, #0c0913 58%, #0a0810 100%);
+}
+
+/* Copy column — same vertical flow as a plain card, left-aligned. */
+.app-card__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+/* Device row — straight devices on a shared baseline, largest first
+   (→ leftmost on desktop). Right-aligned; wraps big-device-on-top on
+   narrow screens (responsive section below). */
+.app-card__devices {
+    display: flex;
+    align-items: flex-end;          /* shared baseline, like Apple's rows */
+    justify-content: space-evenly;  /* spread devices across the row, even gaps + edge padding */
+    flex-wrap: nowrap;
+    gap: clamp(var(--space-2), 1.2vw, var(--space-4));
+    width: 100%;
+    min-width: 0;
+}
+.device-slot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+/* Size by height, keep aspect ratio, never distort or rotate. max-width
+   guards against overflow if a slot goes full-width (mobile wrap). */
+.device {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+/* Real-proportional heights: the iPad reads clearly larger than the
+   iPhone (taller frame + wider aspect ratio). Fluid, capped at the
+   desktop sizes from the verified mockup. */
+.device--iphone { height: clamp(150px, 14.3vw, 176px); }
+.device--ipad   { height: clamp(166px, 15.8vw, 192px); }
+.device--mac    { height: clamp(126px, 12.6vw, 162px); }
+.device--watch  { height: clamp(82px, 7.8vw, 104px); }
+
+/* Violet glow puck behind the device row (extra pop, echoes the
+   mockup). Repositions the shared warm glow element to the right and
+   recolours it — decorative, sits behind the devices (z-index below). */
+.app-card--showcase .app-card__glow {
+    top: 20%;
+    right: 2%;
+    width: 48%;
+    max-width: 560px;
+    background: radial-gradient(circle, rgba(126, 112, 255, 0.32), transparent 60%);
+}
+
 /* App icon — sits alone at the top of the card (keynote layout). Rounded
    badge; monogram fallback when there is no real icon. */
 .app-icon {
@@ -297,6 +385,18 @@
 .app-card--media .app-card__meta  { color: var(--color-ink-on-media-faint); }
 .app-card--media .app-card__cat   { color: var(--color-accent-on-media); }
 .app-card--media .app-card__soon {
+    border-color: rgba(255, 255, 255, 0.20);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-ink-on-media-muted);
+}
+
+/* Showcase cards share the media cards' always-dark (violet) context, so
+   their ink is forced light in both colour schemes too. */
+.app-card--showcase .app-card__name { color: var(--color-ink-on-media); }
+.app-card--showcase .app-card__desc { color: var(--color-ink-on-media-muted); }
+.app-card--showcase .app-card__meta { color: var(--color-ink-on-media-faint); }
+.app-card--showcase .app-card__cat  { color: var(--color-accent-on-media); }
+.app-card--showcase .app-card__soon {
     border-color: rgba(255, 255, 255, 0.20);
     background: rgba(255, 255, 255, 0.05);
     color: var(--color-ink-on-media-muted);
@@ -500,6 +600,17 @@
     color: var(--color-ink-on-media);
 }
 .app-card--media .detail-trigger:hover {
+    border-color: var(--color-accent);
+    background: rgba(255, 255, 255, 0.10);
+    color: #fff;
+}
+/* Same dark-context treatment for the showcase card trigger. */
+.app-card--showcase .detail-trigger {
+    border-color: rgba(255, 255, 255, 0.20);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--color-ink-on-media);
+}
+.app-card--showcase .detail-trigger:hover {
     border-color: var(--color-accent);
     background: rgba(255, 255, 255, 0.10);
     color: #fff;
@@ -855,6 +966,49 @@
     /* Copy no longer needs to be pinned to a tall card bottom (the
        framed image follows it), so relax the auto top margin. */
     .app-card--media .app-card__foot { margin-top: var(--space-4); }
+}
+
+/* ------------------------------------------------------------
+   Showcase cards on single column (≤900px) — copy stacks above the
+   device row. The grid two-column split collapses to one column; the
+   device row centres beneath the copy. Devices stay straight and on a
+   shared baseline (no rotate/reflection). Desktop is untouched.
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+    .app-card--showcase {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+        min-height: 0;
+    }
+    .app-card--showcase .app-card__devices { justify-content: center; }
+    /* Glow recentres behind the (now centred) device row. */
+    .app-card--showcase .app-card__glow {
+        top: auto;
+        bottom: 0;
+        right: 50%;
+        transform: translateX(50%);
+        width: 80%;
+    }
+}
+
+/* ------------------------------------------------------------
+   Showcase device row on phones (≤560px) — wrap so the LARGEST device
+   leads on its own full-width row and smaller devices sit beneath it
+   (iPad/Mac on top, iPhone/Watch below). Guarantees no horizontal
+   overflow at any phone width. For a future 3+ device card, revisit
+   which device should lead the full-width row.
+   ------------------------------------------------------------ */
+@media (max-width: 560px) {
+    .app-card--showcase .app-card__devices {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-4);
+    }
+    .device-slot--ipad,
+    .device-slot--mac { flex-basis: 100%; }
+    /* Compact, overflow-safe heights for the stacked phone view. */
+    .device--iphone { height: clamp(176px, 46vw, 210px); }
+    .device--ipad   { height: clamp(196px, 52vw, 236px); }
 }
 
 @media (max-width: 600px) {
