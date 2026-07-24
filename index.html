@@ -41,8 +41,8 @@
          landing renders synchronously (no fetch round-trip → no CLS). -->
     <script type="application/json" id="apps-config">
     {
-      "sequenz": true,
       "shutterlife": true,
+      "sequenz": true,
       "talktome": false,
       "clearmind": false,
       "elektohub": false,
@@ -222,6 +222,7 @@
                 statusBeta: "TestFlight",
                 statusSoon: "Coming soon",
                 iconAlt: (name) => `${name} app icon`,
+                deviceAlt: (name, device) => `${name} on ${device}`,
                 shotAlt: (name) => `${name} app screenshot`,
                 detailsCta: "Learn more",
                 detailsCtaFor: (name) => `Learn more about ${name}`,
@@ -266,6 +267,7 @@
                 statusBeta: "TestFlight",
                 statusSoon: "Bald",
                 iconAlt: (name) => `${name} App-Icon`,
+                deviceAlt: (name, device) => `${name} auf ${device}`,
                 shotAlt: (name) => `${name} App-Screenshot`,
                 detailsCta: "Mehr erfahren",
                 detailsCtaFor: (name) => `Mehr über ${name} erfahren`,
@@ -292,7 +294,7 @@
             // + realStoreUrl() guard mean the store button renders as a disabled
             // "Coming soon" affordance and never links to the 404. At launch: set
             // status:"live" and swap in the real App Store URL — then it links normally.
-            sequenz:        { name: "Sequence Lite",     icon: "S",  color: "#FF6B00", status: "soon",  en: "Interval timers you build once and run from your wrist.",            de: "Intervall-Timer: einmal bauen, vom Handgelenk starten.",          platform: "iOS · Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz",     iconSrc: "apps/icons/sequenz.png", screenshot: "apps/screenshots/sequenz/03.png", cardImage: "apps/cards/card-sequence.png", featured: true, cat: { en: "For your focus", de: "Für deinen Fokus" },
+            sequenz:        { name: "Sequence Lite",     icon: "S",  color: "#FF6B00", status: "soon",  en: "Interval timers you build once and run from your wrist.",            de: "Intervall-Timer: einmal bauen, vom Handgelenk starten.",          platform: "iOS · Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz",     iconSrc: "apps/icons/sequenz.png", screenshot: "apps/screenshots/sequenz/03.png", cardImage: "apps/cards/card-sequence.png", devices: [{ type: "ipad", src: "apps/devices/sequence-ipad.png" }, { type: "iphone", src: "apps/devices/sequence-iphone.png" }, { type: "watch", src: "apps/devices/sequence-watch.png" }], featured: true, cat: { en: "For your focus", de: "Für deinen Fokus" },
                 // Detail overlay content — mirrors the ShutterLife pattern. Description
                 // + sections stay faithful to documented app features (interval timers,
                 // flows, paste-import, Watch sync, pause-on-call, voice cues, on-device
@@ -341,7 +343,7 @@
                     ],
                 },
             },
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png", cardImage: "apps/cards/card-shutterlife.png", featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png", cardImage: "apps/cards/card-shutterlife.png", devices: [{ type: "mac", src: "apps/devices/shutterlife-mac.png" }, { type: "ipad", src: "apps/devices/shutterlife-ipad.png" }, { type: "iphone", src: "apps/devices/shutterlife-iphone.png" }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
                 // Detail overlay content. Description + sections condensed from the
                 // App Store listing (iTunes lookup id 6761454875, DE+EN) — kept
                 // faithful, no invented features. Screenshots: web-optimised
@@ -400,6 +402,11 @@
             shutterlifeweb: { name: "ShutterLife Web",   icon: "SW", color: "#3B82F6", status: "soon",  en: "Your ShutterLife library, readable in any browser.",                  de: "Deine ShutterLife-Bibliothek, in jedem Browser zur Hand.",           platform: "Web",               folder: "shutterlife-web" },
             clearlist:      { name: "ClearList",         icon: "CL", color: "#A78BFA", status: "soon",  en: "A to-do list with nothing extra: tasks in, tasks done.",              de: "To-Do-Liste ohne Schnickschnack: Aufgabe rein, erledigt.",         platform: "iOS",               folder: "clearlist" },
         };
+
+        // Device display names for showcase-card <img> alt text. Brand names, so
+        // they are NOT translated (i18n only wraps them: "… on <label>" / "… auf
+        // <label>"). Extend here when a card gains a new device type.
+        const DEVICE_LABELS = { iphone: "iPhone", ipad: "iPad", mac: "Mac", watch: "Apple Watch" };
 
         let currentLang = "en";
 
@@ -545,7 +552,18 @@
 
             grid.innerHTML = visible.map(app => {
                         const featured = featuredKeys.has(app.key);
-                        const hasMedia = !!app.cardImage;
+                        // Layout selector, in priority order:
+                        //   showcase — real Apple-bezel device PNGs beside the copy
+                        //              (app.devices[]). Straight, side-by-side, no
+                        //              rotation/reflection (Apple guideline); the card
+                        //              carries its own violet CSS glow, NOT a mockup image.
+                        //   media    — legacy single composite mockup as the card
+                        //              background (app.cardImage). Kept as a graceful
+                        //              fallback for any app that has a cardImage but no
+                        //              devices[].
+                        //   plain    — neither; the standard frosted card.
+                        const hasDevices = Array.isArray(app.devices) && app.devices.length > 0;
+                        const hasMedia = !hasDevices && !!app.cardImage;
 
                         // Store affordance (unchanged guard: realStoreUrl()). Genuinely
                         // live apps get the OFFICIAL Apple App Store badge, swapped by
@@ -575,23 +593,18 @@
                         const catLine = (app.cat && app.cat[lang])
                             ? `<p class="app-card__cat">${escape(app.cat[lang])}</p>`
                             : "";
-                        // Full-bleed rendered mockup behind the card (device right, mist
-                        // left). Decorative; a CSS gradient keeps the left column legible.
+                        // Legacy full-bleed rendered mockup behind the card (device
+                        // right, mist left). Decorative; a CSS gradient keeps the left
+                        // column legible. Only for the media fallback (no devices[]).
                         const bg = hasMedia
                             ? `<div class="app-card__bg" aria-hidden="true"><img src="${escape(app.cardImage)}" alt="" loading="lazy"></div>`
                             : "";
 
-                        // `app-card--featured` is retained as the deep-link hook (JS
-                        // queries `.app-card--featured[data-app]`); `--media` drives the
-                        // background-image layout.
-                        const classes = ["app-card", "reveal"];
-                        if (hasMedia) classes.push("app-card--media");
-                        if (featured) classes.push("app-card--featured");
-
-                        return `
-                            <article class="${classes.join(" ")}" data-app="${escape(app.key)}" aria-labelledby="app-${app.key}-title">
-                                ${bg}
-                                <div class="app-card__glow" aria-hidden="true"></div>
+                        // The shared inner copy column (icon → name → category →
+                        // description → platform → foot). Rendered directly inside the
+                        // article for plain/media cards, and wrapped in .app-card__body
+                        // for the showcase two-column split.
+                        const contentHtml = `
                                 ${iconHtml}
                                 <h3 class="app-card__name" id="app-${app.key}-title">${escape(app.name)}</h3>
                                 ${catLine}
@@ -600,7 +613,44 @@
                                 <div class="app-card__foot">
                                     ${detailTrigger}
                                     ${storeEl}
-                                </div>
+                                </div>`;
+
+                        // Showcase device row — one <img> per real Apple-bezel PNG,
+                        // largest device first (→ leftmost on desktop, top when the row
+                        // wraps on narrow screens). Each PNG is informative (shows the
+                        // app running on that device), so it gets a real alt text, not
+                        // aria-hidden. type ∈ iphone|ipad|mac|watch drives its size class;
+                        // unknown types still render (empty label) rather than break.
+                        const devicesHtml = hasDevices
+                            ? `<div class="app-card__devices">` + app.devices.map(d => {
+                                  const type = String(d.type || "");
+                                  const label = DEVICE_LABELS[type] || "";
+                                  return `<span class="device-slot device-slot--${escape(type)}"><img class="device device--${escape(type)}" src="${escape(d.src)}" alt="${escape(t.deviceAlt(app.name, label))}" loading="lazy" decoding="async"></span>`;
+                              }).join("") + `</div>`
+                            : "";
+
+                        // `app-card--featured` is retained as the deep-link hook (JS
+                        // queries `.app-card--featured[data-app]`). `--showcase` drives
+                        // the device-row layout; `--media` the legacy background image.
+                        const classes = ["app-card", "reveal"];
+                        if (hasDevices) classes.push("app-card--showcase");
+                        else if (hasMedia) classes.push("app-card--media");
+                        if (featured) classes.push("app-card--featured");
+
+                        if (hasDevices) {
+                            return `
+                            <article class="${classes.join(" ")}" data-app="${escape(app.key)}" aria-labelledby="app-${app.key}-title">
+                                <div class="app-card__glow" aria-hidden="true"></div>
+                                <div class="app-card__body">${contentHtml}</div>
+                                ${devicesHtml}
+                            </article>`;
+                        }
+
+                        return `
+                            <article class="${classes.join(" ")}" data-app="${escape(app.key)}" aria-labelledby="app-${app.key}-title">
+                                ${bg}
+                                <div class="app-card__glow" aria-hidden="true"></div>
+                                ${contentHtml}
                             </article>`;
                     }).join("");
 

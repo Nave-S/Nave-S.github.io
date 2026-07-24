@@ -387,6 +387,10 @@ nav a:hover { color: var(--color-accent-ink); }
     /* reserve space so async render of cards does not shift the page (CLS) */
     min-height: 280px;
 }
+/* Showcase cards (copy left, real device row right) are a wide layout: they
+   always claim the full grid row and stack vertically, never sharing a row as
+   half-width cards. Visual/device styles live in components.css. */
+.app-grid .app-card--showcase { grid-column: 1 / -1; }
 @media (max-width: 900px) {
     .app-grid { grid-template-columns: 1fr; }
 }
