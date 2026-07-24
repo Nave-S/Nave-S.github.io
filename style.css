@@ -1443,12 +1443,24 @@ footer:not(.site-footer) {
     flex: 0 0 100%;
     min-width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    box-sizing: border-box;
 }
+/* Screenshots sit inside a simple iPhone frame (dark bezel + rounded corners). */
 .overlay__shot {
     display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+    border: 7px solid #18181b;
+    border-radius: 34px;
+    background: #000;
+    box-shadow: 0 18px 46px -16px rgba(0, 0, 0, 0.75), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .overlay__nav {
