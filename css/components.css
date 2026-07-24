@@ -753,9 +753,6 @@
 .overlay__viewport {
     overflow: hidden;
     height: min(58vh, 520px);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-    background: var(--color-bg);
 }
 .overlay__track {
     display: flex;
