@@ -349,12 +349,20 @@
                 // faithful, no invented features. Screenshots: web-optimised
                 // ios_01/03/04/05 (sips, ~640px) under apps/screenshots/shutterlife/.
                 detail: {
-                    screenshots: [
-                        "apps/screenshots/framed/sl-01.png",
-                        "apps/screenshots/framed/sl-02.png",
-                        "apps/screenshots/framed/sl-03.png",
-                        "apps/screenshots/framed/sl-04.png",
-                    ],
+                    screenshots: {
+                        en: [
+                            "apps/screenshots/framed/en/sl-01.png",
+                            "apps/screenshots/framed/en/sl-02.png",
+                            "apps/screenshots/framed/en/sl-03.png",
+                            "apps/screenshots/framed/en/sl-04.png",
+                        ],
+                        de: [
+                            "apps/screenshots/framed/de/sl-01.png",
+                            "apps/screenshots/framed/de/sl-02.png",
+                            "apps/screenshots/framed/de/sl-03.png",
+                            "apps/screenshots/framed/de/sl-04.png",
+                        ],
+                    },
                     description: {
                         en: "Know your camera's true shutter count before you buy or sell. ShutterLife reads it straight from your camera's image files: no internet, no upload, no account. Works on iPhone, iPad and Mac.",
                         de: "Kenne den echten Auslösezähler deiner Kamera vor Kauf und Verkauf. ShutterLife liest ihn direkt aus den Bilddateien deiner Kamera: ohne Internet, ohne Upload, ohne Account. Für iPhone, iPad und Mac.",
@@ -491,6 +499,11 @@
             document.getElementById("footer-hosting").textContent = t.footerHosting;
 
             renderApps();
+
+            // An open detail overlay is built once, on open — so a language switch
+            // used to leave its text (and now its screenshots) in the old language
+            // until it was closed and reopened. Rebuild it in place instead.
+            if (overlayCurrentKey && !overlay.root.hidden) overlayBuild(apps[overlayCurrentKey]);
         }
 
         function loadConfig() {
@@ -734,6 +747,9 @@
         let overlayIndex = 0;
         let overlayCount = 0;
         let overlayLastFocus = null;
+        // Which app the overlay currently shows, so a language switch can rebuild
+        // it in place instead of leaving stale text and screenshots on screen.
+        let overlayCurrentKey = null;
         let overlayScrollLock = null;
         let overlayTouchX = null;
 
@@ -769,7 +785,14 @@
             overlay.title.textContent = app.name;
             overlay.platform.textContent = app.platform || "";
 
-            const shots = d.screenshots || [];
+            // Screenshots are either one flat list (same shots in every language)
+            // or a per-language map, for apps whose UI text shows up in the shot.
+            // ShutterLife is the first of the latter kind: its onboarding names the
+            // supported file formats, so an English shot under a German heading
+            // states the wrong thing in the wrong language.
+            const shots = (Array.isArray(d.screenshots)
+                ? d.screenshots
+                : d.screenshots && (d.screenshots[currentLang] || d.screenshots.en)) || [];
             overlayCount = shots.length;
             overlay.track.innerHTML = shots.map((src, i) =>
                 `<div class="overlay__slide"><img class="overlay__shot" src="${escape(src)}" alt="${escape(t.shotAltN(app.name, i + 1, shots.length))}" width="640" height="1390" loading="lazy"></div>`
@@ -820,6 +843,7 @@
             const app = apps[key];
             if (!app || !app.detail) return;
             overlayLastFocus = document.activeElement;
+            overlayCurrentKey = key;
             overlayBuild(app);
 
             // Scroll-lock with scrollbar-width compensation (no layout shift).
@@ -839,6 +863,7 @@
 
         function overlayCloseModal() {
             if (overlay.root.hidden) return;
+            overlayCurrentKey = null;
             overlay.root.classList.remove("is-open");
             document.removeEventListener("keydown", overlayOnKeydown, true);
             if (overlayScrollLock) {
