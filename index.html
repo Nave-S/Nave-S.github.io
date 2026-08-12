@@ -795,7 +795,7 @@
                 : d.screenshots && (d.screenshots[currentLang] || d.screenshots.en)) || [];
             overlayCount = shots.length;
             overlay.track.innerHTML = shots.map((src, i) =>
-                `<div class="overlay__slide"><img class="overlay__shot" src="${escape(src)}" alt="${escape(t.shotAltN(app.name, i + 1, shots.length))}" width="640" height="1390" loading="lazy"></div>`
+                `<div class="overlay__slide"><img class="overlay__shot" src="${escape(src)}" alt="${escape(t.shotAltN(app.name, i + 1, shots.length))}" width="1318" height="2717" loading="lazy"></div>`
             ).join("");
             overlay.dots.innerHTML = shots.map((_, i) =>
                 `<button type="button" class="overlay__dot" data-index="${i}" aria-label="${escape(t.overlayDot(i + 1, shots.length))}"></button>`

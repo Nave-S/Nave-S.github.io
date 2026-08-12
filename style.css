@@ -1426,10 +1426,20 @@ footer:not(.site-footer) {
 }
 
 /* Gallery */
-.overlay__gallery { position: relative; min-width: 0; }
+/* One source for the gallery height: the viewport and the arrow buttons both
+   read it, and they used to carry the same literal twice. Raised from
+   min(58vh, 520px) on 2026-08-12 — at that size a whole phone rendered 463px
+   tall, which put 17pt app text at 8.7 CSS px, roughly half the size of the
+   body copy sitting next to it. Unreadable regardless of image sharpness.
+   The vh term keeps short windows from overflowing the dialog. */
+.overlay__gallery {
+    position: relative;
+    min-width: 0;
+    --overlay-gallery-h: min(70vh, 720px);
+}
 .overlay__viewport {
     overflow: hidden;
-    height: min(58vh, 520px);
+    height: var(--overlay-gallery-h);
 }
 .overlay__track {
     display: flex;
@@ -1458,7 +1468,7 @@ footer:not(.site-footer) {
 
 .overlay__nav {
     position: absolute;
-    top: calc(min(58vh, 520px) / 2);
+    top: calc(var(--overlay-gallery-h) / 2);
     transform: translateY(-50%);
     width: 40px;
     height: 40px;
