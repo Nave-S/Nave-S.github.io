@@ -108,7 +108,56 @@ result blindly.
 
 import argparse
 import sys
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFilter
+
+
+def screen_hole_mask(canvas, sx, sy, sw, sh, alpha_threshold):
+    """Return an L-mode mask of the screen's ACTUAL shape inside the screen rect.
+
+    WHY THIS EXISTS
+    ---------------
+    `detect_screen_rect` returns a rectangle — the bounding box of the screen
+    hole. The hole itself is a rounded rectangle. Pasting the screenshot as a
+    plain rectangle therefore leaves four black corner wedges sticking out past
+    the device silhouette, because the bezel is transparent there and covers
+    nothing. On the iPhone 17 Pro bezel that is 70,627 pixels, 2.23% of the
+    rect — small in area, glaringly visible against a light page background.
+
+    Every framed shot on this site carried those wedges until 2026-08-12.
+
+    HOW THE SHAPE IS FOUND
+    ----------------------
+    Flood fill outward from the centre of the screen rect across transparent
+    pixels, confined to the rect. The rounded corners are cut off from the
+    centre by the opaque bezel frame, so the fill never reaches them. Confining
+    it to the rect also means the Dynamic Island channel — the leak documented
+    above that defeats a whole-canvas flood fill — cannot carry it outside.
+
+    The alpha channel is binarised first, so the fill marker (128) can never
+    collide with a real alpha value.
+    """
+    alpha = canvas.split()[3].crop((sx, sy, sx + sw, sy + sh))
+    binary = alpha.point(lambda v: 0 if v <= alpha_threshold else 255)
+    ImageDraw.floodfill(binary, (sw // 2, sh // 2), 128, thresh=0)
+    mask = binary.point(lambda v: 255 if v == 128 else 0)
+
+    # Grow the mask by 2px. The bezel's inner edge is antialiased, so a band of
+    # partly-transparent pixels sits between "hole" (alpha 0) and "frame"
+    # (alpha 255). The flood fill stops at the first of them, and without this
+    # the page background shows through as a hairline along the corner curve —
+    # the exact artefact this function was written to remove, one pixel over.
+    # Growing is safe: the surplus lands under the opaque frame, which is drawn
+    # on top afterwards and is far thicker than 2px.
+    mask = mask.filter(ImageFilter.MaxFilter(5))
+
+    covered = sum(mask.point(lambda v: 1 if v else 0).getdata())
+    if covered < sw * sh * 0.90:
+        raise ValueError(
+            f"Screen hole mask covers only {covered} of {sw * sh} rect pixels "
+            f"({covered / (sw * sh) * 100:.1f}%). Expected ~98%. The flood fill "
+            f"probably started on an opaque pixel or the rect is wrong."
+        )
+    return mask
 
 
 def longest_transparent_run(values, threshold):
@@ -195,8 +244,14 @@ def compose(bezel_path, content_path, out_path, mid_row_frac, quarter_col_frac,
               f"{sw}x{sh} (Lanczos)")
         content = content.resize((sw, sh), Image.LANCZOS)
 
+    # Paste through the screen's real (rounded) shape, not the bounding box —
+    # otherwise the corners stick out past the device silhouette.
+    mask = screen_hole_mask(canvas, sx, sy, sw, sh, alpha_threshold)
+    trimmed = sw * sh - sum(mask.point(lambda v: 1 if v else 0).getdata())
+    print(f"Corner trim: {trimmed} px ({trimmed / (sw * sh) * 100:.2f}% of the rect)")
+
     result = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
-    result.paste(content, (sx, sy))
+    result.paste(content, (sx, sy), mask)
     result = Image.alpha_composite(result, canvas)
 
     result.save(out_path)
