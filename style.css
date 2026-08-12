@@ -1579,9 +1579,28 @@ footer:not(.site-footer) {
     transition: color var(--motion-fast);
 }
 .overlay__links a:hover { color: var(--color-accent-ink); }
+/* App Store badge — Apple's own artwork, used under their marketing guidelines
+   (developer.apple.com/app-store/marketing/guidelines, read 2026-08-12):
+   minimum onscreen height 40px, clear space at least one quarter of the badge
+   height on every side, artwork never recreated, recoloured, angled, animated
+   or stretched. Hence a fixed height with width:auto — never width:100%, which
+   is what the old text button did and what would distort the badge. */
 .overlay__store {
+    display: inline-block;
     margin-top: var(--space-5);
-    width: 100%;
+    padding: 11px;          /* clear space: 1/4 of the 44px badge height */
+    margin-left: -11px;     /* pull the padding out of the text column's flow */
+    border-radius: var(--radius-md);
+    line-height: 0;
+}
+.overlay__store:focus-visible {
+    outline: 2px solid var(--color-accent-ring);
+    outline-offset: 2px;
+}
+.overlay__store-badge {
+    display: block;
+    height: 44px;           /* above Apple's 40px floor, and a comfortable tap target */
+    width: auto;
 }
 
 @media (max-width: 600px) {

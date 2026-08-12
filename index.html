@@ -171,7 +171,7 @@
                     <p class="overlay__desc" id="overlay-desc"></p>
                     <div class="overlay__sections" id="overlay-sections"></div>
                     <div class="overlay__links" id="overlay-links"></div>
-                    <a class="btn overlay__store" id="overlay-store" target="_blank" rel="noopener"></a>
+                    <a class="overlay__store" id="overlay-store" target="_blank" rel="noopener"><img class="overlay__store-badge" id="overlay-store-badge" src="" alt="" width="120" height="40"></a>
                 </div>
             </div>
         </div>
@@ -232,8 +232,6 @@
                 overlayGallery: "Screenshots",
                 overlayCounter: (i, n) => `${i} / ${n}`,
                 overlayDot: (i, n) => `Show screenshot ${i} of ${n}`,
-                overlayStore: "View on the App Store",
-                overlayStoreFor: (name) => `View ${name} on the App Store`,
                 storeBadgeFor: (name) => `Download ${name} on the App Store`,
                 shotAltN: (name, i, n) => `${name} screenshot ${i} of ${n}`,
                 privacySuffix: "",
@@ -277,8 +275,6 @@
                 overlayGallery: "Screenshots",
                 overlayCounter: (i, n) => `${i} / ${n}`,
                 overlayDot: (i, n) => `Screenshot ${i} von ${n} zeigen`,
-                overlayStore: "Im App Store ansehen",
-                overlayStoreFor: (name) => `${name} im App Store ansehen`,
                 storeBadgeFor: (name) => `${name} im App Store laden`,
                 shotAltN: (name, i, n) => `${name} Screenshot ${i} von ${n}`,
                 privacySuffix: "/de.html",
@@ -739,6 +735,7 @@
             sections: document.getElementById("overlay-sections"),
             links: document.getElementById("overlay-links"),
             store: document.getElementById("overlay-store"),
+            storeBadge: document.getElementById("overlay-store-badge"),
             close: document.getElementById("overlay-close"),
             gallery: document.getElementById("overlay-gallery"),
             viewport: document.querySelector("#app-overlay .overlay__viewport"),
@@ -822,8 +819,12 @@
             const overlayUrl = realStoreUrl(app);
             if (overlayUrl) {
                 overlay.store.href = overlayUrl;
-                overlay.store.textContent = t.overlayStore;
-                overlay.store.setAttribute("aria-label", t.overlayStoreFor(app.name));
+                // Apple's official badge artwork, localised. Apple forbids
+                // recreating or altering it, so this is their SVG unchanged —
+                // the alt text carries the accessible name, no aria-label on the
+                // link (it would override the alt).
+                overlay.storeBadge.src = `apps/cards/appstore-badge-${currentLang}.svg`;
+                overlay.storeBadge.alt = t.storeBadgeFor(app.name);
                 overlay.store.hidden = false;
             } else {
                 overlay.store.hidden = true;
