@@ -171,7 +171,20 @@
                     <p class="overlay__desc" id="overlay-desc"></p>
                     <div class="overlay__sections" id="overlay-sections"></div>
                     <div class="overlay__links" id="overlay-links"></div>
-                    <a class="overlay__store" id="overlay-store" target="_blank" rel="noopener"><img class="overlay__store-badge" id="overlay-store-badge" src="" alt="" width="120" height="40"></a>
+                    <div class="overlay__get">
+                        <a class="overlay__store" id="overlay-store" target="_blank" rel="noopener"><img class="overlay__store-badge" id="overlay-store-badge" src="" alt="" width="120" height="40"></a>
+                        <!-- Desktop only, and only when a QR file exists for the app.
+                             A visitor on a PC who taps the badge lands on Apple's web
+                             page and cannot get the app onto the phone in their pocket
+                             from there — they would have to search for it by hand.
+                             Hidden on touch devices, where the badge already does the
+                             job. aria-hidden: the link next to it says the same thing
+                             to a screen reader, and a QR code read aloud is noise. -->
+                        <div class="overlay__qr" id="overlay-qr" hidden aria-hidden="true">
+                            <img class="overlay__qr-code" id="overlay-qr-code" src="" alt="" width="96" height="96">
+                            <span class="overlay__qr-hint" id="overlay-qr-hint"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -233,6 +246,7 @@
                 overlayCounter: (i, n) => `${i} / ${n}`,
                 overlayDot: (i, n) => `Show screenshot ${i} of ${n}`,
                 storeBadgeFor: (name) => `Download ${name} on the App Store`,
+                qrHint: "Scan to open on your iPhone",
                 shotAltN: (name, i, n) => `${name} screenshot ${i} of ${n}`,
                 privacySuffix: "",
                 termsSuffix: "",
@@ -276,6 +290,7 @@
                 overlayCounter: (i, n) => `${i} / ${n}`,
                 overlayDot: (i, n) => `Screenshot ${i} von ${n} zeigen`,
                 storeBadgeFor: (name) => `${name} im App Store laden`,
+                qrHint: "Scannen und am iPhone öffnen",
                 shotAltN: (name, i, n) => `${name} Screenshot ${i} von ${n}`,
                 privacySuffix: "/de.html",
                 termsSuffix: "/de.html",
@@ -339,7 +354,7 @@
                     ],
                 },
             },
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png", cardImage: "apps/cards/card-shutterlife.png", devices: [{ type: "mac", src: "apps/devices/shutterlife-mac.png" }, { type: "ipad", src: "apps/devices/shutterlife-ipad.png" }, { type: "iphone", src: "apps/devices/shutterlife-iphone.png" }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife/id6761454875", qr: "apps/qr/shutterlife.svg", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png", cardImage: "apps/cards/card-shutterlife.png", devices: [{ type: "mac", src: "apps/devices/shutterlife-mac.png" }, { type: "ipad", src: "apps/devices/shutterlife-ipad.png" }, { type: "iphone", src: "apps/devices/shutterlife-iphone.png" }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
                 // Detail overlay content. Description + sections condensed from the
                 // App Store listing (iTunes lookup id 6761454875, DE+EN) — kept
                 // faithful, no invented features. Screenshots: web-optimised
@@ -447,6 +462,29 @@
         // linked. Returns the real URL, or null (→ caller renders a disabled
         // "Coming soon" affordance instead of a dead link).
         const STORE_PLACEHOLDER = /\/app\/(sequenz|sequence-lite)\/?$/i;
+        // The country segment in an App Store URL decides which national STORE
+        // PAGE a desktop visitor sees — its language and its price tag. It does
+        // NOT decide where anyone buys: on a phone the link opens the App Store
+        // app, which only ever knows the store of the signed-in account.
+        //
+        // Measured 14.08. rather than assumed: without a country segment Apple
+        // redirects to /us/ for every browser language tried (th, de, en, ja),
+        // and even when its own response sets `geo=DE`. So the choice is not
+        // "auto-detect vs. fixed" — it is which fixed page we send people to.
+        //
+        // We send them to the one matching the language they are reading the
+        // site in: /de/ for German, no segment (→ /us/, English) otherwise.
+        // A German reader would otherwise land on an English page mid-sentence,
+        // and an international reader on a German one.
+        function localizeStoreUrl(url, lang) {
+            if (!url) return url;
+            // Only rewrite the canonical form, so a URL that already carries a
+            // country segment is left exactly as the data declares it.
+            return lang === "de"
+                ? url.replace(/^https:\/\/apps\.apple\.com\/app\//, "https://apps.apple.com/de/app/")
+                : url;
+        }
+
         function realStoreUrl(app) {
             if (!app.appStore || app.status !== "live") return null;
             if (STORE_PLACEHOLDER.test(app.appStore)) return null;
@@ -584,10 +622,24 @@
                             ? "apps/cards/appstore-badge-de.svg"
                             : "apps/cards/appstore-badge-en.svg";
                         const storeEl = realUrl
-                            ? `<a class="app-card__store" href="${escape(realUrl)}" rel="noopener" target="_blank" aria-label="${escape(t.storeBadgeFor(app.name))}"><img src="${badgeSrc}" alt="" width="120" height="40" loading="lazy"></a>`
+                            ? `<a class="app-card__store" href="${escape(localizeStoreUrl(realUrl, lang))}" rel="noopener" target="_blank" aria-label="${escape(t.storeBadgeFor(app.name))}"><img src="${badgeSrc}" alt="" width="120" height="40" loading="lazy"></a>`
                             : app.appStore
                                 ? `<span class="app-card__soon" aria-disabled="true">${escape(t.statusSoon)}</span>`
                                 : "";
+                        // The same QR as in the overlay, on the card itself — a desktop
+                        // visitor should not have to open "Learn more" first to find the
+                        // one route that gets the app onto their phone (owner, 14.08.).
+                        // Same two conditions as there: a real store URL, and a QR file
+                        // that actually exists for this app. CSS narrows it further to
+                        // wide cards with a mouse.
+                        //
+                        // The QR is NOT localized, unlike the badge link. It is scanned
+                        // by a phone, and the App Store app there shows the store of the
+                        // signed-in account whatever the URL said — a second QR per
+                        // language would be two files encoding the same outcome.
+                        const qrEl = (realUrl && app.qr)
+                            ? `<div class="app-card__qr" aria-hidden="true"><img src="${escape(app.qr)}" alt="" width="72" height="72" loading="lazy"><span>${escape(t.qrHint)}</span></div>`
+                            : "";
                         // "Learn more" opens the detail overlay (delegated click on
                         // data-detail). Its OWN action, separate from the store link.
                         const detailTrigger = app.detail
@@ -621,7 +673,7 @@
                                 <p class="app-card__meta">${escape(app.platform)}</p>
                                 <div class="app-card__foot">
                                     ${detailTrigger}
-                                    ${storeEl}
+                                    ${(storeEl || qrEl) ? `<div class="app-card__get">${storeEl}${qrEl}</div>` : ""}
                                 </div>`;
 
                         // Showcase device row — one <img> per real Apple-bezel PNG,
@@ -736,6 +788,9 @@
             links: document.getElementById("overlay-links"),
             store: document.getElementById("overlay-store"),
             storeBadge: document.getElementById("overlay-store-badge"),
+            qr: document.getElementById("overlay-qr"),
+            qrCode: document.getElementById("overlay-qr-code"),
+            qrHint: document.getElementById("overlay-qr-hint"),
             close: document.getElementById("overlay-close"),
             gallery: document.getElementById("overlay-gallery"),
             viewport: document.querySelector("#app-overlay .overlay__viewport"),
@@ -818,7 +873,7 @@
             // rather than offering a dead 404 link.
             const overlayUrl = realStoreUrl(app);
             if (overlayUrl) {
-                overlay.store.href = overlayUrl;
+                overlay.store.href = localizeStoreUrl(overlayUrl, currentLang);
                 // Apple's official badge artwork, localised. Apple forbids
                 // recreating or altering it, so this is their SVG unchanged —
                 // the alt text carries the accessible name, no aria-label on the
@@ -826,8 +881,22 @@
                 overlay.storeBadge.src = `apps/cards/appstore-badge-${currentLang}.svg`;
                 overlay.storeBadge.alt = t.storeBadgeFor(app.name);
                 overlay.store.hidden = false;
+
+                // The QR needs its own file per app, generated from that app's
+                // store URL (tools/make-qr.swift). No file, no QR — deriving the
+                // path from the folder name would render a broken image the day
+                // an app goes live and nobody remembers this step. CSS decides
+                // whether a desktop visitor actually sees it.
+                if (app.qr) {
+                    overlay.qrCode.src = app.qr;
+                    overlay.qrHint.textContent = t.qrHint;
+                    overlay.qr.hidden = false;
+                } else {
+                    overlay.qr.hidden = true;
+                }
             } else {
                 overlay.store.hidden = true;
+                overlay.qr.hidden = true;
             }
 
             overlay.gallery.setAttribute("aria-label", t.overlayGallery);

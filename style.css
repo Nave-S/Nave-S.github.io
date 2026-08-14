@@ -1036,6 +1036,58 @@ footer:not(.site-footer) {
     .app-card__store:hover { transform: none; }
 }
 
+/* QR on the card itself, next to the badge. Hidden by default for the same
+   reason as in the overlay: on a touch device the badge is the shorter path.
+   Restricted to showcase cards on purpose — they claim the full grid row, so
+   there is room beside the badge. A narrow card in a multi-column grid would
+   have to shrink the code to a size nobody can scan. */
+.app-card__qr { display: none; }
+
+/* Badge and QR share one row, the same pairing as in the overlay. The foot
+   itself stacks vertically (Learn more, then this row), so the wrapper is what
+   keeps the two download routes beside each other instead of below. */
+.app-card__get {
+    display: flex;
+    align-items: flex-start;   /* top edges on one line, see the QR block below */
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+@media (min-width: 860px) and (pointer: fine) {
+    /* Hint BESIDE the code, not under it (owner, 14.08.). Stacked, the block
+       stood 100px tall next to a 48px button and read as a second, unrelated
+       thing rather than the button's neighbour. Side by side it is only as tall
+       as the code itself. */
+    .app-card--showcase .app-card__qr {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-2);
+        /* The badge link carries 4px of clear space above its artwork
+           (.app-card__store padding). Matching it here starts the code on the
+           same line as the badge artwork, not 4px above it. */
+        padding-top: var(--space-1);
+    }
+    .app-card--showcase .app-card__qr img {
+        display: block;
+        flex: none;                 /* the code is square — never let the text squeeze it */
+        width: 72px;
+        height: 72px;
+        padding: 5px;               /* the quiet zone scanners need */
+        background: #fff;           /* stays white in dark mode: a QR needs the contrast */
+        border-radius: var(--radius-sm);
+        color: #000;                /* the SVG draws its modules in currentColor */
+    }
+    .app-card--showcase .app-card__qr span {
+        font-size: 0.7rem;
+        line-height: 1.3;
+        /* Two short lines beside the code. Wider and it starts competing with
+           the card's own description for the eye. */
+        max-width: 84px;
+        color: var(--color-text-muted);
+    }
+}
+
 /* "Coming soon"/"Bald" pill — shown instead of a badge for apps that declare
    store intent but are not in the App Store yet (status:"soon"). Non-interactive
    (a <span>), never a dead 404 link. Same guard as before (realStoreUrl()). */
@@ -1601,6 +1653,49 @@ footer:not(.site-footer) {
     display: block;
     height: 44px;           /* above Apple's 40px floor, and a comfortable tap target */
     width: auto;
+}
+
+/* The badge and the QR code sit side by side and share one baseline: they are
+   two routes to the same download, not a primary and an afterthought. */
+.overlay__get {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+}
+
+/* Hidden by default — on a phone or tablet the badge already leads straight
+   into the App Store, and a QR code you would have to scan with the device
+   showing it is a small joke at the visitor's expense.
+   `pointer: fine` is the honest test: it asks for a mouse or trackpad, which
+   is what "this person is not holding the device" actually means. A width
+   query alone would show it on a tablet in landscape. */
+.overlay__qr { display: none; }
+
+@media (min-width: 860px) and (pointer: fine) {
+    .overlay__qr:not([hidden]) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+        margin-top: var(--space-5);
+    }
+    .overlay__qr-code {
+        display: block;
+        width: 96px;
+        height: 96px;
+        padding: 6px;                       /* the quiet zone scanners need */
+        background: #fff;                   /* stays white in dark mode: a QR needs the contrast */
+        border-radius: var(--radius-sm);
+        color: #000;                        /* the SVG draws its modules in currentColor */
+    }
+    .overlay__qr-hint {
+        font-size: 0.75rem;
+        line-height: 1.3;
+        max-width: 110px;
+        text-align: center;
+        color: var(--color-text-muted);
+    }
 }
 
 @media (max-width: 600px) {
