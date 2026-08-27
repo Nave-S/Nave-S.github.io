@@ -42,7 +42,7 @@
     <script type="application/json" id="apps-config">
     {
       "shutterlife": true,
-      "sequenz": true,
+      "sequenz": false,
       "talktome": false,
       "clearmind": false,
       "elektohub": false,
@@ -171,7 +171,20 @@
                     <p class="overlay__desc" id="overlay-desc"></p>
                     <div class="overlay__sections" id="overlay-sections"></div>
                     <div class="overlay__links" id="overlay-links"></div>
-                    <a class="btn overlay__store" id="overlay-store" target="_blank" rel="noopener"></a>
+                    <div class="overlay__get">
+                        <a class="overlay__store" id="overlay-store" target="_blank" rel="noopener"><img class="overlay__store-badge" id="overlay-store-badge" src="" alt="" width="120" height="40"></a>
+                        <!-- Desktop only, and only when a QR file exists for the app.
+                             A visitor on a PC who taps the badge lands on Apple's web
+                             page and cannot get the app onto the phone in their pocket
+                             from there — they would have to search for it by hand.
+                             Hidden on touch devices, where the badge already does the
+                             job. aria-hidden: the link next to it says the same thing
+                             to a screen reader, and a QR code read aloud is noise. -->
+                        <div class="overlay__qr" id="overlay-qr" hidden aria-hidden="true">
+                            <img class="overlay__qr-code" id="overlay-qr-code" src="" alt="" width="96" height="96">
+                            <span class="overlay__qr-hint" id="overlay-qr-hint"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -208,7 +221,7 @@
                 privacy: "Privacy",
                 terms: "Notes",
                 support: "Support",
-                empty: "No apps published yet — soon.",
+                empty: "No apps published yet. Soon.",
                 rights: "All rights reserved.",
                 contact: "Contact",
                 github: "GitHub",
@@ -232,9 +245,8 @@
                 overlayGallery: "Screenshots",
                 overlayCounter: (i, n) => `${i} / ${n}`,
                 overlayDot: (i, n) => `Show screenshot ${i} of ${n}`,
-                overlayStore: "View on the App Store",
-                overlayStoreFor: (name) => `View ${name} on the App Store`,
                 storeBadgeFor: (name) => `Download ${name} on the App Store`,
+                qrHint: "Scan to open on your iPhone",
                 shotAltN: (name, i, n) => `${name} screenshot ${i} of ${n}`,
                 privacySuffix: "",
                 termsSuffix: "",
@@ -253,7 +265,7 @@
                 privacy: "Datenschutz",
                 terms: "Hinweise",
                 support: "Support",
-                empty: "Noch keine Apps veröffentlicht — bald.",
+                empty: "Noch keine Apps veröffentlicht. Bald.",
                 rights: "Alle Rechte vorbehalten.",
                 contact: "Kontakt",
                 github: "GitHub",
@@ -277,9 +289,8 @@
                 overlayGallery: "Screenshots",
                 overlayCounter: (i, n) => `${i} / ${n}`,
                 overlayDot: (i, n) => `Screenshot ${i} von ${n} zeigen`,
-                overlayStore: "Im App Store ansehen",
-                overlayStoreFor: (name) => `${name} im App Store ansehen`,
                 storeBadgeFor: (name) => `${name} im App Store laden`,
+                qrHint: "Scannen und am iPhone öffnen",
                 shotAltN: (name, i, n) => `${name} Screenshot ${i} von ${n}`,
                 privacySuffix: "/de.html",
                 termsSuffix: "/de.html",
@@ -308,15 +319,15 @@
                         "apps/screenshots/framed/seq-04.png",
                     ],
                     description: {
-                        en: "Build interval timers once — warm-ups, workouts, work-and-rest cycles — and run them from your iPhone or straight from your wrist. No account, no cloud: everything stays on your device.",
-                        de: "Intervall-Timer einmal bauen — Aufwärmen, Workouts, Arbeits- und Pausenzyklen — und vom iPhone oder direkt vom Handgelenk starten. Ohne Konto, ohne Cloud: Alles bleibt auf deinem Gerät.",
+                        en: "Build interval timers once (warm-ups, workouts, work-and-rest cycles) and run them from your iPhone or straight from your wrist. No account, no cloud: everything stays on your device.",
+                        de: "Intervall-Timer einmal bauen (Aufwärmen, Workouts, Arbeits- und Pausenzyklen) und vom iPhone oder direkt vom Handgelenk starten. Ohne Konto, ohne Cloud: Alles bleibt auf deinem Gerät.",
                     },
                     sections: [
                         {
                             title: { en: "Build once, reuse forever", de: "Einmal bauen, immer wieder nutzen" },
                             body: {
-                                en: "Create a timer with as many phases as you need, give each one a name, duration and colour, and save it. Chain several timers into a flow for longer routines — you can even build a timer from pasted text.",
-                                de: "Erstelle einen Timer mit beliebig vielen Phasen, gib jeder einen Namen, eine Dauer und eine Farbe und speichere ihn. Verkette mehrere Timer zu einem Flow für längere Abläufe — du kannst einen Timer sogar aus eingefügtem Text erstellen.",
+                                en: "Create a timer with as many phases as you need, give each one a name, duration and colour, and save it. Chain several timers into a flow for longer routines. You can even build a timer from pasted text.",
+                                de: "Erstelle einen Timer mit beliebig vielen Phasen, gib jeder einen Namen, eine Dauer und eine Farbe und speichere ihn. Verkette mehrere Timer zu einem Flow für längere Abläufe. Du kannst einen Timer sogar aus eingefügtem Text erstellen.",
                             },
                         },
                         {
@@ -336,49 +347,57 @@
                         {
                             title: { en: "Private by design", de: "Datenschutz von Grund auf" },
                             body: {
-                                en: "Sequence Lite works entirely offline. There is no account, no tracking, no analytics and no cloud sync — your timers and statistics stay on your device.",
-                                de: "Sequence Lite arbeitet vollständig offline. Es gibt kein Konto, kein Tracking, keine Analyse und keine Cloud-Synchronisierung — deine Timer und Statistiken bleiben auf deinem Gerät.",
+                                en: "Sequence Lite works entirely offline. There is no account, no tracking, no analytics and no cloud sync. Your timers and statistics stay on your device.",
+                                de: "Sequence Lite arbeitet vollständig offline. Es gibt kein Konto, kein Tracking, keine Analyse und keine Cloud-Synchronisierung. Deine Timer und Statistiken bleiben auf deinem Gerät.",
                             },
                         },
                     ],
                 },
             },
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png", cardImage: "apps/cards/card-shutterlife.png", devices: [{ type: "mac", src: "apps/devices/shutterlife-mac.png" }, { type: "ipad", src: "apps/devices/shutterlife-ipad.png" }, { type: "iphone", src: "apps/devices/shutterlife-iphone.png" }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife/id6761454875", qr: "apps/qr/shutterlife.svg", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png", cardImage: "apps/cards/card-shutterlife.png", devices: [{ type: "mac", src: "apps/devices/shutterlife-mac.png" }, { type: "ipad", src: "apps/devices/shutterlife-ipad.png" }, { type: "iphone", src: "apps/devices/shutterlife-iphone.png" }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
                 // Detail overlay content. Description + sections condensed from the
                 // App Store listing (iTunes lookup id 6761454875, DE+EN) — kept
                 // faithful, no invented features. Screenshots: web-optimised
                 // ios_01/03/04/05 (sips, ~640px) under apps/screenshots/shutterlife/.
                 detail: {
-                    screenshots: [
-                        "apps/screenshots/framed/sl-01.png",
-                        "apps/screenshots/framed/sl-02.png",
-                        "apps/screenshots/framed/sl-03.png",
-                        "apps/screenshots/framed/sl-04.png",
-                    ],
+                    screenshots: {
+                        en: [
+                            "apps/screenshots/framed/en/sl-01.png",
+                            "apps/screenshots/framed/en/sl-02.png",
+                            "apps/screenshots/framed/en/sl-03.png",
+                            "apps/screenshots/framed/en/sl-04.png",
+                        ],
+                        de: [
+                            "apps/screenshots/framed/de/sl-01.png",
+                            "apps/screenshots/framed/de/sl-02.png",
+                            "apps/screenshots/framed/de/sl-03.png",
+                            "apps/screenshots/framed/de/sl-04.png",
+                        ],
+                    },
                     description: {
-                        en: "Know your camera's true shutter count — before you buy or sell. ShutterLife reads it straight from your camera's image files: no internet, no upload, no account. Works on iPhone, iPad and Mac.",
-                        de: "Kenne den echten Auslösezähler deiner Kamera — vor Kauf und Verkauf. ShutterLife liest ihn direkt aus den Bilddateien deiner Kamera: ohne Internet, ohne Upload, ohne Account. Für iPhone, iPad und Mac.",
+                        en: "Know your camera's true shutter count before you buy or sell. ShutterLife reads it straight from your camera's image files: no internet, no upload, no account. Works on iPhone, iPad and Mac.",
+                        de: "Kenne den echten Auslösezähler deiner Kamera vor Kauf und Verkauf. ShutterLife liest ihn direkt aus den Bilddateien deiner Kamera: ohne Internet, ohne Upload, ohne Account. Für iPhone, iPad und Mac.",
                     },
                     sections: [
                         {
                             title: { en: "How it works", de: "So funktioniert's" },
                             body: {
-                                en: "Open a camera photo by drag & drop on Mac, or from your photo library on iPhone and iPad — ShutterLife reads the EXIF data and shows the shutter count instantly. The photo must be an unedited original: messaging apps strip EXIF, so share it via AirDrop, email (original size) or a cloud service.",
-                                de: "Öffne ein Kamerafoto per Drag & Drop am Mac oder aus der Foto-Bibliothek auf iPhone und iPad — ShutterLife liest die EXIF-Daten und zeigt sofort den Auslösezähler. Das Foto muss ein unbearbeitetes Original sein: Messenger entfernen die EXIF-Daten, teile es daher per AirDrop, E-Mail (Originalgröße) oder Cloud-Dienst.",
+                                en: "Open a camera photo by drag & drop on Mac, or from your photo library on iPhone and iPad. ShutterLife reads the EXIF data and shows the shutter count instantly. The photo must be an unedited original: messaging apps strip EXIF, so share it via AirDrop, email (original size) or a cloud service.",
+                                de: "Öffne ein Kamerafoto per Drag & Drop am Mac oder aus der Foto-Bibliothek auf iPhone und iPad. ShutterLife liest die EXIF-Daten und zeigt sofort den Auslösezähler. Das Foto muss ein unbearbeitetes Original sein: Messenger entfernen die EXIF-Daten, teile es daher per AirDrop, E-Mail (Originalgröße) oder Cloud-Dienst.",
                             },
                         },
                         {
                             title: { en: "Shutter status at a glance", de: "Verschluss-Status auf einen Blick" },
                             body: {
-                                en: "A visual ring shows how many of the manufacturer's rated actuations have been reached — a quick read on the shutter's condition, and a real help when pricing a used body.",
-                                de: "Ein visueller Ring zeigt, wie viele der vom Hersteller bewerteten Auslösungen erreicht sind — eine schnelle Orientierung zum Zustand des Verschlusses und eine echte Hilfe bei der Preisbewertung gebrauchter Kameras.",
+                                en: "A visual ring shows how many of the manufacturer's rated actuations have been reached: a quick read on the shutter's condition, and a real help when pricing a used body.",
+                                de: "Ein visueller Ring zeigt, wie viele der vom Hersteller bewerteten Auslösungen erreicht sind: eine schnelle Orientierung zum Zustand des Verschlusses und eine echte Hilfe bei der Preisbewertung gebrauchter Kameras.",
                             },
                         },
                         {
                             title: { en: "Wide camera support", de: "Große Kamera-Unterstützung" },
                             body: {
-                                en: "Canon, Nikon, Sony, Fujifilm and Pentax bodies are supported and validated against reference tools, reading JPG, CR2, CR3, NEF, ARW, RAF, PEF and DNG files. The full model list lives in the app.",
-                                de: "Modelle von Canon, Nikon, Sony, Fujifilm und Pentax werden unterstützt und gegen Referenz-Tools validiert — gelesen werden JPG, CR2, CR3, NEF, ARW, RAF, PEF und DNG. Die vollständige Modell-Liste steht in der App.",
+                                en: "Canon, Nikon, Sony, Fujifilm, Pentax, Leica and Ricoh bodies are supported and validated against reference tools, reading JPG, HEIC, HEIF, HIF, CR2, CR3, NEF, ARW, RAF, PEF and DNG files. The full model list lives in the app.",
+                                de: "Modelle von Canon, Nikon, Sony, Fujifilm, Pentax, Leica und Ricoh werden unterstützt und gegen Referenz-Tools validiert. Gelesen werden JPG, HEIC, HEIF, HIF, CR2, CR3, NEF, ARW, RAF, PEF und DNG. Die vollständige Modell-Liste steht in der App.",
                             },
                         },
                         {
@@ -395,10 +414,10 @@
             clearmind:      { name: "ClearMind",         icon: "CM", color: "#10B981", status: "soon",  en: "Breathing exercises and short resets for busy heads.",                de: "Atemübungen und kurze Pausen für volle Köpfe.",                 platform: "iOS",               folder: "clearmind" },
             elektohub:      { name: "ElektoHub",         icon: "EH", color: "#F59E0B", status: "soon",  en: "One dashboard for every smart-home device you own.",                  de: "Ein Dashboard für alle Smart-Home-Geräte im Haus.",      platform: "iOS",               folder: "elektohub" },
             feiertagswarner:{ name: "FeiertagsWarner",   icon: "FW", color: "#EF4444", status: "soon",  en: "Warns you before the next German holiday catches you out.",           de: "Warnt dich, bevor dich der nächste Feiertag kalt erwischt.",             platform: "iOS",               folder: "feiertagswarner" },
-            finanzen:       { name: "Finanzen",          icon: "Fi", color: "#06B6D4", status: "soon",  en: "Income, spending, savings — one honest overview.",                    de: "Einnahmen, Ausgaben, Rücklagen — ein ehrlicher Überblick.",             platform: "iOS",               folder: "finanzen" },
+            finanzen:       { name: "Finanzen",          icon: "Fi", color: "#06B6D4", status: "soon",  en: "Income, spending, savings: one honest overview.",                    de: "Einnahmen, Ausgaben, Rücklagen: ein ehrlicher Überblick.",             platform: "iOS",               folder: "finanzen" },
             riseup:         { name: "RiseUp",            icon: "RU", color: "#F97316", status: "soon",  en: "Build habits, hold streaks, watch progress add up.",                  de: "Gewohnheiten aufbauen, Serien halten, dranbleiben.",                     platform: "iOS",               folder: "riseup" },
-            spindtracker:   { name: "SpindTracker",      icon: "ST", color: "#64748B", status: "soon",  en: "Every locker number and access code, one tap away.",                  de: "Jede Spindnummer, jeder Zugangscode — einen Tipp entfernt.",        platform: "iOS",               folder: "spindtracker" },
-            trynk:          { name: "Trynk",             icon: "Tr", color: "#EC4899", status: "soon",  en: "Find the next bar — and the friends to go with.",                     de: "Finde die nächste Bar — und die Leute, die mitkommen.",                platform: "iOS",               folder: "trynk" },
+            spindtracker:   { name: "SpindTracker",      icon: "ST", color: "#64748B", status: "soon",  en: "Every locker number and access code, one tap away.",                  de: "Jede Spindnummer, jeder Zugangscode: einen Tipp entfernt.",        platform: "iOS",               folder: "spindtracker" },
+            trynk:          { name: "Trynk",             icon: "Tr", color: "#EC4899", status: "soon",  en: "Find the next bar and the friends to go with.",                     de: "Finde die nächste Bar und die Leute, die mitkommen.",                platform: "iOS",               folder: "trynk" },
             shutterlifeweb: { name: "ShutterLife Web",   icon: "SW", color: "#3B82F6", status: "soon",  en: "Your ShutterLife library, readable in any browser.",                  de: "Deine ShutterLife-Bibliothek, in jedem Browser zur Hand.",           platform: "Web",               folder: "shutterlife-web" },
             clearlist:      { name: "ClearList",         icon: "CL", color: "#A78BFA", status: "soon",  en: "A to-do list with nothing extra: tasks in, tasks done.",              de: "To-Do-Liste ohne Schnickschnack: Aufgabe rein, erledigt.",         platform: "iOS",               folder: "clearlist" },
         };
@@ -443,6 +462,29 @@
         // linked. Returns the real URL, or null (→ caller renders a disabled
         // "Coming soon" affordance instead of a dead link).
         const STORE_PLACEHOLDER = /\/app\/(sequenz|sequence-lite)\/?$/i;
+        // The country segment in an App Store URL decides which national STORE
+        // PAGE a desktop visitor sees — its language and its price tag. It does
+        // NOT decide where anyone buys: on a phone the link opens the App Store
+        // app, which only ever knows the store of the signed-in account.
+        //
+        // Measured 14.08. rather than assumed: without a country segment Apple
+        // redirects to /us/ for every browser language tried (th, de, en, ja),
+        // and even when its own response sets `geo=DE`. So the choice is not
+        // "auto-detect vs. fixed" — it is which fixed page we send people to.
+        //
+        // We send them to the one matching the language they are reading the
+        // site in: /de/ for German, no segment (→ /us/, English) otherwise.
+        // A German reader would otherwise land on an English page mid-sentence,
+        // and an international reader on a German one.
+        function localizeStoreUrl(url, lang) {
+            if (!url) return url;
+            // Only rewrite the canonical form, so a URL that already carries a
+            // country segment is left exactly as the data declares it.
+            return lang === "de"
+                ? url.replace(/^https:\/\/apps\.apple\.com\/app\//, "https://apps.apple.com/de/app/")
+                : url;
+        }
+
         function realStoreUrl(app) {
             if (!app.appStore || app.status !== "live") return null;
             if (STORE_PLACEHOLDER.test(app.appStore)) return null;
@@ -491,6 +533,11 @@
             document.getElementById("footer-hosting").textContent = t.footerHosting;
 
             renderApps();
+
+            // An open detail overlay is built once, on open — so a language switch
+            // used to leave its text (and now its screenshots) in the old language
+            // until it was closed and reopened. Rebuild it in place instead.
+            if (overlayCurrentKey && !overlay.root.hidden) overlayBuild(apps[overlayCurrentKey]);
         }
 
         function loadConfig() {
@@ -575,10 +622,24 @@
                             ? "apps/cards/appstore-badge-de.svg"
                             : "apps/cards/appstore-badge-en.svg";
                         const storeEl = realUrl
-                            ? `<a class="app-card__store" href="${escape(realUrl)}" rel="noopener" target="_blank" aria-label="${escape(t.storeBadgeFor(app.name))}"><img src="${badgeSrc}" alt="" width="120" height="40" loading="lazy"></a>`
+                            ? `<a class="app-card__store" href="${escape(localizeStoreUrl(realUrl, lang))}" rel="noopener" target="_blank" aria-label="${escape(t.storeBadgeFor(app.name))}"><img src="${badgeSrc}" alt="" width="120" height="40" loading="lazy"></a>`
                             : app.appStore
                                 ? `<span class="app-card__soon" aria-disabled="true">${escape(t.statusSoon)}</span>`
                                 : "";
+                        // The same QR as in the overlay, on the card itself — a desktop
+                        // visitor should not have to open "Learn more" first to find the
+                        // one route that gets the app onto their phone (owner, 14.08.).
+                        // Same two conditions as there: a real store URL, and a QR file
+                        // that actually exists for this app. CSS narrows it further to
+                        // wide cards with a mouse.
+                        //
+                        // The QR is NOT localized, unlike the badge link. It is scanned
+                        // by a phone, and the App Store app there shows the store of the
+                        // signed-in account whatever the URL said — a second QR per
+                        // language would be two files encoding the same outcome.
+                        const qrEl = (realUrl && app.qr)
+                            ? `<div class="app-card__qr" aria-hidden="true"><img src="${escape(app.qr)}" alt="" width="72" height="72" loading="lazy"><span>${escape(t.qrHint)}</span></div>`
+                            : "";
                         // "Learn more" opens the detail overlay (delegated click on
                         // data-detail). Its OWN action, separate from the store link.
                         const detailTrigger = app.detail
@@ -612,7 +673,7 @@
                                 <p class="app-card__meta">${escape(app.platform)}</p>
                                 <div class="app-card__foot">
                                     ${detailTrigger}
-                                    ${storeEl}
+                                    ${(storeEl || qrEl) ? `<div class="app-card__get">${storeEl}${qrEl}</div>` : ""}
                                 </div>`;
 
                         // Showcase device row — one <img> per real Apple-bezel PNG,
@@ -726,6 +787,10 @@
             sections: document.getElementById("overlay-sections"),
             links: document.getElementById("overlay-links"),
             store: document.getElementById("overlay-store"),
+            storeBadge: document.getElementById("overlay-store-badge"),
+            qr: document.getElementById("overlay-qr"),
+            qrCode: document.getElementById("overlay-qr-code"),
+            qrHint: document.getElementById("overlay-qr-hint"),
             close: document.getElementById("overlay-close"),
             gallery: document.getElementById("overlay-gallery"),
             viewport: document.querySelector("#app-overlay .overlay__viewport"),
@@ -734,6 +799,9 @@
         let overlayIndex = 0;
         let overlayCount = 0;
         let overlayLastFocus = null;
+        // Which app the overlay currently shows, so a language switch can rebuild
+        // it in place instead of leaving stale text and screenshots on screen.
+        let overlayCurrentKey = null;
         let overlayScrollLock = null;
         let overlayTouchX = null;
 
@@ -769,10 +837,17 @@
             overlay.title.textContent = app.name;
             overlay.platform.textContent = app.platform || "";
 
-            const shots = d.screenshots || [];
+            // Screenshots are either one flat list (same shots in every language)
+            // or a per-language map, for apps whose UI text shows up in the shot.
+            // ShutterLife is the first of the latter kind: its onboarding names the
+            // supported file formats, so an English shot under a German heading
+            // states the wrong thing in the wrong language.
+            const shots = (Array.isArray(d.screenshots)
+                ? d.screenshots
+                : d.screenshots && (d.screenshots[currentLang] || d.screenshots.en)) || [];
             overlayCount = shots.length;
             overlay.track.innerHTML = shots.map((src, i) =>
-                `<div class="overlay__slide"><img class="overlay__shot" src="${escape(src)}" alt="${escape(t.shotAltN(app.name, i + 1, shots.length))}" width="640" height="1390" loading="lazy"></div>`
+                `<div class="overlay__slide"><img class="overlay__shot" src="${escape(src)}" alt="${escape(t.shotAltN(app.name, i + 1, shots.length))}" width="1318" height="2717" loading="lazy"></div>`
             ).join("");
             overlay.dots.innerHTML = shots.map((_, i) =>
                 `<button type="button" class="overlay__dot" data-index="${i}" aria-label="${escape(t.overlayDot(i + 1, shots.length))}"></button>`
@@ -798,12 +873,30 @@
             // rather than offering a dead 404 link.
             const overlayUrl = realStoreUrl(app);
             if (overlayUrl) {
-                overlay.store.href = overlayUrl;
-                overlay.store.textContent = t.overlayStore;
-                overlay.store.setAttribute("aria-label", t.overlayStoreFor(app.name));
+                overlay.store.href = localizeStoreUrl(overlayUrl, currentLang);
+                // Apple's official badge artwork, localised. Apple forbids
+                // recreating or altering it, so this is their SVG unchanged —
+                // the alt text carries the accessible name, no aria-label on the
+                // link (it would override the alt).
+                overlay.storeBadge.src = `apps/cards/appstore-badge-${currentLang}.svg`;
+                overlay.storeBadge.alt = t.storeBadgeFor(app.name);
                 overlay.store.hidden = false;
+
+                // The QR needs its own file per app, generated from that app's
+                // store URL (tools/make-qr.swift). No file, no QR — deriving the
+                // path from the folder name would render a broken image the day
+                // an app goes live and nobody remembers this step. CSS decides
+                // whether a desktop visitor actually sees it.
+                if (app.qr) {
+                    overlay.qrCode.src = app.qr;
+                    overlay.qrHint.textContent = t.qrHint;
+                    overlay.qr.hidden = false;
+                } else {
+                    overlay.qr.hidden = true;
+                }
             } else {
                 overlay.store.hidden = true;
+                overlay.qr.hidden = true;
             }
 
             overlay.gallery.setAttribute("aria-label", t.overlayGallery);
@@ -820,6 +913,7 @@
             const app = apps[key];
             if (!app || !app.detail) return;
             overlayLastFocus = document.activeElement;
+            overlayCurrentKey = key;
             overlayBuild(app);
 
             // Scroll-lock with scrollbar-width compensation (no layout shift).
@@ -839,6 +933,7 @@
 
         function overlayCloseModal() {
             if (overlay.root.hidden) return;
+            overlayCurrentKey = null;
             overlay.root.classList.remove("is-open");
             document.removeEventListener("keydown", overlayOnKeydown, true);
             if (overlayScrollLock) {
