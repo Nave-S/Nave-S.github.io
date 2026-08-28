@@ -1,14 +1,3 @@
 {
-  "shutterlife": true,
-  "sequenz": false,
-  "talktome": false,
-  "clearmind": false,
-  "elektohub": false,
-  "feiertagswarner": false,
-  "finanzen": false,
-  "riseup": false,
-  "spindtracker": false,
-  "trynk": false,
-  "shutterlifeweb": false,
-  "clearlist": false
+  "shutterlife": true
 }

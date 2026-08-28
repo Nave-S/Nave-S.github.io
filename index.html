@@ -41,18 +41,7 @@
          landing renders synchronously (no fetch round-trip → no CLS). -->
     <script type="application/json" id="apps-config">
     {
-      "shutterlife": true,
-      "sequenz": false,
-      "talktome": false,
-      "clearmind": false,
-      "elektohub": false,
-      "feiertagswarner": false,
-      "finanzen": false,
-      "riseup": false,
-      "spindtracker": false,
-      "trynk": false,
-      "shutterlifeweb": false,
-      "clearlist": false
+      "shutterlife": true
     }
     </script>
 
@@ -305,56 +294,7 @@
             // + realStoreUrl() guard mean the store button renders as a disabled
             // "Coming soon" affordance and never links to the 404. At launch: set
             // status:"live" and swap in the real App Store URL — then it links normally.
-            sequenz:        { name: "Sequence Lite",     icon: "S",  color: "#FF6B00", status: "soon",  en: "Interval timers you build once and run from your wrist.",            de: "Intervall-Timer: einmal bauen, vom Handgelenk starten.",          platform: "iOS · Apple Watch", folder: "sequenz",     appStore: "https://apps.apple.com/app/sequenz",     iconSrc: "apps/icons/sequenz.png", screenshot: "apps/screenshots/sequenz/03.png", cardImage: "apps/cards/card-sequence.png", devices: [{ type: "ipad", src: "apps/devices/sequence-ipad.png" }, { type: "iphone", src: "apps/devices/sequence-iphone.png" }, { type: "watch", src: "apps/devices/sequence-watch.png" }], featured: true, cat: { en: "For your focus", de: "Für deinen Fokus" },
-                // Detail overlay content — mirrors the ShutterLife pattern. Description
-                // + sections stay faithful to documented app features (interval timers,
-                // flows, paste-import, Watch sync, pause-on-call, voice cues, on-device
-                // stats, offline/no-account) — no invented features. Screenshots:
-                // web-optimised EN home/builder/run/stats (sips, 640px) under
-                // apps/screenshots/sequenz/.
-                detail: {
-                    screenshots: [
-                        "apps/screenshots/framed/seq-03.png",
-                        "apps/screenshots/framed/seq-02.png",
-                        "apps/screenshots/framed/seq-04.png",
-                    ],
-                    description: {
-                        en: "Build interval timers once (warm-ups, workouts, work-and-rest cycles) and run them from your iPhone or straight from your wrist. No account, no cloud: everything stays on your device.",
-                        de: "Intervall-Timer einmal bauen (Aufwärmen, Workouts, Arbeits- und Pausenzyklen) und vom iPhone oder direkt vom Handgelenk starten. Ohne Konto, ohne Cloud: Alles bleibt auf deinem Gerät.",
-                    },
-                    sections: [
-                        {
-                            title: { en: "Build once, reuse forever", de: "Einmal bauen, immer wieder nutzen" },
-                            body: {
-                                en: "Create a timer with as many phases as you need, give each one a name, duration and colour, and save it. Chain several timers into a flow for longer routines. You can even build a timer from pasted text.",
-                                de: "Erstelle einen Timer mit beliebig vielen Phasen, gib jeder einen Namen, eine Dauer und eine Farbe und speichere ihn. Verkette mehrere Timer zu einem Flow für längere Abläufe. Du kannst einen Timer sogar aus eingefügtem Text erstellen.",
-                            },
-                        },
-                        {
-                            title: { en: "Made for your wrist", de: "Für dein Handgelenk gemacht" },
-                            body: {
-                                en: "Start and control your timers on Apple Watch. Timers, favourites and statistics sync between iPhone and Watch over Apple's local connection, and a running timer can pause itself automatically when a call comes in.",
-                                de: "Starte und steuere deine Timer auf der Apple Watch. Timer, Favoriten und Statistiken werden über Apples lokale Verbindung zwischen iPhone und Uhr abgeglichen, und ein laufender Timer kann sich automatisch pausieren, wenn ein Anruf kommt.",
-                            },
-                        },
-                        {
-                            title: { en: "Voice cues and progress", de: "Sprachansagen und Fortschritt" },
-                            body: {
-                                en: "Optional spoken announcements call out phase names and countdowns, so you never have to look at the screen. Completed sessions, streaks and total time are tracked, so your progress adds up over time.",
-                                de: "Optionale Sprachansagen nennen Phasennamen und Countdowns, damit du nie auf den Bildschirm schauen musst. Abgeschlossene Sessions, Serien und Gesamtzeit werden erfasst, sodass dein Fortschritt mit der Zeit wächst.",
-                            },
-                        },
-                        {
-                            title: { en: "Private by design", de: "Datenschutz von Grund auf" },
-                            body: {
-                                en: "Sequence Lite works entirely offline. There is no account, no tracking, no analytics and no cloud sync. Your timers and statistics stay on your device.",
-                                de: "Sequence Lite arbeitet vollständig offline. Es gibt kein Konto, kein Tracking, keine Analyse und keine Cloud-Synchronisierung. Deine Timer und Statistiken bleiben auf deinem Gerät.",
-                            },
-                        },
-                    ],
-                },
-            },
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife/id6761454875", qr: "apps/qr/shutterlife.svg", iconSrc: "apps/icons/shutterlife.png", devices: [{ type: "mac", src: "apps/devices/shutterlife-mac.png" }, { type: "ipad", src: "apps/devices/shutterlife-ipad.png" }, { type: "iphone", src: { de: "apps/devices/de/shutterlife-iphone.png", en: "apps/devices/en/shutterlife-iphone.png" } }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife/id6761454875", qr: "apps/qr/shutterlife.svg", iconSrc: "apps/icons/shutterlife.png", devices: [{ type: "mac", src: { de: "apps/devices/de/shutterlife-mac.png", en: "apps/devices/en/shutterlife-mac.png" } }, { type: "ipad", src: { de: "apps/devices/de/shutterlife-ipad.png", en: "apps/devices/en/shutterlife-ipad.png" } }, { type: "iphone", src: { de: "apps/devices/de/shutterlife-iphone.png", en: "apps/devices/en/shutterlife-iphone.png" } }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
                 // Detail overlay content. Description + sections condensed from the
                 // App Store listing (iTunes lookup id 6761454875, DE+EN) — kept
                 // faithful, no invented features. Screenshots: web-optimised
@@ -406,16 +346,6 @@
                     ],
                 },
             },
-            talktome:       { name: "TalkToMe",          icon: "TM", color: "#8B5CF6", status: "beta",  en: "A voice for people who can't use their own.",                          de: "Eine Stimme für alle, die ihre eigene nicht nutzen können.", platform: "macOS",            folder: "talktome" },
-            clearmind:      { name: "ClearMind",         icon: "CM", color: "#10B981", status: "soon",  en: "Breathing exercises and short resets for busy heads.",                de: "Atemübungen und kurze Pausen für volle Köpfe.",                 platform: "iOS",               folder: "clearmind" },
-            elektohub:      { name: "ElektoHub",         icon: "EH", color: "#F59E0B", status: "soon",  en: "One dashboard for every smart-home device you own.",                  de: "Ein Dashboard für alle Smart-Home-Geräte im Haus.",      platform: "iOS",               folder: "elektohub" },
-            feiertagswarner:{ name: "FeiertagsWarner",   icon: "FW", color: "#EF4444", status: "soon",  en: "Warns you before the next German holiday catches you out.",           de: "Warnt dich, bevor dich der nächste Feiertag kalt erwischt.",             platform: "iOS",               folder: "feiertagswarner" },
-            finanzen:       { name: "Finanzen",          icon: "Fi", color: "#06B6D4", status: "soon",  en: "Income, spending, savings: one honest overview.",                    de: "Einnahmen, Ausgaben, Rücklagen: ein ehrlicher Überblick.",             platform: "iOS",               folder: "finanzen" },
-            riseup:         { name: "RiseUp",            icon: "RU", color: "#F97316", status: "soon",  en: "Build habits, hold streaks, watch progress add up.",                  de: "Gewohnheiten aufbauen, Serien halten, dranbleiben.",                     platform: "iOS",               folder: "riseup" },
-            spindtracker:   { name: "SpindTracker",      icon: "ST", color: "#64748B", status: "soon",  en: "Every locker number and access code, one tap away.",                  de: "Jede Spindnummer, jeder Zugangscode: einen Tipp entfernt.",        platform: "iOS",               folder: "spindtracker" },
-            trynk:          { name: "Trynk",             icon: "Tr", color: "#EC4899", status: "soon",  en: "Find the next bar and the friends to go with.",                     de: "Finde die nächste Bar und die Leute, die mitkommen.",                platform: "iOS",               folder: "trynk" },
-            shutterlifeweb: { name: "ShutterLife Web",   icon: "SW", color: "#3B82F6", status: "soon",  en: "Your ShutterLife library, readable in any browser.",                  de: "Deine ShutterLife-Bibliothek, in jedem Browser zur Hand.",           platform: "Web",               folder: "shutterlife-web" },
-            clearlist:      { name: "ClearList",         icon: "CL", color: "#A78BFA", status: "soon",  en: "A to-do list with nothing extra: tasks in, tasks done.",              de: "To-Do-Liste ohne Schnickschnack: Aufgabe rein, erledigt.",         platform: "iOS",               folder: "clearlist" },
         };
 
         // Device display names for showcase-card <img> alt text. Brand names, so
@@ -453,11 +383,16 @@
         }
 
         // Store-link guard: a card/overlay only ever links to the App Store when the
-        // app is actually live AND carries a genuine store URL. Placeholder stubs
-        // (…/app/sequenz, …/app/sequence-lite) are 404s kept until launch — never
-        // linked. Returns the real URL, or null (→ caller renders a disabled
-        // "Coming soon" affordance instead of a dead link).
-        const STORE_PLACEHOLDER = /\/app\/(sequenz|sequence-lite)\/?$/i;
+        // app is actually live AND carries a genuine store URL. Returns the real
+        // URL, or null (→ caller renders a disabled "Coming soon" affordance
+        // instead of a dead link).
+        //
+        // The test is now the app id, not a list of known placeholder slugs
+        // (28.08.). Every real App Store URL carries `/idNNNNNNNN`; a stub
+        // written ahead of launch does not. That holds for any future app
+        // without anyone remembering to add its slug here — the old named list
+        // only worked for the apps somebody had thought of.
+        const STORE_PLACEHOLDER = /^(?!.*\/id\d+)/i;
         // The country segment in an App Store URL decides which national STORE
         // PAGE a desktop visitor sees — its language and its price tag. It does
         // NOT decide where anyone buys: on a phone the link opens the App Store

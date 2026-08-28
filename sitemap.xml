@@ -25,35 +25,6 @@
     </url>
 
     <url>
-        <loc>https://nave-s.github.io/sequenz/privacy/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/sequenz/privacy/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/sequenz/privacy/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://nave-s.github.io/sequenz/support/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/sequenz/support/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/sequenz/support/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://nave-s.github.io/sequenz/terms/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/sequenz/terms/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/sequenz/terms/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://nave-s.github.io/sequenz/impressum/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/sequenz/impressum/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/sequenz/impressum/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.4</priority>
-    </url>
-
-    <url>
         <loc>https://nave-s.github.io/shutterlife/privacy/</loc>
         <xhtml:link rel="alternate" hreflang="en" href="https://nave-s.github.io/shutterlife/privacy/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://nave-s.github.io/shutterlife/privacy/de.html"/>
