@@ -343,16 +343,18 @@
                     ],
                 },
             },
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife.png", cardImage: "apps/cards/card-shutterlife.png", devices: [{ type: "mac", src: "apps/devices/shutterlife-mac.png" }, { type: "ipad", src: "apps/devices/shutterlife-ipad.png" }, { type: "iphone", src: "apps/devices/shutterlife-iphone.png" }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/de/app/shutterlife/id6761454875", iconSrc: "apps/icons/shutterlife.png", screenshot: "apps/screenshots/shutterlife/01.png", devices: [{ type: "mac", src: "apps/devices/shutterlife-mac.png" }, { type: "ipad", src: "apps/devices/shutterlife-ipad.png" }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
                 // Detail overlay content. Description + sections condensed from the
                 // App Store listing (iTunes lookup id 6761454875, DE+EN) — kept
                 // faithful, no invented features. Screenshots: web-optimised
                 // ios_01/03/04/05 (sips, ~640px) under apps/screenshots/shutterlife/.
                 detail: {
                     screenshots: [
+                        // 28.08.2026: sl-02 (Dashboard) und sl-03 (History) zurueckgezogen —
+                        // sie trugen Prozent-verbraucht, eine Rest-Stueckzahl und vier Kameras
+                        // mit Prozentwerten ohne Messbedingung (Mischnenner). Siehe .ops/design-referenzen/shutterlife/
+                        // SHUTTERLIFE-OFFENE-PUNKTE.md. Neue Aufnahmen ersetzen sie.
                         "apps/screenshots/framed/sl-01.png",
-                        "apps/screenshots/framed/sl-02.png",
-                        "apps/screenshots/framed/sl-03.png",
                         "apps/screenshots/framed/sl-04.png",
                     ],
                     description: {
