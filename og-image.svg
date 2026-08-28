@@ -45,10 +45,7 @@
     <!-- Lede -->
     <text x="96" y="528"
           font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter, sans-serif"
-          font-size="28" font-weight="500" fill="#A39E98" letter-spacing="-0.5">Calm, focused tools for iOS, macOS and Apple Watch.</text>
+          font-size="28" font-weight="500" fill="#A39E98" letter-spacing="-0.5">Calm, focused tools for iOS and macOS.</text>
 
     <!-- URL -->
-    <text x="96" y="572"
-          font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', Inter, sans-serif"
-          font-size="22" font-weight="600" fill="#FF8324" letter-spacing="0.5">casystudioco.com</text>
-</svg>
+    </svg>
