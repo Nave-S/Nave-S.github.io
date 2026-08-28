@@ -354,7 +354,7 @@
                     ],
                 },
             },
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife/id6761454875", qr: "apps/qr/shutterlife.svg", iconSrc: "apps/icons/shutterlife.png", devices: [{ type: "mac", src: "apps/devices/shutterlife-mac.png" }, { type: "ipad", src: "apps/devices/shutterlife-ipad.png" }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife/id6761454875", qr: "apps/qr/shutterlife.svg", iconSrc: "apps/icons/shutterlife.png", devices: [{ type: "mac", src: "apps/devices/shutterlife-mac.png" }, { type: "ipad", src: "apps/devices/shutterlife-ipad.png" }, { type: "iphone", src: { de: "apps/devices/de/shutterlife-iphone.png", en: "apps/devices/en/shutterlife-iphone.png" } }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
                 // Detail overlay content. Description + sections condensed from the
                 // App Store listing (iTunes lookup id 6761454875, DE+EN) — kept
                 // faithful, no invented features. Screenshots: web-optimised
@@ -362,9 +362,11 @@
                 detail: {
                     screenshots: {
                         en: [
+                            "apps/screenshots/framed/en/sl-01.png",
                             "apps/screenshots/framed/en/sl-04.png",
                         ],
                         de: [
+                            "apps/screenshots/framed/de/sl-01.png",
                             "apps/screenshots/framed/de/sl-04.png",
                         ],
                     },
@@ -680,7 +682,15 @@
                             ? `<div class="app-card__devices">` + app.devices.map(d => {
                                   const type = String(d.type || "");
                                   const label = DEVICE_LABELS[type] || "";
-                                  return `<span class="device-slot device-slot--${escape(type)}"><img class="device device--${escape(type)}" src="${escape(d.src)}" alt="${escape(t.deviceAlt(app.name, label))}" loading="lazy" decoding="async"></span>`;
+                                  // `src` may be a plain path or a per-language object,
+                                  // same shape as `detail.screenshots`. A device shot
+                                  // that carries readable UI text has to follow the
+                                  // language switch; one that shows an empty screen
+                                  // does not, and stays a plain string.
+                                  const src = (d.src && typeof d.src === "object")
+                                      ? (d.src[currentLang] || d.src.en)
+                                      : d.src;
+                                  return `<span class="device-slot device-slot--${escape(type)}"><img class="device device--${escape(type)}" src="${escape(src)}" alt="${escape(t.deviceAlt(app.name, label))}" loading="lazy" decoding="async"></span>`;
                               }).join("") + `</div>`
                             : "";
 
