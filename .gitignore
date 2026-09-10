@@ -2,3 +2,9 @@
 # Mentor-System (lokal-only, Symlinks zeigen aufs business-hub)
 .mentor/
 .DS_Store
+
+# 🔴 Mentor-Innenleben bleibt lokal, weil DIESES Repo oeffentlich ist (10.09.2026).
+# CLAUDE.md und .claude/ tragen interne Arbeitsregeln, Owner-Zitate und Hinweise auf
+# Sicherheitsluecken -- in einem privaten App-Repo unbedenklich, hier nicht.
+CLAUDE.md
+.claude/
