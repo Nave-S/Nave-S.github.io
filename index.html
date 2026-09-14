@@ -10,7 +10,7 @@
     <meta name="color-scheme" content="dark light">
 
     <title>Casy Studio — Apps that move, focus, and get things done</title>
-    <meta name="description" content="Casy Studio builds single-purpose apps for iOS and macOS. Your data stays on your device, not on someone's server.">
+    <meta name="description" content="Casy Studio builds single-purpose apps for iPhone, iPad and Mac. Your data stays on your device, not on someone's server.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://casystudio.com/">
 
@@ -18,7 +18,7 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Casy Studio">
     <meta property="og:title" content="Casy Studio — Apps that move, focus, and get things done">
-    <meta property="og:description" content="Single-purpose apps for iOS and macOS. Your data stays on your device.">
+    <meta property="og:description" content="Single-purpose apps for iPhone, iPad and Mac. Your data stays on your device.">
     <meta property="og:url" content="https://casystudio.com/">
     <meta property="og:image" content="https://casystudio.com/og-image.jpg">
     <meta property="og:image:width" content="1200">
@@ -30,7 +30,7 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Casy Studio — Apps that move, focus, and get things done">
-    <meta name="twitter:description" content="Single-purpose apps for iOS and macOS. Your data stays on your device.">
+    <meta name="twitter:description" content="Single-purpose apps for iPhone, iPad and Mac. Your data stays on your device.">
     <meta name="twitter:image" content="https://casystudio.com/og-image.jpg">
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -81,7 +81,7 @@
                     Apps. <span class="accent" id="hero-accent">Distilled to the essentials.</span>
                 </h1>
                 <p class="lede" id="lede">
-                    We build high-quality apps for iOS and macOS. Useful, thoughtful and made with care.
+                    We build high-quality apps for iPhone, iPad and Mac. Useful, thoughtful and made with care.
                 </p>
                 <div class="hero-cta">
                     <a href="#apps-title" class="hero-cta__primary" id="cta-primary">See the apps</a>
@@ -115,6 +115,7 @@
                 </nav>
                 <p class="site-footer__legal" id="footer-legal">&copy; 2026 Adriano Camonita · All rights reserved.</p>
             </div>
+            <p class="site-footer__note site-footer__tm" id="footer-tm">Apple, the Apple logo, iPhone, iPad, Mac and App Store are trademarks of Apple Inc., registered in the U.S. and other countries. Camera brands such as Canon, Nikon, Sony, Fujifilm, Pentax, Leica and Ricoh belong to their respective owners. Casy Studio is independent and not affiliated with Apple or any camera manufacturer.</p>
             <p class="site-footer__note" id="footer-hosting">Small studio, small setup: this site runs on GitHub Pages, under its own domain casystudio.com.</p>
         </footer>
     </div>
@@ -203,7 +204,7 @@
                 ctaSecondary: "Email me",
                 heroLead: "Apps.",
                 heroAccent: "Distilled to the essentials.",
-                lede: "We build high-quality apps for iOS and macOS. Useful, thoughtful and made with care.",
+                lede: "We build high-quality apps for iPhone, iPad and Mac. Useful, thoughtful and made with care.",
                 appsTitle: "The apps",
                 appsMetaOne: "1 app",
                 appsMetaMany: (n) => `${n} apps`,
@@ -220,6 +221,7 @@
                 footerPrivacySuffix: "",
                 footerLegal: "© 2026 Adriano Camonita · All rights reserved.",
                 footerHosting: "Small studio, small setup: this site runs on GitHub Pages, under its own domain casystudio.com.",
+                footerTm: "Apple, the Apple logo, iPhone, iPad, Mac and App Store are trademarks of Apple Inc., registered in the U.S. and other countries. Camera brands such as Canon, Nikon, Sony, Fujifilm, Pentax, Leica and Ricoh belong to their respective owners. Casy Studio is independent and not affiliated with Apple or any camera manufacturer.",
                 statusLive: "Live",
                 statusBeta: "TestFlight",
                 statusSoon: "Coming soon",
@@ -247,7 +249,7 @@
                 ctaSecondary: "Schreib mir",
                 heroLead: "Apps.",
                 heroAccent: "Reduziert auf das Wesentliche.",
-                lede: "Wir entwickeln hochwertige Apps für iOS und macOS. Nützlich, durchdacht und mit Liebe zum Detail.",
+                lede: "Wir entwickeln hochwertige Apps für iPhone, iPad und Mac. Nützlich, durchdacht und mit Liebe zum Detail.",
                 appsTitle: "Die Apps",
                 appsMetaOne: "1 App",
                 appsMetaMany: (n) => `${n} Apps`,
@@ -264,6 +266,7 @@
                 footerPrivacySuffix: "/de.html",
                 footerLegal: "© 2026 Adriano Camonita · Alle Rechte vorbehalten.",
                 footerHosting: "Kleines Studio, kleines Setup: Diese Seite läuft auf GitHub Pages, unter der eigenen Domain casystudio.com.",
+                footerTm: "Apple, das Apple-Logo, iPhone, iPad, Mac und App Store sind Marken der Apple Inc., eingetragen in den USA und anderen Ländern. Kameramarken wie Canon, Nikon, Sony, Fujifilm, Pentax, Leica und Ricoh gehören ihren Inhabern. Casy Studio ist unabhängig und weder mit Apple noch mit einem Kamerahersteller verbunden.",
                 statusLive: "Live",
                 statusBeta: "TestFlight",
                 statusSoon: "Bald",
@@ -294,7 +297,7 @@
             // + realStoreUrl() guard mean the store button renders as a disabled
             // "Coming soon" affordance and never links to the 404. At launch: set
             // status:"live" and swap in the real App Store URL — then it links normally.
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iOS · macOS",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife/id6761454875", qr: "apps/qr/shutterlife.svg", iconSrc: "apps/icons/shutterlife.png", devices: [{ type: "mac", src: { de: "apps/devices/de/shutterlife-mac.png", en: "apps/devices/en/shutterlife-mac.png" } }, { type: "ipad", src: { de: "apps/devices/de/shutterlife-ipad.png", en: "apps/devices/en/shutterlife-ipad.png" } }, { type: "iphone", src: { de: "apps/devices/de/shutterlife-iphone.png", en: "apps/devices/en/shutterlife-iphone.png" } }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
+            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iPhone · iPad · Mac",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife/id6761454875", qr: "apps/qr/shutterlife.svg", iconSrc: "apps/icons/shutterlife.png", devices: [{ type: "mac", src: { de: "apps/devices/de/shutterlife-mac.png", en: "apps/devices/en/shutterlife-mac.png" } }, { type: "ipad", src: { de: "apps/devices/de/shutterlife-ipad.png", en: "apps/devices/en/shutterlife-ipad.png" } }, { type: "iphone", src: { de: "apps/devices/de/shutterlife-iphone.png", en: "apps/devices/en/shutterlife-iphone.png" } }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
                 // Detail overlay content. Description + sections condensed from the
                 // App Store listing (iTunes lookup id 6761454875, DE+EN) — kept
                 // faithful, no invented features. Screenshots: web-optimised
@@ -469,6 +472,7 @@
                 : "datenschutz/";
             document.getElementById("footer-legal").innerHTML = t.footerLegal;
             document.getElementById("footer-hosting").textContent = t.footerHosting;
+            document.getElementById("footer-tm").textContent = t.footerTm;
 
             renderApps();
 
