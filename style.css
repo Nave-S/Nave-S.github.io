@@ -900,8 +900,8 @@ footer:not(.site-footer) {
     display: flex;
     align-items: flex-end;          /* shared baseline, like Apple's rows */
     justify-content: space-evenly;  /* spread devices across the row, even gaps + edge padding */
-    flex-wrap: nowrap;
-    gap: clamp(var(--space-2), 1.2vw, var(--space-4));
+    flex-wrap: wrap;                /* Mac on its own row, iPad + iPhone beneath (no overlap) */
+    gap: var(--space-5) var(--space-6);
     width: 100%;
     min-width: 0;
 }
@@ -919,12 +919,17 @@ footer:not(.site-footer) {
     max-width: 100%;
     object-fit: contain;
 }
-/* Real-proportional heights: the iPad reads clearly larger than the
-   iPhone (taller frame + wider aspect ratio). Fluid, capped at the
-   desktop sizes from the verified mockup. */
-.device--iphone { height: clamp(150px, 14.3vw, 176px); }
-.device--ipad   { height: clamp(166px, 15.8vw, 192px); }
-.device--mac    { height: clamp(126px, 12.6vw, 162px); }
+/* Apple Marketing Guidelines (checked 2026-09-14): every device at least
+   200px tall on screen, correct relative scale, nothing cropped or obstructed.
+   Scale 13.6px per cm of real device width: MacBook Pro 14" 31.3cm -> 426px,
+   iPad 11" portrait 17.8cm -> 242px (340 tall), iPhone 7.2cm -> 98px (202 tall).
+   Sized by width; max-width:none so a narrow slot never shrinks a device
+   below the minimum. Narrow screens drop devices instead (see media queries). */
+.device { max-width: none; height: auto; }
+.device--iphone { width: 98px; }
+.device--ipad   { width: 242px; }
+.device--mac    { width: 426px; }
+.device-slot--mac { flex-basis: 100%; }
 .device--watch  { height: clamp(82px, 7.8vw, 104px); }
 
 /* Violet glow puck behind the device row (extra pop, echoes the
@@ -1810,11 +1815,14 @@ footer:not(.site-footer) {
         justify-content: center;
         gap: var(--space-4);
     }
-    .device-slot--ipad,
-    .device-slot--mac { flex-basis: 100%; }
-    /* Compact, overflow-safe heights for the stacked phone view. */
-    .device--iphone { height: clamp(176px, 46vw, 210px); }
-    .device--ipad   { height: clamp(196px, 52vw, 236px); }
+    /* The Mac cannot stay at its 200px minimum inside a phone-width card:
+       leave it out rather than shrink it (Apple: no smaller than 200px). */
+    .device-slot--mac { display: none; }
+}
+
+@media (max-width: 380px) {
+    /* Too narrow for the iPad at full size: show the iPhone alone. */
+    .device-slot--ipad { display: none; }
 }
 
 @media (max-width: 600px) {
