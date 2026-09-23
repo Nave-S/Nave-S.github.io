@@ -4,30 +4,80 @@
     <url>
         <loc>https://casystudio.com/</loc>
         <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/"/>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
     </url>
-
     <url>
-        <loc>https://casystudio.com/impressum/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/impressum/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/impressum/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.4</priority>
+        <loc>https://casystudio.com/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/"/>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://casystudio.com/datenschutz/</loc>
-        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/datenschutz/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/datenschutz/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.4</priority>
+        <loc>https://casystudio.com/shutterlife/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/shutterlife/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/shutterlife/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/shutterlife/"/>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
     </url>
-
+    <url>
+        <loc>https://casystudio.com/shutterlife/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/shutterlife/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/shutterlife/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/shutterlife/"/>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/sequenz/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/sequenz/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/sequenz/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/sequenz/"/>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/sequenz/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/sequenz/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/sequenz/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/sequenz/"/>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/kontakt/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/kontakt/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/kontakt/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/kontakt/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/kontakt/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/kontakt/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/kontakt/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/kontakt/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
     <url>
         <loc>https://casystudio.com/shutterlife/privacy/</loc>
         <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/shutterlife/privacy/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/shutterlife/privacy/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/shutterlife/privacy/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/shutterlife/privacy/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/shutterlife/privacy/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/shutterlife/privacy/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/shutterlife/privacy/"/>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
@@ -35,20 +85,143 @@
         <loc>https://casystudio.com/shutterlife/support/</loc>
         <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/shutterlife/support/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/shutterlife/support/de.html"/>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/shutterlife/support/"/>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/shutterlife/support/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/shutterlife/support/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/shutterlife/support/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/shutterlife/support/"/>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
     </url>
     <url>
         <loc>https://casystudio.com/shutterlife/terms/</loc>
         <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/shutterlife/terms/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/shutterlife/terms/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/shutterlife/terms/"/>
         <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
+        <priority>0.4</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/shutterlife/terms/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/shutterlife/terms/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/shutterlife/terms/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/shutterlife/terms/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
     </url>
     <url>
         <loc>https://casystudio.com/shutterlife/impressum/</loc>
         <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/shutterlife/impressum/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/shutterlife/impressum/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/shutterlife/impressum/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/shutterlife/impressum/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/shutterlife/impressum/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/shutterlife/impressum/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/shutterlife/impressum/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/sequenz/privacy/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/sequenz/privacy/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/sequenz/privacy/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/sequenz/privacy/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/sequenz/privacy/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/sequenz/privacy/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/sequenz/privacy/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/sequenz/privacy/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/sequenz/support/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/sequenz/support/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/sequenz/support/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/sequenz/support/"/>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/sequenz/support/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/sequenz/support/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/sequenz/support/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/sequenz/support/"/>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/sequenz/terms/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/sequenz/terms/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/sequenz/terms/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/sequenz/terms/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/sequenz/terms/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/sequenz/terms/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/sequenz/terms/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/sequenz/terms/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/sequenz/impressum/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/sequenz/impressum/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/sequenz/impressum/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/sequenz/impressum/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/sequenz/impressum/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/sequenz/impressum/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/sequenz/impressum/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/sequenz/impressum/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/datenschutz/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/datenschutz/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/datenschutz/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/datenschutz/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/datenschutz/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/datenschutz/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/datenschutz/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/datenschutz/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/impressum/</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/impressum/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/impressum/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/impressum/"/>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    <url>
+        <loc>https://casystudio.com/impressum/de.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://casystudio.com/impressum/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://casystudio.com/impressum/de.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://casystudio.com/impressum/"/>
         <changefreq>yearly</changefreq>
         <priority>0.4</priority>
     </url>

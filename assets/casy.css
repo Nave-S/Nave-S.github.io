@@ -1,0 +1,845 @@
+  @font-face{font-family:"Reddit Sans";font-style:normal;font-weight:200 900;font-display:swap;
+    src:url("/assets/fonts/reddit-sans-latin-wght-normal.woff2") format("woff2");
+    unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:"Reddit Sans";font-style:normal;font-weight:200 900;font-display:swap;
+    src:url("/assets/fonts/reddit-sans-latin-ext-wght-normal.woff2") format("woff2");
+    unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+  :root{
+    --ink:#0B1020; --muted:#6B7280; --muted-2:#6B7280; --accent:#635BFF; --accent-ink:#4F46E5;
+    --line:#E8EAEE; --bg:#FFFFFF; --bg-soft:#F6F6F9;
+    --r-sm:12px; --r-md:20px; --r-lg:28px;
+    --shadow-soft:0 1px 2px rgba(11,16,32,.04), 0 12px 40px -12px rgba(11,16,32,.10);
+    --shadow-card:0 30px 80px -30px rgba(11,16,32,.35);
+    --font:"Reddit Sans",-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",system-ui,"Helvetica Neue",Arial,sans-serif;
+    --wrap:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+  body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.5;font-size:17px}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  img{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  .wrap{width:min(var(--wrap),calc(100% - 96px));margin:0 auto}
+  /* Link-Regel (Owner 16.09.): orange Schrift nur, wo man klicken kann. Beschriftungen wie „Direkt schreiben" sind grau. */
+  .label{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .btn{display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 26px;border-radius:12px;background:var(--ink);color:#fff;font-size:16px;font-weight:500;transition:transform .2s,box-shadow .2s;box-shadow:0 1px 2px rgba(11,16,32,.15)}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(11,16,32,.35)}
+  .btn:active{transform:translateY(0)}
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line)}
+  nav{height:82px;display:flex;align-items:center;justify-content:space-between}
+  .logo{display:flex;align-items:center;gap:12px;font-weight:600;font-size:20px;letter-spacing:-.01em;white-space:nowrap;flex:none}
+  .logo svg{width:32px;height:32px}
+  .links{display:flex;gap:44px;font-size:16px;color:var(--ink)}
+  .links a{opacity:.85;transition:opacity .2s;padding:6px 0;position:relative}
+  .links a:hover,.links a[aria-current]{opacity:1}
+  .links a[aria-current]::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--accent);border-radius:2px}
+
+  .nav-right{display:flex;align-items:center;gap:40px}
+  .lang{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:999px;background:#fff}
+  .lang a{display:inline-block;text-decoration:none;line-height:inherit;font-size:13px;font-weight:500;letter-spacing:.02em;padding:6px 13px;border-radius:999px;color:var(--muted);transition:color .2s,background .2s}
+  .lang a.on{background:var(--ink);color:#fff}
+  .lang a:not(.on):hover{color:var(--ink)}
+  .mail-btn{margin-top:36px}
+  .mail-btn svg{width:19px;height:19px}
+
+  /* Echte Studio-Marke aus favicon.svg der bestehenden Seite. Sie steht auf
+     dem dunklen Quadrat der Vorlage, damit die Silhouette im Kopf gleich
+     bleibt; das Orange ist unsere Kennung und bleibt unangetastet. */
+  .logo-mark{width:32px;height:32px;border-radius:9px;background:var(--ink);flex:none;
+    display:grid;place-items:center}
+  /* Owner 14.09.: App-Icon (marke/casy-zeichen/png/app-icon-1024.png) fuellt das Quadrat, es bringt seinen dunklen Grund selbst mit */
+  /* Owner 14.09.: Zeichen als SVG (marke/casy-zeichen/svg/zeichen.svg), eingebettet, damit
+     currentColor die Tintenfarbe annimmt. Ohne dunkles Quadrat, die Linie steht fuer sich. */
+  .logo-mark{background:none;color:var(--ink)}
+  .logo-mark svg{width:100%;height:100%;display:block}
+  .about-band .mark{background:none;color:var(--ink)}
+  .about-band .mark svg{width:100%;height:100%;display:block}
+
+  /* PAGES */
+  .page{display:none}
+  .page.active{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);margin-top:120px}
+  footer .wrap{height:76px;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--muted-2)}
+  footer .fl{display:flex;gap:36px}
+  /* Markenhinweis auf der Seite selbst, ohne Klick, in eigener Zeile.
+     Auf den Aufnahmen stehen echte Kameramodelle; § 23 MarkenG deckt die
+     referierende Nennung, der Satz stellt in fuenf Sekunden klar, dass keine
+     Verbindung behauptet wird. */
+  /* Keine eigene Trennlinie mehr (Owner 14.09.): Mit der Linie ueber dem
+     ganzen Fuss ergab das zwei Striche uebereinander. Der Hinweis gehoert
+     jetzt als leise Zeile direkt unter Copyright und Links. */
+  /* Die Zeile traegt auch .wrap und erbte damit die feste Hoehe von 76 px
+     der Copyright-Zeile; daher der grosse Abstand. Hier aufgehoben. */
+  footer .wrap.foot-tm-row{height:auto;display:block;padding:0 0 28px;margin-top:-18px}
+  /* gemessen 87 Zeichen pro Zeile bei 760 px, ueber der 80er-Grenze */
+  .foot-tm{font-size:12.5px;line-height:1.55;color:var(--muted-2);max-width:92ch}
+  footer .fl a:hover{color:var(--ink)}
+
+  /* ================= HOME ================= */
+  /* minmax statt reiner fr-Werte: ohne Mindestbreite schrumpfen beide Spalten
+     proportional bis zum harten Umbruch, und kurz davor steht das Geraetebild
+     am Text. Recherche 06.09., Abschnitt C (Every-Layout-Sidebar). */
+  .hero{padding:96px 0 40px;display:grid;grid-template-columns:minmax(360px,1.05fr) minmax(420px,1.2fr);gap:clamp(32px,4vw,56px);align-items:center;min-height:560px}
+  .hero h1{font-size:clamp(48px,6vw,78px);line-height:1.02;letter-spacing:-.035em;font-weight:600;
+    max-width:10ch}  /* Owner 14.09.: kurze Zeilen wie beim alten Hero, Abstand zum Bild.
+       10ch bricht DE und EN gleich um ("Apps fuer / iPhone, iPad / und Mac."),
+       deshalb braucht es keine reservierte Hoehe mehr, und die Luecke darunter entfaellt. */
+  .hero p{margin:32px 0 40px;font-size:21px;line-height:1.55;color:var(--muted);max-width:430px;  /* 430 statt 480: Abstand zum iPad, Owner 14.09. */
+   
+    min-height:calc(3 * 1.55em)}
+
+  /* Device composition */
+  /* Geraete ohne Ueberlappung (Apple: „cropping, tilting, or obstructing any part of the images" untersagt;
+     „no smaller than … 200 px onscreen"; „correct relative product scale").
+     Massstab 13,6 px je cm echter Geraetebreite: MacBook Pro 14" 31,3 cm -> 426 px breit (257 hoch),
+     iPad 11" hochkant 17,8 cm -> 242 px breit (340 hoch), iPhone 7,2 cm -> 98 px breit (203 hoch). */
+  .devices{display:flex;flex-direction:column;align-items:center;gap:22px}
+  .devices img{display:block;max-width:none;height:auto}
+  .devices .d-mac{width:426px}
+  .devices .d-ipad{width:242px}
+  /* Zwei Gruppen (Owner 14.09. abends). Gruppe A Mac + iPad im bisherigen Massstab 13,6 px/cm.
+     Gruppe B iPhone + Apple Watch im eigenen gemeinsamen Massstab 3,0 px/mm (30 px/cm):
+     iPhone 17 Pro 150,0 mm hoch -> 450 px (SQNZ-Rahmenbild 220 x 450); Watch-Rahmenbild 560 x 880 px,
+     Gehaeuse 497 px = 39 mm -> 12,74 px/mm -> Bild 69,1 mm hoch -> 207 px (132 x 207), Gehaeuse 46 mm -> 138 px.
+     Kleiner geht nicht: dann faellt das Watch-Rahmenbild unter Apples 200 px. */
+  .devices.grpA{gap:18px}
+  .devices.grpB{flex-direction:row;align-items:center;justify-content:center;gap:26px}
+  .devices .d-iphone{width:220px}   /* SQNZ-Rahmenbild 440 x 900 -> 220 x 450 px (150 mm bei 3,0 px/mm) */
+  .devices .d-watch{width:132px;margin-top:243px}   /* Unterkanten buendig: 450 - 207 */
+
+  /* Apps section */
+  .apps{padding-top:130px;text-align:center}
+  .apps h2{font-size:48px;letter-spacing:-.03em;font-weight:600}
+  .apps > .wrap > p{color:var(--muted);font-size:19px;margin-top:10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,360px));justify-content:center;gap:24px;margin-top:48px;text-align:left}
+  .card{border:1px solid var(--line);border-radius:var(--r-md);background:#fff;overflow:hidden;box-shadow:var(--shadow-soft);cursor:pointer;transition:transform .25s,box-shadow .25s;text-align:left;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(11,16,32,.05),0 28px 60px -20px rgba(11,16,32,.22)}
+  .card-h{padding:22px 22px 0;display:flex;gap:16px;align-items:center}
+  .icon{width:58px;height:58px;border-radius:15px;display:grid;place-items:center;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+  .icon svg{width:30px;height:30px}
+  .icon img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+  .card-h b{font-size:18px;font-weight:600;display:block}
+  .card-h span{color:var(--muted);font-size:14px}
+  .card p{padding:16px 22px 0;color:#4B5563;font-size:15px;line-height:1.55}
+  .badges{display:flex;gap:8px;padding:16px 22px 18px}
+  .badge{font-size:12px;padding:5px 11px;border-radius:999px;background:#F3F4F7;color:#374151;font-weight:500}
+  .shot{margin:0 18px;border-radius:14px 14px 0 0;height:251px;overflow:hidden;position:relative;margin-top:auto}
+  .shot.dark{background:#0d0d10}
+  .shot.dark .disp{grid-template-columns:82px 1fr;height:100%;display:grid;color:#cfd0d6;font-size:7px}
+  .shot.blue{background:linear-gradient(180deg,#3F79E0 0%,#6AA8F2 55%,#8ac2f7 100%);color:#fff;padding:14px 16px}
+  .shot.green{background:linear-gradient(180deg,#1E5C4B,#2F8B70);color:#fff;padding:16px 18px}
+  .status{display:flex;justify-content:space-between;font-size:8px;font-weight:600;opacity:.95}
+  .w-city{text-align:center;font-size:11px;margin-top:10px}
+  .w-temp{text-align:center;font-size:44px;font-weight:300;line-height:1;letter-spacing:-.03em}
+  .w-desc{text-align:center;font-size:8px;opacity:.9;margin-top:4px}
+  .w-row{display:grid;grid-template-columns:repeat(5,1fr);font-size:7px;text-align:center;margin-top:16px;gap:4px}
+  .w-row i{display:block;width:8px;height:8px;border-radius:50%;background:#fff;margin:4px auto}
+  .f-h{font-size:18px;font-weight:600;margin-top:12px}
+  .f-s{font-size:9px;opacity:.85}
+  .f-card{margin-top:16px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:10px;font-size:8px}
+  .f-card .row{display:flex;align-items:center;gap:8px;margin-top:8px}
+  .f-card .row i{width:18px;height:18px;border-radius:6px;background:rgba(255,255,255,.2);display:block}
+  .f-card .row b{display:block;font-size:8px}
+  .f-card .row .play{margin-left:auto;width:16px;height:16px;border-radius:50%;background:#fff;position:relative}
+  .f-card .row .play::after{content:"";position:absolute;left:6px;top:4px;border-left:6px solid #1E5C4B;border-top:4px solid transparent;border-bottom:4px solid transparent}
+
+  /* ShutterLife-Kartenbild: Ausschnitt der echten App, wie die Vorlage ihre
+     Karten fuellt — gross und randlos. Hoehe 251 px ist gerechnet: Kartenbreite
+     324 px geteilt durch das Bildverhaeltnis 1668/1290 = 1,29. So passt der
+     Ausschnitt genau hinein, nichts wird ungewollt beschnitten. */
+  .shot.sl{background:#000;padding:0}
+  .shot.sl img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .about-band{margin-top:48px;background:var(--bg-soft);border-radius:var(--r-md);padding:44px 48px;display:flex;align-items:center;gap:56px;text-align:left}
+  .about-band .mark{width:92px;height:92px;border-radius:24px;background:none;color:var(--ink);display:grid;place-items:center;flex:none}
+  .about-band .mark svg{width:56px;height:56px}
+  .about-band h3{font-size:24px;font-weight:600;letter-spacing:-.02em}
+  .about-band p{color:#4B5563;margin-top:8px;max-width:480px;font-size:15.5px}
+  .about-band p a{color:var(--accent-ink);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+  /* Owner 18.09.: Zeichen oben links, Text ueber die volle Breite. Damit die Zeilen dabei lesbar bleiben
+     (sonst ueber 100 Zeichen), laufen die Absaetze ab 1000 px in zwei Spalten; die Kontaktzeile steht darunter
+     ueber die ganze Breite. Darunter eine Spalte. */
+  .about-band{align-items:flex-start;gap:32px}
+  .about-band > div:last-child{flex:1;min-width:0}
+  .about-band .label{margin-bottom:6px}
+  /* Raster statt Textfluss: je Absatz eine Spalte, dadurch kein Umbruch mitten im Satz und gleichmaessige Verteilung.
+     Die Kontaktzeile steht immer unter allen Spalten. */
+  .about-band .band-text{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 44px;align-items:start;margin-top:12px}
+  .about-band .band-text p{max-width:none;margin-top:0}
+  .about-band .band-text p:last-child{grid-column:1/-1;margin-top:4px}
+  /* Mittlere Breiten: zwei Spalten als ausbalancierter Fluss statt Raster. Im Raster blieb unten rechts ein
+     grosses Loch, weil der dritte Absatz allein in die zweite Zeile rutschte (gemessen 18.09. bei 1000 px). */
+  @media (max-width:1180px){
+    .about-band .band-text{display:block;column-count:2;column-gap:44px}
+    .about-band .band-text p{orphans:2;widows:2}   /* Spalten gleich hoch: Umbruch wie im Zeitungssatz erlaubt, aber keine Schusterjungen */
+    .about-band .band-text p+p{margin-top:14px}
+    .about-band .band-text p:last-child{column-span:all;margin-top:14px}
+  }
+  @media (max-width:760px){ .about-band .band-text{column-count:1} }
+  .about-band .btn{margin-left:auto}
+
+  /* ================= CONTACT ================= */
+  /* Kontakt-Karte: traegt jetzt die Kontaktwege statt des Formulars.
+     Gleiche Karte, gleiche Masse — die Seite bleibt zweispaltig ausgewogen. */
+  .form-card .label{margin-bottom:14px}
+  .c-card-h{font-size:26px;font-weight:600;letter-spacing:-.02em;word-break:break-word}
+  .c-card-p{color:var(--muted);font-size:16px;line-height:1.6;margin:14px 0 4px;max-width:44ch}
+  .c-card-rows{margin-top:34px;padding-top:26px;border-top:1px solid var(--line);display:grid;gap:20px}
+  .c-card-rows span{display:block;font-size:13px;color:var(--muted-2);margin-bottom:5px}
+  .c-card-rows strong{font-size:17px;font-weight:500}
+  .c-card-rows a{font-size:17px;font-weight:500;color:var(--accent-ink)}
+  /* Link-Regel 16.09.: Links im Inhalt immer orange UND unterstrichen, nicht erst beim Ueberfahren */
+  .c-card-rows a{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+
+  .contact{padding:120px 0 60px}
+  .contact h1{font-size:clamp(48px,6.5vw,84px);letter-spacing:-.04em;line-height:1.02;font-weight:600;max-width:14ch}
+  .c-grid{display:grid;grid-template-columns:minmax(300px,1fr) minmax(380px,1.15fr);
+    gap:clamp(40px,5vw,80px);margin-top:72px;align-items:start}
+  .c-left p{color:var(--muted);font-size:19px;line-height:1.6;max-width:420px;min-height:calc(5 * 1.6em)}
+  .c-meta{margin-top:48px;display:grid;gap:28px}
+  .c-meta div span{display:block;font-size:13px;color:var(--muted-2);margin-bottom:6px}
+  .c-meta div a,.c-meta div strong{font-size:19px;font-weight:500}
+  .c-meta div a:hover{color:var(--accent)}
+  /* Deckel: ohne ihn wuchs die Karte im einspaltigen Zustand auf die volle
+     Seitenbreite, und ihr Fliesstext lief weit ueber das Band von 50-75
+     Zeichen. Gemessen 06.09. bei 820 px. */
+  .form-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:40px;
+    box-shadow:0 2px 4px rgba(11,16,32,.03),0 40px 90px -40px rgba(11,16,32,.25);
+    width:100%;max-width:480px}
+  .field{margin-bottom:22px}
+  .field label{display:block;font-size:14px;font-weight:500;margin-bottom:8px}
+  .field input,.field textarea{width:100%;font:inherit;font-size:16px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:#FBFBFC;color:var(--ink);transition:border-color .2s,box-shadow .2s,background .2s}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 4px rgba(99,91,255,.12)}
+  .field textarea{min-height:160px;resize:vertical}
+  .form-card .btn{width:100%;justify-content:center;height:54px;margin-top:6px}
+  .form-note{font-size:13px;color:var(--muted-2);text-align:center;margin-top:16px}
+  .sent{display:none;text-align:center;padding:40px 0}
+  .sent svg{width:56px;height:56px;margin:0 auto 18px}
+  .sent h3{font-size:24px;font-weight:600}
+  .sent p{color:var(--muted);margin-top:8px}
+
+  /* ================= LEGAL ================= */
+  .legal{padding:120px 0 40px}
+  .legal .head{text-align:center}
+  .legal h1{font-size:clamp(48px,6.5vw,84px);letter-spacing:-.04em;line-height:1;font-weight:600;margin-top:20px}
+  /* "Datenschutzerklaerung" ist ein einziges langes Wort und passt schmal
+     nicht in eine Zeile; es darf deshalb getrennt werden. */
+  .legal h1{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+  .legal .updated{margin-top:18px;color:var(--muted-2);font-size:14px}
+  /* Zeilenlaenge in ch statt px: 790 px ergaben gemessen 77 Zeichen pro Zeile,
+     ueber dem empfohlenen Band 50-75 (Baymard) und nah an der 80er-Grenze aus
+     WCAG 1.4.8 (AAA). 68ch haelt den Text unabhaengig von der Schriftgroesse
+     im Band. Recherche 06.09., Abschnitt B. */
+  .reading{width:min(35em,100%);margin:80px auto 0}  /* 35em statt 68ch: mit Reddit Sans ergab 68ch ~100 Zeichen/Zeile (15.09.) */
+  .reading h2{font-size:26px;font-weight:600;letter-spacing:-.02em;margin:64px 0 16px}
+  .reading h2:first-child{margin-top:0}
+  .reading h3{font-size:18px;font-weight:600;margin:32px 0 10px}
+  .reading p{color:#3F4552;font-size:17px;line-height:1.75;margin-bottom:16px}
+  .reading ul{color:#3F4552;font-size:17px;line-height:1.75;padding-left:22px;margin-bottom:16px}
+  .reading .block{color:#3F4552;font-size:17px;line-height:1.75;margin-bottom:16px}
+  .reading .block strong{color:var(--ink);font-weight:500}
+  .reading a{color:var(--accent-ink)}
+  .reading .notice{font-size:14px;color:var(--muted);background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 18px;margin-bottom:48px}
+
+
+  /* ================= APP-DETAIL (neu 14.09.2026) =================
+     Grundlage: .ops/research/2026-09-14-casysite-app-overlay.md
+     - Abschnitte OFFEN untereinander, keine Klappliste, keine Tabs (NN/g, Baymard):
+       fuenf kurze Absaetze, und "Vor dem Kauf pruefen" muss jeder sehen.
+     - Galerie ohne Karussell: breit vier nebeneinander, schmal 2x2. Kein
+       Wischband, weil ein angeschnittenes Geraet gegen Apples Verbot des
+       Beschneidens stossen koennte (in der Recherche offen geblieben).
+     - Rechtslinks im selben Tab. Die Adressen bleiben die heutigen, weil App
+       und App Store sie fest nennen (Rechtspruefung 14.09.).
+     - Hell wie die Seite; das alte Overlay war dunkel. */
+  .ad{--gap:clamp(40px,6vw,72px)}
+  .ad-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:start}
+  .ad-icon{width:112px;height:112px;border-radius:26px;display:block;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.06),0 1px 2px rgba(11,16,32,.06),0 14px 34px -14px rgba(11,16,32,.35)}
+  .ad-name{font-size:clamp(34px,4.4vw,52px);line-height:1.04;letter-spacing:-.03em;font-weight:600;margin-top:8px}
+  .ad-name:focus{outline:none}
+  .ad-claim{font-size:clamp(19px,2vw,23px);font-weight:500;letter-spacing:-.01em;margin-top:6px}
+  .ad-desc{color:var(--muted);font-size:17px;line-height:1.6;max-width:60ch;margin-top:12px}
+  .ad .badges{padding:16px 0 0}
+  .ad-get{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:24px}
+  .ad-badge{display:inline-block;border-radius:10px}
+  .ad-badge img{height:44px;width:auto;display:block}
+  /* QR als eigene kleine Karte neben dem Store-Knopf (Owner 14.09.: "schoener
+     reinmachen"). Gleiche Hoehe wie ein ruhiger Knopf, damit beide eine Zeile bilden. */
+  .ad-qr{display:flex;align-items:center;gap:12px;padding:6px 16px 6px 6px;background:#fff;
+    border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 2px rgba(11,16,32,.04)}
+  .ad-qr-code{display:grid;place-items:center;width:52px;height:52px;border-radius:9px;background:#fff;
+    box-shadow:inset 0 0 0 1px var(--line)}
+  .ad-qr-code img{width:44px;height:44px;display:block}
+  .ad-qr-txt{display:flex;flex-direction:column;gap:2px;line-height:1.3}
+  .ad-qr-txt strong{font-size:14px;font-weight:600;color:var(--ink)}
+  .ad-qr-txt span{font-size:12.5px;color:var(--muted)}
+  /* QR nur auf Handys aus (klein UND Touch): dort fuehrt der Store-Knopf selbst hin,
+     und den eigenen Bildschirm kann man nicht scannen. Schmales Rechnerfenster und
+     iPad zeigen ihn weiter (Owner 14.09.). */
+  @media (max-width:640px) and (pointer:coarse){ .ad-qr-wrap{display:none} }
+
+  /* Der Kasten traegt Grund und Innenabstand, die Galerie selbst keinen:
+     sonst rastet das Wischband am Handy um den Innenabstand versetzt ein. */
+  .ad-gal-box{margin-top:var(--gap);padding:clamp(18px,3vw,40px);background:var(--bg-soft);border-radius:var(--r-lg)}
+  .ad-gal{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2.4vw,32px)}
+  .ad-gal img{width:100%;height:auto;display:block}
+  .ad-gal-nav{display:none}
+
+  .ad-secs{margin-top:var(--gap);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 56px}
+  .ad-sec h3{font-size:19px;font-weight:600;letter-spacing:-.01em;margin-bottom:8px}
+  .ad-sec p{color:#4B5563;font-size:16px;line-height:1.65}
+  .ad-sec b{color:var(--ink);font-weight:600}
+  .ad-sec--key{grid-column:1/-1;background:var(--bg-soft);border-radius:var(--r-md);padding:24px 28px}
+  .ad-tm{margin-top:44px;font-size:13px;line-height:1.55;color:var(--muted-2);max-width:62ch}
+  /* height/justify zurueckgesetzt: die Vorlage gibt JEDEM <nav> 82 px Hoehe
+     und space-between, das zog die vier Links ueber die ganze Breite. */
+  nav.ad-legal{height:auto;justify-content:flex-start;margin-top:22px;padding-top:22px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .ad-legal .t{font-size:13px;color:var(--muted-2);margin-right:6px}
+  .ad-legal a{font-size:14px;font-weight:500;padding:9px 15px;border-radius:999px;background:#fff;
+    border:1px solid var(--line);transition:border-color .2s,background .2s}
+  .ad-legal a:hover{border-color:var(--ink)}
+
+  @media (max-width:760px){ .ad-secs{grid-template-columns:1fr;gap:28px} }
+  @media (max-width:640px){
+    .ad-head{grid-template-columns:1fr;gap:16px}
+    .ad-icon{width:84px;height:84px;border-radius:20px}
+    .ad-sec--key{padding:20px}
+  }
+  /* Handy: zwei ganze Geraete pro Ansicht, einrastend, mit Zaehler und Knoepfen
+     (Owner 14.09., Recherche Abschnitt 2.8). Im Stand ist kein Geraet angeschnitten;
+     nur waehrend des Wischens sind Geraete kurz halb zu sehen. Kein Autoplay. */
+  @media (max-width:560px){
+    .ad-gal{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:calc((100% - 14px) / 2);gap:14px;
+      overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
+    .ad-gal::-webkit-scrollbar{display:none}
+    .ad-gal img:nth-child(odd){scroll-snap-align:start;scroll-snap-stop:always}
+    .ad-gal-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:16px}
+    .ad-gal-btn{width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid var(--line);
+      display:grid;place-items:center;transition:opacity .2s,border-color .2s}
+    .ad-gal-btn svg{width:18px;height:18px}
+    .ad-gal-btn:disabled{opacity:.35;cursor:default}
+    .ad-gal-count{font-size:14px;color:#4B5563;min-width:7ch;text-align:center;font-variant-numeric:tabular-nums}
+  }
+
+  /* ---------- Reiter der App-Seite (14.09.2026) ---------- */
+  .ad-tabs-anchor{height:0}
+  nav.ad-tabs{position:sticky;top:var(--hdr,82px);z-index:10;height:auto;justify-content:safe center;
+    margin-top:40px;display:flex;flex-wrap:nowrap;padding:0;gap:4px;overflow-x:auto;scrollbar-width:none;
+    border-bottom:1px solid var(--line)}
+  .ad-tabs::-webkit-scrollbar{display:none}
+  /* Handy (Owner 14.09.: „Hinweise" abgeschnitten): Reiter als umbrechende Knoepfe, alle sichtbar,
+     kein Wischen. Aktiver Knopf im Stil des Sprachumschalters. */
+  /* Selektoren mit nav davor: die Leisten-Regeln fuer breite Fenster stehen weiter unten und
+     wuerden sonst Innenabstand (erster Reiter ohne linken Abstand) und den orangen Unterstrich
+     zurueckholen (Owner 14.09.: orange Linie unter den Knoepfen, ungleiche Abstaende). */
+  @media (max-width:640px){
+    nav.ad-tabs{flex-wrap:wrap;justify-content:center;overflow:visible;gap:8px;padding:12px 0;border-bottom:1px solid var(--line);
+      -webkit-mask-image:none!important;mask-image:none!important}
+    nav.ad-tabs a,nav.ad-tabs a:first-child{padding:8px 14px;border:1px solid var(--line);border-radius:999px;margin:0;font-size:14px;line-height:1.3;background:#fff}
+    nav.ad-tabs a[aria-current]{background:#FFF1E6;color:#B8420C;border:1px solid #F3D3B8;font-weight:500}
+  }
+  .ad-tabs a{padding:15px 14px 13px;font-size:15px;color:var(--muted);white-space:nowrap;
+    border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s}
+  .ad-tabs a:hover{color:var(--ink)}
+  .ad-tabs a[aria-current]{color:var(--ink);font-weight:500;border-bottom-color:var(--accent)}
+  .ad-doc{width:min(35em,100%);margin:48px 0 0}
+  .reading .ad-doc-title{font-size:clamp(30px,3.6vw,42px);letter-spacing:-.03em;margin:0}
+  .ad-doc-title:focus{outline:none}
+  .ad-doc-date{font-size:14px!important;color:var(--muted-2)!important;margin:8px 0 44px!important}
+  /* Rechtstexte stehen eine Ebene tiefer (h3/h4/h5), sehen aber aus wie vorher h2/h3/h4 */
+  .ad-doc-body h3{font-size:26px;font-weight:600;letter-spacing:-.02em;margin:48px 0 16px;color:var(--ink)}
+  .ad-doc-body h4{font-size:18px;font-weight:600;margin:32px 0 10px;color:var(--ink)}
+  /* h5 gibt es nur in der Kameraliste (Support). Owner 16.09.: „Das Wichtigere ist eher die Marke" → Marke als klare Zwischenzeile */
+  .ad-doc-body h5{font-size:17px;font-weight:600;letter-spacing:-.005em;text-transform:none;color:var(--ink);margin:26px 0 6px}
+  /* Kategorie (DSLR, Vollformat, Cinema …) nicht fett, grau: bleibt als eigene Gruppe erkennbar, zieht das Auge nicht mehr.
+     Ausgenommen „Deine Kamera ist nicht dabei?" — das einzige strong mit Link dahinter, soll auffallen (Owner). */
+  .ad-doc-body .faq h5 ~ p > strong:first-child:not(:has(~ a)){font-weight:400;color:var(--muted)}
+  .reading .callout{font-size:15px;line-height:1.6;background:var(--bg-soft);border:1px solid var(--line);
+    border-radius:var(--r-sm);padding:16px 20px;margin-bottom:8px}
+  .reading a.btn{color:#fff;margin:4px 0 8px}
+  .reading .faq{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+  .reading .faq h4{margin-top:0}
+  @media (max-width:640px){
+    nav.ad-tabs{margin-top:28px}
+    .ad-tabs a{padding:13px 11px 11px;font-size:14px}
+  }
+
+  .ad-page{padding:64px 0 0}
+  .ad-back{display:inline-flex;align-items:center;gap:6px;font-size:15px;color:var(--muted);margin-bottom:40px;min-height:26px}
+  .ad-back:hover{color:var(--ink)}
+  @media (max-width:640px){ .ad-page{padding-top:32px} .ad-back{margin-bottom:24px} }
+
+  /* ---------- Barrierefreiheit 14.09.2026 (Pruefbericht WCAG 2.2 AA) ---------- */
+  /* 2.4.11: Tastatur-Fokus darf nicht unter Kopfzeile und Reiterleiste verschwinden */
+  html{scroll-padding-top:calc(var(--hdr,82px) + 64px)}
+  @media (max-height:500px){ header,nav.ad-tabs{position:static} }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+  /* 1.4.1: Links im Fliesstext nicht nur an der Farbe erkennbar */
+  .reading a,.ad-sec a,.ad-req a{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+  .reading a.btn{text-decoration:none}
+  /* Ueberschriften bekommen den Fokus nur per Skript (nach Seitenwechsel), damit Screenreader
+     dort weiterlesen. Sie sind nicht anklickbar, ein Rahmen darum waere nur Stoerung. */
+  [tabindex="-1"]:focus{outline:none}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  .skip{position:absolute;left:16px;top:-60px;z-index:100;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-size:15px}
+  .skip:focus{top:12px}
+  .ad-req{font-size:14px;color:var(--muted);margin-top:12px}
+  .ad-req a{color:var(--accent-ink)}
+  /* Owner 16.09.: Links im Ueberblick (E-Mail, Datenschutzerklaerung) waren schwarz, im Support orange → gleich */
+  .ad-sec a{color:var(--accent-ink)}
+  /* Reiterleiste schmal: weiche Kante rechts, solange noch Reiter rechts ausserhalb liegen */
+  nav.ad-tabs.more{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 44px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 44px),transparent)}
+
+  /* QR gross: Mauszeiger darueber (nur mit Maus) oder Klick */
+  .ad-qr-wrap{position:relative}
+  button.ad-qr{font:inherit;color:inherit;text-align:left;cursor:pointer;transition:border-color .2s}
+  button.ad-qr:hover,button.ad-qr[aria-expanded="true"]{border-color:var(--ink)}
+  .ad-qr-pop{position:absolute;left:0;top:calc(100% + 10px);z-index:30;display:none;flex-direction:column;align-items:center;gap:10px;
+    width:max-content;padding:18px;background:#fff;border:1px solid var(--line);border-radius:18px;
+    box-shadow:0 24px 60px -20px rgba(11,16,32,.35)}
+  .ad-qr-pop::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px}
+  .ad-qr-pop img{width:200px;height:200px;display:block}
+  .ad-qr-pop span{font-size:13px;color:var(--muted)}
+  .ad-qr-wrap.open .ad-qr-pop{display:flex}
+  @media (hover:hover) and (pointer:fine){ .ad-qr-wrap:hover .ad-qr-pop{display:flex} }
+
+  @media (max-width:520px){ .grpA .d-mac{position:absolute;left:0;top:0;opacity:0;width:100%} .devices.grpB{gap:14px} }  /* Mac in Gruppe A am Handy unsichtbar (im Massstab zu breit), so breit wie die Buehne hinterlegt; gleitet einzeln herein */
+
+
+  /* ---------- Geraetewechsel am Handy (14.09.2026) ---------- */
+  /* Buehne so hoch wie die Gruppe (Mac 257 + Abstand 22 + iPad 340) plus Platz fuer den Geraetenamen */
+  .dev-stage{position:relative;height:660px;display:flex;align-items:center;justify-content:center;touch-action:pan-y}
+  .dev-stage{overflow:hidden}
+  /* Beide Gruppen liegen uebereinander auf der Buehne (unten Platz fuer den Geraetenamen) */
+  .dev-stage .devices{margin:0;position:absolute;left:0;right:0;top:0;bottom:44px;justify-content:center}
+  .dev-stage .grpB img{opacity:0}
+  .dev-stage[data-show="B"] .grpB img{opacity:1}
+  /* Bewegung reduziert: beide Gruppen statisch untereinander (nur wenn Gruppe B in die Breite passt) */
+  .dev-stage.stack{height:auto;flex-direction:column;gap:40px;padding-block:8px}
+  .dev-stage.stack .devices{position:static}
+  .dev-stage.stack .grpB img{opacity:1}
+  .dev-stage.stack .dev-cap{display:none}
+  /* Kein Bildwechsel, sondern Bewegung derselben Geraete (FLIP): Groesse und Lage gleiten ruhig,
+     die anderen Geraete blenden weich aus. Nur transform und opacity. */
+  /* 16.09.: will-change entfernt. Owner: Geraete „beim Antippen unscharf". will-change:transform laesst Chromium die Ebene in
+     Gruppengroesse rastern und beim Vergroessern hochziehen. Headless ohne GPU nur +5 % Kantenschaerfe gemessen, also nicht belegt;
+     Wirkung im echten Vivaldi pruefen. */
+  .dev-stage .devices img{transform-origin:0 0;
+    transition:transform 1.4s cubic-bezier(.65,0,.35,1),opacity 1s cubic-bezier(.4,0,.2,1)}
+  .dev-stage.no-anim .devices img{transition:none}
+  .dev-cap{position:absolute;left:0;right:0;top:0;margin:0;text-align:center;font-size:13px;letter-spacing:.02em;
+    color:var(--muted);opacity:0;transition:opacity .7s ease}
+  .dev-cap.on{opacity:1}
+  /* .hero p gibt jedem Absatz im Hero grosse Schrift, Aussenabstand und drei Zeilen Mindesthoehe: hier aufheben */
+  .hero .dev-cap{margin:0;min-height:0;max-width:none;font-size:13px;line-height:1.4;color:var(--muted)}
+  /* Uebergang wie beim ersten Einbau (Owner 14.09.: Fade-through und die weicheren Varianten waren
+     „immer noch zu unangenehm"): einfaches Ueberblenden 0,6 s ease, ohne Groessenaenderung. */
+  /* Hoehe 316 px: iPhone 153x316, iPad 225x316; der Mac wird von der Breite begrenzt (bei 390 px Fenster 366x221). */
+  @media (max-width:520px){ .dev-stage{height:500px} }  /* 456 px fuer Geraete: Gruppe B ist 451 px hoch */
+  @media (prefers-reduced-motion:reduce){ .dev-ctrl{display:none} .dev-stage .devices img{transition:none} }
+  .dev-ctrl{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:6px}
+  /* Bewegung reduziert: keine Punkte und kein Pause-Knopf. Stand vorher nur VOR der Grundregel und wirkte daher nicht (gemessen 14.09.). */
+  @media (prefers-reduced-motion:reduce){ .dev-ctrl{display:none} }
+  .dev-dots{display:flex;gap:2px}
+  .dev-dots button{position:relative;width:28px;height:28px;display:grid;place-items:center;border-radius:50%}
+  .dev-dots button::before{content:"";width:7px;height:7px;border-radius:4px;background:#D9D2C8;transition:width .25s,background .25s}
+  /* Aktive Marke als ruhige, feste Pille (Owner 14.09.: ein sich fuellender Balken zieht den Blick an;
+     Recherche: NN/g, Bewegung am Rand des Blickfelds). Wechselt beim Bildwechsel weich in 300 ms. */
+  .dev-dots button[aria-current="true"]{width:32px}
+  .dev-dots button[aria-current="true"]::before{width:20px;background:var(--accent)}
+  .dev-pause{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--muted)}
+  .dev-pause svg{width:12px;height:12px;fill:currentColor}
+  .dev-pause .i-play{display:none}
+  .dev-rot.paused .dev-pause .i-play{display:block}
+  .dev-rot.paused .dev-pause .i-pause{display:none}
+
+  /* Responsive */
+  /* ============ Kleinere Fenster ============
+     Die Geraete-Anordnung bleibt proportional: Bezugsgroesse ist der Mac.
+     Zu ihm stehen iPad und iPhone in festen Verhaeltnissen (am Desktop
+     gemessen: iPad 35,7 % der Mac-Breite und 1,86 % links davor, iPhone
+     18,3 % und 24,3 % nach rechts). Sobald der Mac die volle Breite einnimmt,
+     werden nur diese Verhaeltnisse eingesetzt — die Staffelung bleibt gleich,
+     nichts wird beschnitten. */
+  @media (max-width:1000px){
+    .wrap{width:min(var(--wrap),calc(100% - 40px))}
+    nav{height:70px}
+    .hero{padding:56px 0 24px;grid-template-columns:1fr;gap:44px;min-height:0}
+    .hero h1{min-height:0}
+    .hero p{min-height:0;font-size:19px;max-width:none}
+    /* NICHT .grid mitnehmen: die Basis-Regel (auto-fit, Deckel 360 px,
+       justify-content:center) traegt jede Breite selbst. Vorher stand hier
+       .c-grid,.grid gemeinsam, dadurch bekam die einzelne App-Karte zwischen
+       640 und 1000 px die volle Seitenbreite. Recherche 06.09., Abschnitt B. */
+    .c-grid{grid-template-columns:1fr}
+    .form-card{margin-inline:auto}
+
+    .apps{padding-top:80px}
+    .apps h2{font-size:36px}
+    .about-band{flex-direction:column;align-items:flex-start;gap:22px;padding:32px}
+
+    .links{gap:22px}
+    .contact,.legal,.ed-hero{padding-top:64px}
+  }
+
+  /* Telefon: eine Spalte, alles etwas kleiner, nichts laeuft ueber. */
+  @media (max-width:640px){
+    .wrap{width:calc(100% - 32px)}
+    nav{height:64px}
+    .logo{font-size:16px;gap:9px}
+    .logo-mark{width:28px;height:28px;border-radius:8px}
+    nav{gap:10px}
+    .nav-right{gap:14px;min-width:0}
+    .links{gap:16px;font-size:14px}
+    .lang a{padding:5px 10px;font-size:12px}
+    .hero{padding:40px 0 12px;gap:32px}
+    .hero h1{font-size:clamp(34px,9vw,48px)}
+    .hero p{font-size:17px;margin:20px 0 28px}
+    .btn{height:48px;padding:0 20px;font-size:15px}
+    .apps h2{font-size:30px}
+    .apps > .wrap > p{font-size:16px}
+    .grid{gap:18px;margin-top:32px}
+    .about-band{padding:26px 22px}
+    .about-band .mark{width:64px;height:64px;border-radius:18px}
+    .about-band h3{font-size:20px}
+    footer{margin-top:72px}
+    footer .wrap{flex-direction:column;align-items:flex-start;gap:12px}
+    /* Owner 14.09.: schmal ueberlappten Links und Markenhinweis. Die Zeile behielt
+       ihre feste Hoehe von 76 px, obwohl Copyright und Links jetzt untereinander stehen. */
+    footer .wrap{height:auto;padding-block:20px}
+    footer .wrap.foot-tm-row{margin-top:-6px}
+    footer .fl{gap:20px;flex-wrap:wrap}
+    .contact h1,.legal h1{font-size:clamp(30px,8vw,44px)}
+    .c-grid{gap:36px;margin-top:44px}
+    .form-card{padding:26px 22px}
+    .c-card-h{font-size:21px}
+  }
+
+  /* Seit dem Darstellungs-Schalter in der Kopfleiste (16.09.) passt sie erst ab etwa 545 px in eine Zeile.
+     Gemessen 16.09. in Rahmen von 320/375/430/560 px: bei 430 lief der Mond-Knopf aus dem Bild.
+     Darunter deshalb zwei Zeilen: Logo oben, Links und Schalter darunter. */
+  @media (max-width:560px){
+    nav{height:auto;padding:10px 0;flex-wrap:wrap;gap:8px 12px}
+    .nav-right{width:100%;justify-content:space-between;gap:12px}
+  }
+
+  /* Sehr schmal (kleine Telefone, oder 400 % Zoom auf dem Desktop).
+     WCAG 1.4.10 verlangt bei 320 px Breite Inhalt OHNE waagerechtes Scrollen.
+     Gemessen am 06.09.: die Leiste war dort 349 px breit, die Sprachumschaltung
+     stand ueber. Sie bekommt deshalb eine eigene Zeile, statt etwas zu
+     verstecken. */
+  @media (max-width:420px){
+    .wrap{width:calc(100% - 24px)}
+    nav{height:auto;padding:10px 0;flex-wrap:wrap;gap:8px 12px}
+    .nav-right{width:100%;justify-content:space-between;gap:12px}
+    .links{gap:14px}
+    .hero h1{font-size:clamp(30px,8.5vw,40px)}
+  }
+
+  /* Zielgroesse: WCAG 2.5.8 (AA) verlangt mindestens 24x24 CSS-Pixel.
+     Gemessen am 06.09. bei 390 px waren sechs Text-Links nur 19-20 px hoch.
+     Die Trefferflaeche waechst ueber Innenabstand, die Optik bleibt gleich.
+     (Fuer Links MITTEN im Fliesstext gilt die Inline-Ausnahme, die sind hier
+     bewusst nicht angefasst.) */
+  .links a,
+  footer .fl a,
+  .c-card-rows a{display:inline-flex;align-items:center;min-height:26px;padding-block:3px}
+
+
+  /* Farbe festgelegt (Owner 14.09.2026): Variante B, Studio-Orange mit Rost-Akzenten.
+     Grundlage .ops/research/2026-09-14-casysite-farbsprache.md. Ehemals Farbvariante B: Studio-Orange ueberall, warme Grautoene. Orange #F97316 nur fuer Flaechen und
+     Striche; als Text zu blass (2,8:1), dafuer #B8420C. */
+  :root{--ink:#17120E;--muted:#6B6259;--muted-2:#6B6259;--bg-soft:#FAF6F1;--line:#EDE5DB;--accent:#F97316;--accent-ink:#B8420C}
+  /* Owner 15.09.: Seitengrund nicht reinweiss, sondern leicht warmes Off-White. Karten, Formular und QR-Flaechen
+     bleiben #fff und heben sich dadurch ab. Kontrast Grau #6B6259 auf #FCFAF7: 5,8:1 (vorher 6,0:1 auf Weiss). */
+  :root{--bg:#FCFAF7}
+  header{background:rgba(252,250,247,.85)}
+  nav.ad-tabs.gedockt{--tabs-bg:rgba(255,255,255,.94)}
+  .label{color:var(--muted)}
+  :focus-visible{outline-color:#B8420C}
+  .ad-gal-box{background:#FFF1E6}
+  .btn{background:var(--ink)}
+  /* Sprachumschalter dezent in der Studiofarbe (Owner 14.09.): aktive Sprache hell-orange mit
+     Rost-Schrift statt schwarzer Pille. Kontrast #B8420C auf #FFF1E6: 4,96:1. */
+  .lang{border-color:var(--line)}
+  .lang a.on{background:#FFF1E6;color:#B8420C;box-shadow:inset 0 0 0 1px #F3D3B8}
+  .lang a:not(.on):hover{color:#B8420C}
+  /* ---------- SQNZ (14.09.2026) ---------- */
+  /* Kartenbild wie ShutterLife: randloser Ausschnitt einer echten Aufnahme */
+  .shot.sq{background:#0d0b0a;padding:0}
+  .shot.sq img{width:100%;height:100%;object-fit:cover;display:block}
+  /* Kartenbild Variante D (Owner 14.09.): ganzer Bildschirm, zwei iPhones nebeneinander auf hellem Grund.
+     Je 240 px hoch (Apple-Minimum 200 px), gleicher Massstab, nichts beschnitten oder verdeckt. */
+  .shot.two{height:280px;margin:auto 18px 18px;border-radius:14px;background:var(--bg-soft);display:flex;justify-content:center;align-items:center;gap:clamp(12px,4vw,28px);overflow:visible}
+  .shot.two img{height:240px;width:auto;flex:none;display:block}
+  /* Noch nicht im App Store: schlichter Hinweis ohne Apple-Grafik. Apple erlaubt vor Erscheinen
+     nur das Pre-Order-Badge bei echter Vorbestellung. Kein Knopf, weil nichts dahinter liegt. */
+  .ad-soon{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 18px;border-radius:12px;
+    background:var(--bg-soft);border:1px solid var(--line);font-size:15px;font-weight:500;color:var(--ink)}
+  .ad-soon::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+  /* Karte einer App, die noch nicht im Store ist (Owner 15.09.): dieselbe Sprache wie .ad-soon auf der
+     App-Seite (Punkt in Akzentfarbe, ruhige Pille), oben rechts im Kartenkopf. Bewusst nicht in der
+     Geraete-Reihe, damit es nicht wie eine Plattform gelesen wird. Kein Datum, nichts versprechen. */
+  .card-h .card-soon{margin-left:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:7px;
+    padding:5px 11px;border-radius:999px;background:var(--bg-soft);border:1px solid var(--line);
+    font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap}
+  .hero .hero-cta{margin-top:36px}
+  /* Lesbarkeit nach Schriftwechsel (Messung 15.09.): Zeilenlaenge 60-75 Zeichen, kleinste Texte groesser,
+     negative Laufweite aus der SF-Zeit zurueckgenommen, Kartenkopf darf umbrechen. */
+  .ad-sec--key p{max-width:38em}
+  /* Owner 15.09.: Kasten wirkte nach der Zeilenlaengen-Korrektur linkslastig (Kasten 1180 px, Text 576 px).
+     Breit: Ueberschrift links, Text rechts, Kasten gleichmaessig gefuellt, Zeilen bleiben kurz. */
+  @media (min-width:761px){
+    .ad-sec--key{display:grid;grid-template-columns:minmax(180px,240px) minmax(0,38em);justify-content:start;gap:8px 48px;align-items:baseline}
+    .ad-sec--key h3{margin-bottom:0}
+  }
+  .ad-sec p{max-width:36em}
+  .ad-desc{max-width:34em}
+  .reading .callout,.ad-doc-body .note{max-width:40em}
+  footer .wrap{font-size:14px}
+  .foot-tm{font-size:13.5px;max-width:40em}
+  .ad-qr-txt{line-height:1.4}
+  .hero h1{letter-spacing:-.025em}
+  .contact h1,.legal h1{letter-spacing:-.025em}
+  .apps h2,.ad-name,.reading .ad-doc-title{letter-spacing:-.02em}
+  .reading h2,.ad-doc-body h3,.about-band h3,.c-card-h{letter-spacing:-.01em}
+  .ad-sec h3{letter-spacing:0}
+  .card-h{flex-wrap:wrap}
+  @media (max-width:640px){.lang a{font-size:13px}}
+  @media (max-width:640px){.hero .hero-cta{margin-top:24px}}
+  .card-h .card-soon::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
+  /* Zwei Galerie-Kaesten: iPhone und Apple Watch getrennt. Gemeinsam in einem Bild waere der
+     Massstab 1:1 zu halten, dann waere das Watch-Gehaeuse unter 200 px (Rechnung im Bericht). */
+  .ad-gal-h{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+  .ad-gal-box + .ad-gal-box{margin-top:24px}
+  .ad-gal--watch{grid-template-columns:repeat(3,minmax(0,240px));justify-content:center}
+  @media (max-width:560px){
+    /* Watch am Handy: ein Geraet pro Ansicht, sonst waere das Gehaeuse unter 200 px hoch */
+    .ad-gal.ad-gal--watch{grid-template-columns:none;grid-auto-columns:100%;justify-content:initial}
+    .ad-gal--watch img{width:min(100%,240px);justify-self:center;scroll-snap-align:center;scroll-snap-stop:always}
+  }
+  .ad-doc-body .note{font-size:15px;line-height:1.6;background:var(--bg-soft);border:1px solid var(--line);
+    border-radius:var(--r-sm);padding:16px 20px;margin:16px 0 8px}
+
+  /* ---------- Darstellungs-Schalter in der Fusszeile (15.09.2026) ---------- */
+  .theme{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--bg)}
+  .theme button{font-size:13px;font-weight:500;padding:5px 12px;border-radius:999px;color:var(--muted);min-height:28px;transition:color .2s,background .2s}
+  .theme button[aria-pressed="true"]{background:#FFF1E6;color:#B8420C;box-shadow:inset 0 0 0 1px #F3D3B8}
+  .theme button:not([aria-pressed="true"]):hover{color:var(--ink)}
+  footer .wrap{gap:24px}
+  /* ===== Hinweisleiste fuer Fehler und Offline (Owner 18.09.: „damit der User Bescheid weiß, ob gerade ein Fehler ist") =====
+     Eine Leiste unten, hoeflich statt alarmierend, immer mit Ausweg. role=status + aria-live: Vorlesegeraete lesen sie vor. */
+  .hinweis{position:fixed;left:50%;bottom:18px;transform:translate(-50%,12px);z-index:60;max-width:min(560px,calc(100% - 32px));
+    display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:14px;background:var(--bg-hi,#fff);
+    border:1px solid var(--line);box-shadow:var(--shadow-soft,0 12px 40px -12px rgba(23,18,14,.35));
+    font-size:14.5px;line-height:1.45;color:var(--ink);opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease}
+  .hinweis.an{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+  .hinweis .txt{flex:1;min-width:0}
+  .hinweis .tun{flex:none;font:inherit;font-size:14px;font-weight:500;color:var(--accent-ink);background:none;
+    text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:2px;border-radius:6px}
+  .hinweis .zu{flex:none;width:28px;height:28px;display:grid;place-items:center;border-radius:8px;color:var(--muted);cursor:pointer;font-size:17px;line-height:1}
+  .hinweis .zu:hover{color:var(--ink)}
+  @media (max-width:520px){ .hinweis{bottom:12px;padding:12px 13px;font-size:14px} }
+  /* Bild konnte nicht geladen werden: statt kaputtem Symbol eine ruhige Flaeche mit dem Alternativtext */
+  img.fehlt{background:var(--bg-soft);border:1px dashed var(--line);border-radius:10px;min-height:60px;
+    display:grid;place-items:center;font-size:12.5px;color:var(--muted);padding:10px;text-align:center}
+
+  /* Fussleiste (Owner-Wahl 16.09.: Fassung A aus dem Vergleich heute/A/B). Markenhinweis im Blocksatz ueber die volle
+     Breite, rechts buendig mit „Datenschutz Website" darueber, damit er als Block steht. Silbentrennung gegen Wortluecken
+     (folgt html lang). Bekannt aus dem Vergleich: am Handy Trennungen und etwas gedehnte Luecken. */
+  footer .foot-tm{max-width:none;text-align:justify;-webkit-hyphens:auto;hyphens:auto}
+  /* Kopfleiste (16.09.): Sprache und Darstellung als ein Paar, Symbole statt Woerter */
+  .nav-ctrl{display:flex;align-items:center;gap:8px}
+  .theme--head{background:#fff}
+  .theme--head button{display:grid;place-items:center;width:32px;height:30px;min-height:30px;padding:0}
+  .theme--head svg{width:15px;height:15px;display:block}
+  @media (max-width:640px){ .theme--head button{width:30px;height:28px;min-height:28px} }
+
+  /* ---------- Dark Mode (15.09.2026) ----------
+     Farben aus der Recherche, Kontraste nach WCAG: Text #F3EEE8 16,3:1, Grau #A8A097 6,4:1 auf Karte,
+     Hellorange #FB923C 7,3:1. Rost #B8420C ist im Dunkeln als Text unzulaessig (3,4:1) und wird ersetzt.
+     Geraeterahmen und Screenshots bleiben unveraendert (Apple: Produktbilder "as is"); Karten eine Stufe
+     heller als die Seite, damit schwarze Rahmen eine Kante haben. QR-Codes bleiben dunkel auf Weiss. */
+  html[data-theme="dark"]{color-scheme:dark;
+    /* Graphit (Owner 15.09.: „Grafit gefällt mir bis jetzt am besten", Picker danach entfernt) */
+    --bg:#111318;--bg-soft:#191C22;--bg-hi:#23272F;--line:#313640;--ink:#EDEFF3;--muted:#A7ADB8;--muted-2:#A7ADB8;
+    --accent:#F97316;--accent-ink:#FB923C;--btn-ink:#17120E;--card-text:#BAC0CA;--body-text:#D3D7DE;--badge-text:#D5D9E0;
+    --on-accent-soft:#38230F;--on-accent-soft-line:#5A3716;--header-bg:rgba(17,19,24,.82);
+    --shadow-soft:0 1px 2px rgba(0,0,0,.4),0 12px 40px -12px rgba(0,0,0,.55);
+    --shadow-card:0 30px 80px -30px rgba(0,0,0,.7)}
+  html[data-theme="dark"] :focus-visible{outline-color:var(--accent-ink)}
+  html[data-theme="dark"] header{background:var(--header-bg)}
+  html[data-theme="dark"] .btn,html[data-theme="dark"] .reading a.btn,html[data-theme="dark"] .skip{color:var(--btn-ink)}
+  html[data-theme="dark"] .btn:hover{box-shadow:0 10px 24px -8px rgba(0,0,0,.6)}
+  html[data-theme="dark"] .lang,html[data-theme="dark"] .theme--head{background:var(--bg-soft)}
+  html[data-theme="dark"] .lang a.on,
+  html[data-theme="dark"] .theme button[aria-pressed="true"]{background:var(--on-accent-soft);color:var(--accent-ink);box-shadow:inset 0 0 0 1px var(--on-accent-soft-line)}
+  html[data-theme="dark"] .lang a:not(.on):hover{color:var(--accent-ink)}
+  html[data-theme="dark"] .card,
+  html[data-theme="dark"] .form-card,
+  html[data-theme="dark"] .ad-qr,
+  html[data-theme="dark"] .ad-qr-pop,
+  html[data-theme="dark"] .ad-legal a,
+  html[data-theme="dark"] .ad-gal-btn,
+  html[data-theme="dark"] .dev-pause,
+  html[data-theme="dark"] .about-band{background:var(--bg-soft)}
+  html[data-theme="dark"] .card:hover{box-shadow:0 2px 4px rgba(0,0,0,.3),0 28px 60px -20px rgba(0,0,0,.7)}
+  html[data-theme="dark"] .card p,
+  html[data-theme="dark"] .about-band p,
+  html[data-theme="dark"] .ad-sec p,
+  html[data-theme="dark"] .ad-gal-count{color:var(--card-text)}
+  html[data-theme="dark"] .reading p,
+  html[data-theme="dark"] .reading ul,
+  html[data-theme="dark"] .reading .block{color:var(--body-text)}
+  html[data-theme="dark"] .badge{background:var(--bg-hi);color:var(--badge-text)}
+  html[data-theme="dark"] .card-h .card-soon,
+  html[data-theme="dark"] .ad-soon,
+  html[data-theme="dark"] .shot.two{background:var(--bg-hi)}
+  /* Owner 15.09.: Bildflächen im Dunkeln ohne Orange-Stich (wirkte auf Graphit braun). Neutral aus der Palette, feine Kante. */
+  html[data-theme="dark"] .ad-gal-box{background:var(--bg-soft);box-shadow:inset 0 0 0 1px var(--line)}
+  html[data-theme="dark"] .field input,html[data-theme="dark"] .field textarea{background:var(--bg)}
+  html[data-theme="dark"] .field input:focus,html[data-theme="dark"] .field textarea:focus{background:var(--bg-soft);box-shadow:0 0 0 4px rgba(249,115,22,.2)}
+  html[data-theme="dark"] nav.ad-tabs.gedockt{--tabs-bg:rgba(25,28,34,.95)}
+  html[data-theme="dark"] nav.ad-tabs.gedockt{box-shadow:0 14px 26px -18px rgba(0,0,0,.65),0 1px 0 0 var(--line)}
+  /* Owner 18.09.: Der Balken über die ganze Fensterbreite (Lösung vom 15.09.) „sieht nicht gut aus". Jetzt hat die Leiste
+     ihre Fläche nur, wenn sie oben andockt, und zwar genau in Inhaltsbreite, also bündig mit den Kanten der Bilderfläche.
+     Unten abgerundet, mit weichem Schatten als Übergang. Ungedockt ist sie durchsichtig. */
+  nav.ad-tabs{--tabs-bg:rgba(255,255,255,.94);background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;
+    box-shadow:none;clip-path:none;transition:background .18s ease,box-shadow .18s ease}
+  nav.ad-tabs.gedockt{background:var(--tabs-bg);-webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);
+    border-radius:0 0 14px 14px;box-shadow:0 14px 26px -18px rgba(23,18,14,.45),0 1px 0 0 var(--line)}
+  /* Owner 15.09. (Bildschirmfoto 12:11): graue Linie unter den Reitern endete an der Inhaltsspalte, während der Hintergrund
+     über die volle Breite läuft; sah aus wie ein Fehler. Linie weg, der aktive Reiter behält seinen orangen Unterstrich. */
+  nav.ad-tabs{border-bottom:0}
+  .ad-tabs a{margin-bottom:0}
+  @media (max-width:640px){
+    html[data-theme="dark"] nav.ad-tabs a,html[data-theme="dark"] nav.ad-tabs a:first-child{background:var(--bg-soft)}
+    html[data-theme="dark"] nav.ad-tabs a[aria-current]{background:var(--on-accent-soft);color:var(--accent-ink);border-color:var(--on-accent-soft-line)}
+  }
+  html[data-theme="dark"] .dev-dots button::before{background:color-mix(in srgb,var(--muted) 45%,var(--bg))}
+  html[data-theme="dark"] .dev-dots button[aria-current="true"]::before{background:var(--accent)}
+  /* QR: dunkle Module auf weissem Grund behalten (sicherer fuer Kameras) */
+  html[data-theme="dark"] .ad-qr-code{background:#fff}
+  html[data-theme="dark"] .ad-qr-pop img{background:#fff;padding:10px;border-radius:10px}
+  /* ===== Handy: Kopf einzeilig, weicht beim Lesen; Reiter werden zur schmalen Zeile (Owner 18.09., Variante B aus
+     entwuerfe/2026-09-18-casysite-handy-kopf-varianten.html). Vorher fest: 93 px Kopf + 104 px Reiter = 31 % bei 390 x 664.
+     Jetzt: Kopf 56 px, beim Runterscrollen weg, beim Hochscrollen sofort zurueck; unten angekommen bleibt nur die
+     50-px-Zeile „App · Bereich ▾". Apps, Kontakt und Hell/Dunkel liegen hinter dem Menue-Knopf, DE/EN bleibt sichtbar. ===== */
+  .nav-menu,.ad-mini{display:none}
+  @media (max-width:640px){
+    header{transition:transform .25s ease}
+    header.weg{transform:translateY(-100%)}
+    header nav.wrap{display:grid;grid-template-columns:minmax(0,1fr) auto auto;grid-template-rows:56px;grid-template-areas:"logo lang menu";
+      align-items:center;gap:0 8px;height:auto;padding:0;flex-wrap:nowrap}
+    header .nav-right,header .nav-ctrl{display:contents}
+    header .logo{grid-area:logo}
+    header .lang{grid-area:lang}
+    header .links,header .theme--head{display:none}
+    .nav-menu{grid-area:menu;display:grid;place-items:center;width:40px;height:34px;border-radius:10px;border:1px solid var(--line);
+      background:var(--bg-hi,#fff);color:var(--ink)}
+    .nav-menu svg{width:18px;height:18px;display:block}
+    .nav-menu .i-zu,header.menu-offen .nav-menu .i-auf{display:none}
+    header.menu-offen .nav-menu .i-zu{display:block}
+    header.menu-offen nav.wrap{grid-template-rows:56px auto;grid-template-areas:"logo lang menu" "links theme theme";padding-bottom:14px;row-gap:6px}
+    header.menu-offen .links{display:flex;grid-area:links;font-size:16px;gap:22px}
+    header.menu-offen .theme--head{display:inline-flex;grid-area:theme;justify-self:end}
+    header.menu-offen .theme--head button{width:40px;height:34px;min-height:34px}
+
+    /* Reiter kleben am Handy nicht mehr; ihre Aufgabe uebernimmt die schmale Zeile */
+    nav.ad-tabs{position:static}
+    .ad-mini{--mini-bg:rgba(255,255,255,.94);display:block;position:sticky;top:var(--hdr-sicht,var(--hdr,56px));z-index:15;height:0;transition:top .25s ease}
+    .ad-mini-bar{display:flex;align-items:center;gap:10px;height:50px;padding:0 12px 0 16px;width:100vw;margin-left:calc(50% - 50vw);
+      background:var(--mini-bg);-webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);
+      box-shadow:0 1px 0 0 var(--line),0 14px 26px -18px rgba(23,18,14,.45);
+      opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s,transform .18s,visibility 0s linear .18s}
+    .ad-mini.an .ad-mini-bar{opacity:1;visibility:visible;transform:none;transition:opacity .18s,transform .18s}
+    .ad-mini-icon{width:26px;height:26px;border-radius:7px;flex:none}
+    .ad-mini-name{font-weight:600;font-size:15px;white-space:nowrap}
+    .ad-mini-btn{margin-left:auto;display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:0 10px 0 13px;font-size:14px;
+      border:1px solid var(--line);border-radius:999px;background:var(--bg-hi,#fff);color:var(--ink);white-space:nowrap}
+    .ad-mini-btn svg{width:14px;height:14px;transition:transform .2s}
+    .ad-mini-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+    nav.ad-mini-menu{display:block;height:auto;width:100vw;margin-left:calc(50% - 50vw);background:var(--mini-bg);
+      -webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);
+      border-radius:0 0 16px 16px;box-shadow:0 18px 30px -18px rgba(23,18,14,.5);overflow:hidden}
+    nav.ad-mini-menu[hidden]{display:none}
+    .ad-mini-menu a{display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 20px;font-size:16px;
+      border-top:1px solid var(--line);color:var(--ink)}
+    .ad-mini-menu a[aria-current]{color:var(--accent-ink);font-weight:500}
+    .ad-mini-menu a[aria-current]::after{content:"✓";font-weight:600}
+    html[data-theme="dark"] .ad-mini{--mini-bg:rgba(25,28,34,.95)}
+    html[data-theme="dark"] .ad-mini-bar{box-shadow:0 1px 0 0 var(--line),0 14px 26px -18px rgba(0,0,0,.7)}
+    html[data-theme="dark"] .nav-menu,html[data-theme="dark"] .ad-mini-btn{background:var(--bg-soft)}
+  }
+  /* Datenspende-Absatz (19.09.): ueber die ganze Breite unter den drei Spalten, mit feiner Linie abgesetzt, Zeilen kurz gehalten */
+  /* Owner 19.09.: eigene Ueberschrift, damit der Absatz nicht wie ein Teil des Textes darueber wirkt und bewusst gelesen wird */
+  .about-band .band-text .band-spende{grid-column:1/-1;column-span:all;max-width:52em;margin-top:10px;padding-top:20px;border-top:1px solid var(--line)}
+  .about-band .band-text .band-spende h4{font-size:18px;font-weight:600;letter-spacing:-.01em;color:var(--ink);margin:0 0 8px}
+  .about-band .band-text .band-spende + p{margin-top:14px}
+  /* ===== Datenspende (Owner 19.09.): „Demnächst"-Marke fuer Leser, gestrichelter Kasten fuer offene Punkte im Entwurf ===== */
+  .soon-pill{display:inline-flex;align-items:center;gap:7px;padding:4px 10px;border-radius:999px;background:var(--bg-soft);border:1px solid var(--line);
+    font-size:12px;font-weight:600;line-height:1.3;letter-spacing:0;text-transform:none;color:var(--ink);white-space:nowrap;vertical-align:middle}
+  .soon-pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
+  .ad-sec--key .soon-pill{background:var(--bg);margin-bottom:10px}
+  .ad-doc-body h3 .soon-pill,.ad-doc-body h4 .soon-pill{margin-left:10px;vertical-align:3px}
+  /* ===== Suche (Owner 19.09.: „die Suche muss wirklich richtig gut sein … was sie nur umschreiben") =====
+     Laeuft ganz im Browser, kein externer Dienst. Knopf in der Kopfzeile; am Handy ab 360 px als Symbol in der einzeiligen
+     Kopfzeile, darunter im Menue (gemessen: bei 320 px passt ein vierter Knopf nicht in die Zeile). */
+  .nav-such{display:grid;place-items:center;width:36px;height:34px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);flex:none}
+  .nav-such svg{width:17px;height:17px;display:block}
+  .nav-such-txt{display:none}
+  .nav-such:hover{border-color:var(--ink)}
+  html[data-theme="dark"] .nav-such{background:var(--bg-soft)}
+  @media (max-width:640px){
+    header nav.wrap{grid-template-columns:minmax(0,1fr) auto auto auto;grid-template-areas:"logo such lang menu"}
+    header .nav-such{grid-area:such;width:40px;height:34px;border-radius:10px;background:var(--bg-hi,#fff)}
+    header.menu-offen nav.wrap{grid-template-areas:"logo such lang menu" "links theme theme theme"}
+  }
+  @media (max-width:359px){
+    header nav.wrap{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"logo lang menu"}
+    header .nav-such{display:none}
+    header.menu-offen nav.wrap{grid-template-rows:56px auto auto;grid-template-areas:"logo lang menu" "links theme theme" "such such such"}
+    header.menu-offen .nav-such{display:flex;align-items:center;grid-area:such;width:100%;height:44px;gap:10px;padding:0 14px;border-radius:12px;font-size:16px;color:var(--muted)}
+    header.menu-offen .nav-such-txt{display:inline}
+  }
+
+  .such{position:fixed;inset:0;z-index:100;display:flex;justify-content:center;align-items:flex-start;padding:10vh 16px 16px;
+    background:rgba(11,16,32,.38);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+  .such[hidden]{display:none}
+  html.such-offen{overflow:hidden}
+  .such-box{width:min(640px,100%);max-height:78vh;display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--line);
+    border-radius:16px;box-shadow:0 30px 80px -20px rgba(0,0,0,.45);overflow:hidden}
+  .such-kopf{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;border-bottom:1px solid var(--line)}
+  .such-kopf > svg{width:19px;height:19px;color:var(--muted);flex:none}
+  .such-kopf input{flex:1;min-width:0;height:40px;font:inherit;font-size:17px;border:0;background:transparent;color:var(--ink);outline:none}
+  .such-kopf input::-webkit-search-cancel-button{-webkit-appearance:none}
+  .such-zu{flex:none;font-size:14px;color:var(--muted);padding:8px 10px;border-radius:8px;min-height:36px}
+  .such-zu:hover{color:var(--ink)}
+  .such-liste{overflow-y:auto;overscroll-behavior:contain;padding:8px}
+  .such-liste a{display:block;padding:11px 12px;border-radius:10px;color:var(--ink)}
+  .such-liste a:hover,.such-liste a:focus-visible,.such-liste a.an{background:var(--bg-soft);outline:none}
+  .such-ort{display:block;font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--muted);margin-bottom:2px}
+  .such-titel{display:block;font-weight:600;font-size:16px;line-height:1.35}
+  .such-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:14px;line-height:1.45;color:var(--muted);margin-top:2px}
+  .such-leer{padding:14px 12px 16px;font-size:15px;line-height:1.5;color:var(--muted)}
+  .such-leer b{color:var(--ink);font-weight:600}
+  .such-leer .btn{margin-top:14px;color:#fff}
+  .such-bsp{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .such-bsp button{font-size:14px;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:var(--bg-soft);color:var(--ink)}
+  .such-bsp button:hover{border-color:var(--ink)}
+  @media (max-width:640px){
+    .such{padding:0;background:var(--bg);-webkit-backdrop-filter:none;backdrop-filter:none}
+    .such-box{width:100%;height:100%;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none;padding-top:env(safe-area-inset-top)}
+  }
+  /* Ziel eines Suchtreffers kurz markieren, damit man sieht, wo man gelandet ist */
+  .such-treffer{animation:suchTreffer 2.2s ease}
+  @keyframes suchTreffer{0%,35%{box-shadow:0 0 0 8px rgba(249,115,22,.22);background-color:rgba(249,115,22,.07)}100%{box-shadow:0 0 0 8px rgba(249,115,22,0);background-color:transparent}}

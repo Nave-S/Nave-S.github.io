@@ -1,953 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'">
-    <meta name="referrer" content="no-referrer">
-    <meta name="theme-color" content="#0A0908" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#FAF7F2" media="(prefers-color-scheme: light)">
-    <meta name="color-scheme" content="dark light">
-
-    <title>Casy Studio — Apps that move, focus, and get things done</title>
-    <meta name="description" content="Casy Studio builds single-purpose apps for iPhone, iPad and Mac. Your data stays on your device, not on someone's server.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://casystudio.com/">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Casy Studio">
-    <meta property="og:title" content="Casy Studio — Apps that move, focus, and get things done">
-    <meta property="og:description" content="Single-purpose apps for iPhone, iPad and Mac. Your data stays on your device.">
-    <meta property="og:url" content="https://casystudio.com/">
-    <meta property="og:image" content="https://casystudio.com/og-image.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Casy Studio — small apps, made with care.">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:locale:alternate" content="de_DE">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Casy Studio — Apps that move, focus, and get things done">
-    <meta name="twitter:description" content="Single-purpose apps for iPhone, iPad and Mac. Your data stays on your device.">
-    <meta name="twitter:image" content="https://casystudio.com/og-image.jpg">
-
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="apple-touch-icon" href="favicon.svg">
-    <link rel="stylesheet" href="style.css">
-
-    <!-- App enablement source-of-truth, mirrored from config.json so the
-         landing renders synchronously (no fetch round-trip → no CLS). -->
-    <script type="application/json" id="apps-config">
-    {
-      "shutterlife": true
-    }
-    </script>
-
-    <!-- JSON-LD: Organization -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Casy Studio",
-      "alternateName": "CasyStudioCo",
-      "url": "https://casystudio.com",
-      "logo": "https://casystudio.com/favicon.svg",
-      "email": "support@casystudio.com"
-    }
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Casy Studio: Apps for Apple platforms</title>
+<meta name="description" content="Casy Studio builds single-purpose apps for iPhone, iPad and Mac. Your data stays on your device, not on someone's server.">
+<link rel="canonical" href="https://casystudio.com/">
+<link rel="alternate" hreflang="en" href="https://casystudio.com/">
+<link rel="alternate" hreflang="de" href="https://casystudio.com/de.html">
+<link rel="alternate" hreflang="x-default" href="https://casystudio.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Casy Studio">
+<meta property="og:title" content="Casy Studio: Apps for Apple platforms">
+<meta property="og:description" content="Casy Studio builds single-purpose apps for iPhone, iPad and Mac. Your data stays on your device, not on someone's server.">
+<meta property="og:url" content="https://casystudio.com/">
+<meta property="og:image" content="https://casystudio.com/og-image.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/img/casy-favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/casy-favicon-16.png">
+<link rel="icon" type="image/svg+xml" href="/assets/img/casy-favicon.svg">
+<link rel="apple-touch-icon" href="/assets/img/casy-favicon-180.png">
+<link rel="preload" href="/assets/fonts/reddit-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="color-scheme" content="light dark">
+<script src="/assets/casy-kopf.js"></script>
+<link rel="stylesheet" href="/assets/casy.css">
 </head>
-<body>
-    <a href="#main" class="skip-link" id="skip-link">Skip to content</a>
+<body data-page="home">
+<a class="skip" data-skip="" href="/">Skip to content</a>
+<header>
+<nav class="wrap">
+<a aria-label="Casy Studio home" class="logo" data-page="home" href="/">
+<span class="logo-mark"><svg aria-hidden="true" focusable="false" viewbox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<path d="M47.76 5.82C47.37 5.82 46.20 5.82 45.41 5.82C44.63 5.82 43.85 5.82 43.07 5.82C42.29 5.82 41.51 5.82 40.73 5.82C39.94 5.82 39.16 5.82 38.38 5.82C37.60 5.82 36.82 5.82 36.04 5.82C35.26 5.82 34.47 5.82 33.69 5.82C32.91 5.82 32.13 5.82 31.35 5.82C30.57 5.82 29.79 5.81 29.00 5.83C28.22 5.85 27.43 5.89 26.66 5.95C25.90 6.00 25.14 6.06 24.40 6.18C23.66 6.29 22.96 6.44 22.24 6.63C21.52 6.83 20.80 7.07 20.09 7.34C19.37 7.61 18.64 7.90 17.95 8.25C17.26 8.59 16.59 8.99 15.93 9.43C15.28 9.86 14.62 10.35 14.02 10.85C13.42 11.35 12.89 11.88 12.35 12.45C11.81 13.01 11.25 13.64 10.78 14.25C10.31 14.86 9.91 15.46 9.53 16.11C9.15 16.75 8.80 17.44 8.49 18.11C8.19 18.79 7.94 19.43 7.69 20.17C7.45 20.90 7.19 21.74 7.02 22.52C6.84 23.29 6.74 24.06 6.65 24.84C6.57 25.61 6.51 26.40 6.51 27.18C6.51 27.96 6.56 28.75 6.64 29.53C6.72 30.30 6.84 31.08 7.01 31.85C7.18 32.62 7.43 33.41 7.67 34.16C7.92 34.90 8.19 35.60 8.51 36.31C8.82 37.02 9.19 37.76 9.58 38.41C9.97 39.06 10.38 39.63 10.84 40.22C11.30 40.81 11.82 41.39 12.35 41.95C12.88 42.51 13.43 43.05 14.02 43.56C14.61 44.07 15.25 44.55 15.89 44.98C16.54 45.42 17.18 45.78 17.89 46.15C18.59 46.51 19.36 46.89 20.10 47.18C20.83 47.47 21.54 47.69 22.28 47.89C23.03 48.08 23.80 48.23 24.58 48.34C25.35 48.45 26.14 48.48 26.92 48.53C27.70 48.58 28.48 48.58 29.27 48.62C30.05 48.66 30.83 48.74 31.61 48.77C32.39 48.80 33.17 48.80 33.95 48.80C34.73 48.80 35.52 48.80 36.30 48.80C37.08 48.80 37.86 48.80 38.64 48.80C39.42 48.80 40.20 48.81 40.99 48.77C41.77 48.74 42.56 48.70 43.33 48.60C44.10 48.50 44.92 48.48 45.63 48.20C46.33 47.92 47.13 47.52 47.56 46.92C48.00 46.33 48.24 45.40 48.24 44.64C48.24 43.89 48.00 42.97 47.56 42.39C47.13 41.82 46.33 41.44 45.63 41.18C44.92 40.91 44.10 40.88 43.33 40.80C42.56 40.73 41.77 40.74 40.99 40.73C40.20 40.71 39.42 40.73 38.64 40.73C37.86 40.73 37.08 40.73 36.30 40.73C35.52 40.73 34.73 40.73 33.95 40.73C33.17 40.73 32.39 40.73 31.61 40.73C30.83 40.73 30.05 40.74 29.27 40.72C28.48 40.70 27.69 40.70 26.92 40.61C26.15 40.53 25.38 40.40 24.64 40.20C23.90 40.01 23.16 39.74 22.48 39.44C21.80 39.13 21.17 38.81 20.54 38.38C19.90 37.94 19.25 37.37 18.69 36.81C18.14 36.26 17.62 35.68 17.20 35.06C16.77 34.44 16.43 33.80 16.13 33.09C15.83 32.39 15.59 31.60 15.41 30.83C15.24 30.06 15.14 29.26 15.10 28.48C15.06 27.70 15.09 26.91 15.18 26.14C15.27 25.37 15.42 24.62 15.64 23.87C15.86 23.11 16.15 22.31 16.50 21.62C16.85 20.92 17.27 20.30 17.75 19.69C18.23 19.09 18.81 18.51 19.40 18.00C19.99 17.50 20.65 17.04 21.30 16.67C21.95 16.30 22.59 16.02 23.32 15.78C24.04 15.54 24.87 15.35 25.64 15.22C26.42 15.09 27.19 15.04 27.96 14.99C28.74 14.94 29.53 14.95 30.31 14.94C31.09 14.93 31.87 14.94 32.65 14.94C33.43 14.94 34.21 14.94 35.00 14.94C35.78 14.94 36.56 14.94 37.34 14.94C38.12 14.94 38.90 14.94 39.68 14.94C40.47 14.94 41.25 14.92 42.03 14.95C42.81 14.99 43.60 14.99 44.36 15.13C45.11 15.28 45.96 15.39 46.57 15.81C47.18 16.24 47.78 16.98 48.03 17.70C48.29 18.42 48.29 19.39 48.12 20.12C47.96 20.84 47.57 21.55 47.06 22.06C46.56 22.57 45.83 22.93 45.12 23.17C44.41 23.41 43.58 23.44 42.81 23.50C42.03 23.56 41.25 23.53 40.47 23.53C39.68 23.54 38.90 23.53 38.12 23.53C37.34 23.53 36.56 23.53 35.78 23.53C35.00 23.53 34.21 23.53 33.43 23.53C32.65 23.53 31.87 23.53 31.09 23.54C30.31 23.55 29.52 23.52 28.74 23.59C27.97 23.66 27.14 23.67 26.45 23.96C25.76 24.24 25.01 24.68 24.62 25.30C24.24 25.92 24.14 26.92 24.16 27.69C24.18 28.45 24.30 29.32 24.72 29.88C25.15 30.45 26.00 30.85 26.71 31.09C27.42 31.33 28.23 31.29 29.00 31.33C29.78 31.38 30.57 31.35 31.35 31.35C32.13 31.35 32.91 31.35 33.69 31.35C34.47 31.35 35.26 31.35 36.04 31.35C36.82 31.35 37.60 31.35 38.38 31.35C39.16 31.35 39.94 31.34 40.73 31.35C41.51 31.36 42.29 31.37 43.07 31.42C43.85 31.46 44.64 31.53 45.41 31.64C46.18 31.74 46.96 31.87 47.69 32.06C48.43 32.26 49.13 32.49 49.82 32.79C50.50 33.09 51.19 33.43 51.83 33.85C52.46 34.28 53.09 34.80 53.63 35.33C54.17 35.85 54.62 36.39 55.06 37.01C55.50 37.63 55.94 38.32 56.27 39.03C56.61 39.74 56.88 40.50 57.08 41.26C57.29 42.03 57.45 42.84 57.52 43.62C57.60 44.40 57.60 45.17 57.54 45.93C57.47 46.70 57.33 47.48 57.13 48.21C56.94 48.95 56.69 49.65 56.37 50.34C56.05 51.04 55.66 51.74 55.20 52.40C54.74 53.05 54.17 53.72 53.62 54.27C53.07 54.83 52.53 55.29 51.89 55.73C51.25 56.17 50.52 56.60 49.78 56.94C49.05 57.27 48.27 57.56 47.50 57.76C46.73 57.95 45.93 58.05 45.15 58.12C44.37 58.19 43.59 58.17 42.81 58.18C42.03 58.19 41.25 58.18 40.47 58.18C39.68 58.18 38.90 58.18 38.12 58.18C37.34 58.18 36.56 58.18 35.78 58.18C35.00 58.18 34.21 58.18 33.43 58.18C32.65 58.18 31.87 58.18 31.09 58.18C30.31 58.18 29.53 58.18 28.74 58.18C27.96 58.18 27.18 58.18 26.40 58.18C25.62 58.18 24.84 58.18 24.06 58.18C23.27 58.18 22.49 58.18 21.71 58.18C20.93 58.18 20.15 58.18 19.37 58.18C18.59 58.18 17.63 58.18 17.02 58.18C16.42 58.18 15.94 58.18 15.72 58.18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.87"></path>
+</svg></span>
+      Casy Studio
+    </a>
+<div class="nav-right">
+<div class="links">
+<a data-anchor="apps" data-page="home" href="/">Apps</a>
+<a data-page="contact" href="/kontakt/">Contact</a>
+</div>
+<div class="nav-ctrl">
+<button aria-haspopup="dialog" aria-label="Search" class="nav-such" type="button"><svg aria-hidden="true" focusable="false" viewbox="0 0 18 18"><circle cx="7.8" cy="7.8" fill="none" r="5.3" stroke="currentColor" stroke-width="1.6"></circle><path d="M11.8 11.8l4 4" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg><span class="nav-such-txt">Search</span></button>
+<div aria-label="Sprache / Language" class="lang" role="group"><a href="/de.html" hreflang="de" lang="de">DE</a><a aria-current="true" class="on" href="/" hreflang="en" lang="en">EN</a></div>
 
-    <div class="container">
-        <header class="topbar" role="banner">
-            <a href="#" class="wordmark" aria-label="Casy Studio">
-                <span class="wordmark-mark" aria-hidden="true">CS</span>
-                <span>Casy Studio</span>
-            </a>
-            <div class="lang-switch" role="group" aria-label="Language">
-                <button type="button" id="lang-en" class="active" aria-pressed="true" lang="en"
-                        onclick="setLang('en')">EN</button>
-                <button type="button" id="lang-de" aria-pressed="false" lang="de"
-                        onclick="setLang('de')">DE</button>
-            </div>
-        </header>
+<div aria-label="Appearance" class="theme theme--head" role="group">
+<button aria-label="System" aria-pressed="true" data-theme-set="system" type="button"><svg aria-hidden="true" focusable="false" viewbox="0 0 16 16"><circle cx="8" cy="8" fill="none" r="5.75" stroke="currentColor" stroke-width="1.5"></circle><path d="M8 2.25a5.75 5.75 0 0 1 0 11.5z" fill="currentColor"></path></svg></button><button aria-label="Light" aria-pressed="false" data-theme-set="light" type="button"><svg aria-hidden="true" focusable="false" viewbox="0 0 16 16"><circle cx="8" cy="8" fill="none" r="3" stroke="currentColor" stroke-width="1.5"></circle><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3.05 3.05l1.13 1.13M11.82 11.82l1.13 1.13M3.05 12.95l1.13-1.13M11.82 4.18l1.13-1.13" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path></svg></button><button aria-label="Dark" aria-pressed="false" data-theme-set="dark" type="button"><svg aria-hidden="true" focusable="false" viewbox="0 0 16 16"><path d="M13.5 9.6A5.75 5.75 0 1 1 6.4 2.5a4.6 4.6 0 0 0 7.1 7.1z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"></path></svg></button>
+</div>
 
-        <main id="main">
-            <section class="hero" aria-labelledby="hero-title">
-                <h1 id="hero-title">
-                    Apps. <span class="accent" id="hero-accent">Distilled to the essentials.</span>
-                </h1>
-                <p class="lede" id="lede">
-                    We build high-quality apps for iPhone, iPad and Mac. Useful, thoughtful and made with care.
-                </p>
-                <div class="hero-cta">
-                    <a href="#apps-title" class="hero-cta__primary" id="cta-primary">See the apps</a>
-                    <a href="mailto:support@casystudio.com" class="hero-cta__secondary" id="cta-secondary">Email me</a>
-                </div>
-            </section>
+<button aria-expanded="false" aria-label="Menu" class="nav-menu" type="button"><svg aria-hidden="true" class="i-auf" focusable="false" viewbox="0 0 18 18"><path d="M3 5h12M3 9h12M3 13h12" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg><svg aria-hidden="true" class="i-zu" focusable="false" viewbox="0 0 18 18"><path d="M4.5 4.5l9 9M13.5 4.5l-9 9" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg></button>
+</div>
+</div>
+</nav>
+</header>
+<main id="main-content" tabindex="-1">
 
-            <section aria-labelledby="apps-title" class="reveal">
-                <div class="section-head">
-                    <h2 class="section-title" id="apps-title">The apps</h2>
-                    <span class="section-meta" id="apps-meta"></span>
-                </div>
-                <div class="app-grid" id="app-grid">
-                    <!-- rendered from config.json + apps registry -->
-                </div>
-            </section>
-        </main>
+<section class="page active" id="page-home">
+<div class="wrap hero">
+<div>
 
-        <footer class="site-footer" role="contentinfo">
-            <div class="site-footer__brand">
-                <a href="#" class="wordmark" aria-label="Casy Studio">
-                    <span class="wordmark-mark" aria-hidden="true">CS</span>
-                    <span>Casy Studio</span>
-                </a>
-            </div>
-            <div class="site-footer__row">
-                <nav class="site-footer__links" aria-label="Studio">
-                    <a href="mailto:support@casystudio.com" id="footer-contact">Contact</a>
-                    <a href="impressum/" id="footer-impressum">Legal Notice</a>
-                    <a href="datenschutz/" id="footer-privacy">Privacy</a>
-                </nav>
-                <p class="site-footer__legal" id="footer-legal">&copy; 2026 Adriano Camonita · All rights reserved.</p>
-            </div>
-            <p class="site-footer__note site-footer__tm" id="footer-tm">Apple, the Apple logo, iPhone, iPad, Mac and App Store are trademarks of Apple Inc., registered in the U.S. and other countries. Camera brands such as Canon, Nikon, Sony, Fujifilm, Pentax, Leica and Ricoh belong to their respective owners. Casy Studio is independent and not affiliated with Apple or any camera manufacturer.</p>
-            <p class="site-footer__note" id="footer-hosting">Small studio, small setup: this site runs on GitHub Pages, under its own domain casystudio.com.</p>
-        </footer>
-    </div>
+<h1 tabindex="-1">Apps for iPhone, iPad, Mac and Apple Watch.</h1>
 
-    <!-- App-detail overlay (modal). Markup is static + empty; populated by JS
-         from the chosen app's `detail` object on open. Hidden by default;
-         only ever shown for apps that declare a `detail`. Vanilla, no deps. -->
-    <div class="overlay" id="app-overlay" hidden>
-        <div class="overlay__backdrop" data-overlay-close></div>
-        <div class="overlay__dialog" role="dialog" aria-modal="true"
-             aria-labelledby="overlay-title" id="overlay-dialog">
-            <button type="button" class="overlay__close" id="overlay-close"
-                    data-overlay-close aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+<a class="btn hero-cta" data-scroll="apps" href="#apps">See the apps</a>
+</div>
 
-            <header class="overlay__header">
-                <img class="overlay__icon" id="overlay-icon" alt="" width="56" height="56">
-                <div class="overlay__heading">
-                    <h2 class="overlay__title" id="overlay-title"></h2>
-                    <p class="overlay__platform" id="overlay-platform"></p>
-                </div>
-            </header>
+<div aria-label="Devices our apps run on" class="dev-rot" role="group">
+<div class="dev-stage">
 
-            <div class="overlay__body">
-                <div class="overlay__gallery" role="group" id="overlay-gallery" aria-label="Screenshots">
-                    <div class="overlay__viewport">
-                        <div class="overlay__track" id="overlay-track"></div>
-                    </div>
-                    <button type="button" class="overlay__nav overlay__nav--prev" id="overlay-prev" aria-label="Previous screenshot">
-                        <span aria-hidden="true">&#8249;</span>
-                    </button>
-                    <button type="button" class="overlay__nav overlay__nav--next" id="overlay-next" aria-label="Next screenshot">
-                        <span aria-hidden="true">&#8250;</span>
-                    </button>
-                    <div class="overlay__indicator">
-                        <span class="overlay__counter" id="overlay-counter" aria-live="polite"></span>
-                        <div class="overlay__dots" id="overlay-dots"></div>
-                    </div>
-                </div>
+<div class="devices grpA" data-grp="A">
+<img alt="" class="d-mac" data-dev="mac" src="/assets/img/sl-mac-1.0.10-en.png"/>
+<img alt="" class="d-ipad" data-dev="ipad" src="/assets/img/sl-ipad-1.0.10-en.png"/>
+</div>
 
-                <div class="overlay__content">
-                    <p class="overlay__desc" id="overlay-desc"></p>
-                    <div class="overlay__sections" id="overlay-sections"></div>
-                    <div class="overlay__links" id="overlay-links"></div>
-                    <div class="overlay__get">
-                        <a class="overlay__store" id="overlay-store" target="_blank" rel="noopener"><img class="overlay__store-badge" id="overlay-store-badge" src="" alt="" width="120" height="40"></a>
-                        <!-- Desktop only, and only when a QR file exists for the app.
-                             A visitor on a PC who taps the badge lands on Apple's web
-                             page and cannot get the app onto the phone in their pocket
-                             from there — they would have to search for it by hand.
-                             Hidden on touch devices, where the badge already does the
-                             job. aria-hidden: the link next to it says the same thing
-                             to a screen reader, and a QR code read aloud is noise. -->
-                        <div class="overlay__qr" id="overlay-qr" hidden aria-hidden="true">
-                            <img class="overlay__qr-code" id="overlay-qr-code" src="" alt="" width="96" height="96">
-                            <span class="overlay__qr-hint" id="overlay-qr-hint"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="devices grpB" data-grp="B">
 
-    <script>
-        /* Copy variants for owner review (WP-N-2026-06-11-004). Active: custom hero + footer copy per owner request (2026-07-13); eyebrow + footer tagline removed. Variants below kept for history.
-         * Hero (lead / accent):
-         *   1) EN "Tools," / "not platforms."            DE "Werkzeuge," / "keine Plattformen."
-         *   2) EN "One job per app." / "Done properly."  DE "Eine Aufgabe pro App." / "Sauber gelöst."
-         *   3) EN "Apps without" / "an agenda."          DE "Apps ohne" / "Hintergedanken."
-         * Lede:
-         *   1) EN/DE: see active strings below.
-         *   2) EN "A short list of apps for iPhone, Mac and Apple Watch, each built to solve one real problem. Nothing to sign up for, nothing watching over your shoulder."
-         *      DE "Wenige Apps, klarer Zweck: Werkzeuge für iPhone, Mac und Apple Watch, die jeweils ein echtes Problem lösen. Ohne Konto, ohne Beobachter."
-         *   3) EN "Casy Studio builds single-purpose apps for iOS, macOS and Apple Watch. Open one, get the thing done, move on — your data never leaves your device."
-         *      DE "Casy Studio baut Apps mit genau einer Aufgabe — für iOS, macOS und Apple Watch. Öffnen, erledigen, weitermachen. Deine Daten verlassen dein Gerät nicht."
-         * Footer tagline:
-         *   1) EN "Apps that mind their own business."   DE "Apps, die nichts von dir wollen."
-         *   2) EN "One developer. A few good tools."     DE "Ein Entwickler. Ein paar gute Werkzeuge."
-         *   3) EN "Single-purpose software for Apple platforms."  DE "Software mit klarem Zweck — für iPhone, Mac und Watch."
-         */
-        const i18n = {
-            en: {
-                lang: "en",
-                ctaPrimary: "See the apps",
-                ctaSecondary: "Email me",
-                heroLead: "Apps.",
-                heroAccent: "Distilled to the essentials.",
-                lede: "We build high-quality apps for iPhone, iPad and Mac. Useful, thoughtful and made with care.",
-                appsTitle: "The apps",
-                appsMetaOne: "1 app",
-                appsMetaMany: (n) => `${n} apps`,
-                privacy: "Privacy",
-                terms: "Notes",
-                support: "Support",
-                empty: "No apps published yet. Soon.",
-                rights: "All rights reserved.",
-                contact: "Contact",
-                github: "GitHub",
-                impressum: "Legal Notice",
-                impressumSuffix: "",
-                footerPrivacy: "Privacy",
-                footerPrivacySuffix: "",
-                footerLegal: "© 2026 Adriano Camonita · All rights reserved.",
-                footerHosting: "Small studio, small setup: this site runs on GitHub Pages, under its own domain casystudio.com.",
-                footerTm: "Apple, the Apple logo, iPhone, iPad, Mac and App Store are trademarks of Apple Inc., registered in the U.S. and other countries. Camera brands such as Canon, Nikon, Sony, Fujifilm, Pentax, Leica and Ricoh belong to their respective owners. Casy Studio is independent and not affiliated with Apple or any camera manufacturer.",
-                statusLive: "Live",
-                statusBeta: "TestFlight",
-                statusSoon: "Coming soon",
-                iconAlt: (name) => `${name} app icon`,
-                deviceAlt: (name, device) => `${name} on ${device}`,
-                shotAlt: (name) => `${name} app screenshot`,
-                detailsCta: "Learn more",
-                detailsCtaFor: (name) => `Learn more about ${name}`,
-                overlayClose: "Close",
-                overlayPrev: "Previous screenshot",
-                overlayNext: "Next screenshot",
-                overlayGallery: "Screenshots",
-                overlayCounter: (i, n) => `${i} / ${n}`,
-                overlayDot: (i, n) => `Show screenshot ${i} of ${n}`,
-                storeBadgeFor: (name) => `Download ${name} on the App Store`,
-                qrHint: "Scan to open on your iPhone",
-                shotAltN: (name, i, n) => `${name} screenshot ${i} of ${n}`,
-                privacySuffix: "",
-                termsSuffix: "",
-                supportSuffix: "",
-            },
-            de: {
-                lang: "de",
-                ctaPrimary: "Zu den Apps",
-                ctaSecondary: "Schreib mir",
-                heroLead: "Apps.",
-                heroAccent: "Reduziert auf das Wesentliche.",
-                lede: "Wir entwickeln hochwertige Apps für iPhone, iPad und Mac. Nützlich, durchdacht und mit Liebe zum Detail.",
-                appsTitle: "Die Apps",
-                appsMetaOne: "1 App",
-                appsMetaMany: (n) => `${n} Apps`,
-                privacy: "Datenschutz",
-                terms: "Hinweise",
-                support: "Support",
-                empty: "Noch keine Apps veröffentlicht. Bald.",
-                rights: "Alle Rechte vorbehalten.",
-                contact: "Kontakt",
-                github: "GitHub",
-                impressum: "Impressum",
-                impressumSuffix: "/de.html",
-                footerPrivacy: "Datenschutz",
-                footerPrivacySuffix: "/de.html",
-                footerLegal: "© 2026 Adriano Camonita · Alle Rechte vorbehalten.",
-                footerHosting: "Kleines Studio, kleines Setup: Diese Seite läuft auf GitHub Pages, unter der eigenen Domain casystudio.com.",
-                footerTm: "Apple, das Apple-Logo, iPhone, iPad, Mac und App Store sind Marken der Apple Inc., eingetragen in den USA und anderen Ländern. Kameramarken wie Canon, Nikon, Sony, Fujifilm, Pentax, Leica und Ricoh gehören ihren Inhabern. Casy Studio ist unabhängig und weder mit Apple noch mit einem Kamerahersteller verbunden.",
-                statusLive: "Live",
-                statusBeta: "TestFlight",
-                statusSoon: "Bald",
-                iconAlt: (name) => `${name} App-Icon`,
-                deviceAlt: (name, device) => `${name} auf ${device}`,
-                shotAlt: (name) => `${name} App-Screenshot`,
-                detailsCta: "Mehr erfahren",
-                detailsCtaFor: (name) => `Mehr über ${name} erfahren`,
-                overlayClose: "Schließen",
-                overlayPrev: "Vorheriges Bild",
-                overlayNext: "Nächstes Bild",
-                overlayGallery: "Screenshots",
-                overlayCounter: (i, n) => `${i} / ${n}`,
-                overlayDot: (i, n) => `Screenshot ${i} von ${n} zeigen`,
-                storeBadgeFor: (name) => `${name} im App Store laden`,
-                qrHint: "Scannen und am iPhone öffnen",
-                shotAltN: (name, i, n) => `${name} Screenshot ${i} von ${n}`,
-                privacySuffix: "/de.html",
-                termsSuffix: "/de.html",
-                supportSuffix: "/de.html",
-            }
-        };
+<img alt="" class="d-iphone" data-dev="iphone" src="/assets/img/sqnz-card-run-2026-09-15-en.png"/>
+<img alt="" class="d-watch" data-dev="watch" src="/assets/img/sqnz-hero-watch-en.png"/>
+</div>
+<p aria-live="off" class="dev-cap"></p>
+</div>
+<div class="dev-ctrl">
+<div class="dev-dots"></div>
+<button aria-label="Wechsel anhalten" class="dev-pause" type="button">
+<svg aria-hidden="true" class="i-pause" viewbox="0 0 16 16"><rect height="10" rx="1" width="2.6" x="4" y="3"></rect><rect height="10" rx="1" width="2.6" x="9.4" y="3"></rect></svg>
+<svg aria-hidden="true" class="i-play" viewbox="0 0 16 16"><path d="M5 3.2v9.6a.6.6 0 0 0 .9.5l7.6-4.8a.6.6 0 0 0 0-1L5.9 2.7a.6.6 0 0 0-.9.5z"></path></svg>
+</button>
+</div>
+</div>
+</div>
+<div class="apps" id="apps">
+<div class="wrap">
+<h2>The apps</h2>
+<p>Each with one clear job.</p>
+<div class="grid">
+<a class="card" data-app="shutterlife" href="/shutterlife/">
+<div class="card-h">
 
-        const apps = {
-            // Sequence Lite is visible in the grid, but NOT in the App Store yet
-            // (team-internal until Adriano's v1.1 + legal review). Its `appStore`
-            // value is a placeholder (404) kept as a "store intent" flag. status:"soon"
-            // + realStoreUrl() guard mean the store button renders as a disabled
-            // "Coming soon" affordance and never links to the 404. At launch: set
-            // status:"live" and swap in the real App Store URL — then it links normally.
-            shutterlife:    { name: "ShutterLife",       icon: "SL", color: "#3B82F6", status: "live",  en: "Drop in a photo, read your camera's shutter count.",                 de: "Foto reinziehen, Auslösezähler der Kamera ablesen.",                  platform: "iPhone · iPad · Mac",       folder: "shutterlife", appStore: "https://apps.apple.com/app/shutterlife/id6761454875", qr: "apps/qr/shutterlife.svg", iconSrc: "apps/icons/shutterlife.png", devices: [{ type: "mac", src: { de: "apps/devices/de/shutterlife-mac.png", en: "apps/devices/en/shutterlife-mac.png" } }, { type: "ipad", src: { de: "apps/devices/de/shutterlife-ipad.png", en: "apps/devices/en/shutterlife-ipad.png" } }, { type: "iphone", src: { de: "apps/devices/de/shutterlife-iphone.png", en: "apps/devices/en/shutterlife-iphone.png" } }], featured: true, cat: { en: "For photographers", de: "Für Fotografen" },
-                // Detail overlay content. Description + sections condensed from the
-                // App Store listing (iTunes lookup id 6761454875, DE+EN) — kept
-                // faithful, no invented features. Screenshots: web-optimised
-                // ios_01/03/04/05 (sips, ~640px) under apps/screenshots/shutterlife/.
-                detail: {
-                    screenshots: {
-                        en: [
-                            "apps/screenshots/framed/en/sl-01.png",
-                            "apps/screenshots/framed/en/sl-04.png",
-                        ],
-                        de: [
-                            "apps/screenshots/framed/de/sl-01.png",
-                            "apps/screenshots/framed/de/sl-04.png",
-                        ],
-                    },
-                    description: {
-                        en: "Know your camera's shutter count before you buy or sell. ShutterLife reads it straight from your camera's image files: no internet, no upload, no account. Works on iPhone, iPad and Mac.",
-                        de: "Kenne den Auslösezähler deiner Kamera vor Kauf und Verkauf. ShutterLife liest ihn direkt aus den Bilddateien deiner Kamera: ohne Internet, ohne Upload, ohne Account. Für iPhone, iPad und Mac.",
-                    },
-                    sections: [
-                        {
-                            title: { en: "How it works", de: "So funktioniert's" },
-                            body: {
-                                en: "Open a camera photo by drag & drop on Mac, or from your photo library on iPhone and iPad. ShutterLife reads the EXIF data and shows the shutter count instantly. The photo must be an unedited original: messaging apps strip EXIF, so share it via AirDrop, email (original size) or a cloud service.",
-                                de: "Öffne ein Kamerafoto per Drag & Drop am Mac oder aus der Foto-Bibliothek auf iPhone und iPad. ShutterLife liest die EXIF-Daten und zeigt sofort den Auslösezähler. Das Foto muss ein unbearbeitetes Original sein: Messenger entfernen die EXIF-Daten, teile es daher per AirDrop, E-Mail (Originalgröße) oder Cloud-Dienst.",
-                            },
-                        },
-                        {
-                            title: { en: "Count and tested threshold", de: "Zählerstand und Prüfschwelle" },
-                            body: {
-                                en: "Where ShutterLife shows a ring, it relates your shutter count to the threshold the manufacturer tested for. That threshold is a tested minimum, not a failure forecast: above it the manufacturer simply stopped testing.",
-                                de: "Wo ShutterLife einen Ring zeigt, setzt er deinen Auslösezähler ins Verhältnis zur geprüften Schwelle des Herstellers. Die Schwelle ist eine geprüfte Mindestangabe, keine Ausfallprognose: Oberhalb davon hat der Hersteller nicht weiter geprüft.",
-                            },
-                        },
-                        {
-                            title: { en: "Wide camera support", de: "Große Kamera-Unterstützung" },
-                            body: {
-                                en: "Canon, Nikon, Sony, Fujifilm, Pentax, Leica and Ricoh bodies are supported. ShutterLife was built and tested on real camera files, reading JPG, HEIC, HEIF, HIF, CR2, CR3, NEF, ARW, RAF, PEF and DNG files. The full model list lives in the app.",
-                                de: "Modelle von Canon, Nikon, Sony, Fujifilm, Pentax, Leica und Ricoh werden unterstützt. ShutterLife wurde an echten Kameradateien entwickelt und geprüft. Gelesen werden JPG, HEIC, HEIF, HIF, CR2, CR3, NEF, ARW, RAF, PEF und DNG. Die vollständige Modell-Liste steht in der App.",
-                            },
-                        },
-                        {
-                            title: { en: "Private by design", de: "Datenschutz von Grund auf" },
-                            body: {
-                                en: "All processing happens on your device. The app uploads nothing, analyzes nothing, and does not track you. No internet connection required. We only see a photo if you choose to email one to us yourself.",
-                                de: "Die gesamte Verarbeitung findet auf deinem Gerät statt. Die App lädt nichts hoch, wertet nichts aus, trackt nicht und braucht kein Internet. Fotos sehen wir nur, wenn du sie uns selbst per E-Mail schickst.",
-                            },
-                        },
-                        {
-                            title: { en: "Trademarks", de: "Markenrechte" },
-                            body: {
-                                en: "Camera brand names are trademarks of their owners. ShutterLife is independent of all manufacturers.",
-                                de: "Alle Markennamen gehören ihren Inhabern. ShutterLife ist unabhängig und mit keinem Kamerahersteller verbunden.",
-                            },
-                        },
-                    ],
-                },
-            },
-        };
+<div class="icon"><img alt="" src="/assets/img/icon-shutterlife-q2-lamellen-orange.png"/></div>
+<div><b>ShutterLife</b><span>For photographers</span></div>
+</div>
+<p>Drop in a photo, read your camera’s shutter count.</p>
+<div class="badges"><span class="badge">iPhone</span><span class="badge">iPad</span><span class="badge">Mac</span></div>
 
-        // Device display names for showcase-card <img> alt text. Brand names, so
-        // they are NOT translated (i18n only wraps them: "… on <label>" / "… auf
-        // <label>"). Extend here when a card gains a new device type.
-        const DEVICE_LABELS = { iphone: "iPhone", ipad: "iPad", mac: "Mac", watch: "Apple Watch" };
+<div class="shot two"><img alt="" src="/assets/img/sl-ov-4-1.0.10-en.png"/><img alt="" src="/assets/img/sl-ov-1-1.0.10-en.png"/></div>
+</a>
 
-        let currentLang = "en";
+<a class="card" data-app="sqnz" href="/sequenz/">
+<div class="card-h">
+<div class="icon"><img alt="" src="/assets/img/sqnz-icon.png"/></div>
 
-        // Per-app deep link: /?app=<folder> (fallback #<folder>) pre-selects an
-        // app so an app-folder URL (e.g. /shutterlife/) lands here with that app
-        // featured on top. Resolved ONCE to a known app key; null when
-        // absent/unknown. Consumed by renderApps() (reorder) and
-        // runDeepLinkFocus() (scroll + highlight).
-        function resolveAppKey(token) {
-            if (!token) return null;
-            const v = String(token).trim().toLowerCase();
-            if (!v) return null;
-            if (apps[v]) return v;                                          // a key
-            return Object.keys(apps).find(k => apps[k].folder === v) || null; // or folder
-        }
-        function readDeepLinkApp() {
-            try {
-                const params = new URLSearchParams(window.location.search);
-                const raw = params.get("app") || (window.location.hash || "").replace(/^#/, "");
-                return resolveAppKey(raw);
-            } catch { return null; }
-        }
-        const deepLinkApp = readDeepLinkApp();
+<div><b>SQNZ</b><span>For training &amp; focus</span></div>
+<span class="card-soon">Coming soon</span>
+</div>
 
-        function statusLabel(status, t) {
-            if (status === "live") return t.statusLive;
-            if (status === "beta") return t.statusBeta;
-            return t.statusSoon;
-        }
+<p>You set work and rest, the app counts down for you.</p>
+<div class="badges"><span class="badge">iPhone</span><span class="badge">Apple Watch · Premium</span></div>
 
-        // Store-link guard: a card/overlay only ever links to the App Store when the
-        // app is actually live AND carries a genuine store URL. Returns the real
-        // URL, or null (→ caller renders a disabled "Coming soon" affordance
-        // instead of a dead link).
-        //
-        // The test is now the app id, not a list of known placeholder slugs
-        // (28.08.). Every real App Store URL carries `/idNNNNNNNN`; a stub
-        // written ahead of launch does not. That holds for any future app
-        // without anyone remembering to add its slug here — the old named list
-        // only worked for the apps somebody had thought of.
-        const STORE_PLACEHOLDER = /^(?!.*\/id\d+)/i;
-        // The country segment in an App Store URL decides which national STORE
-        // PAGE a desktop visitor sees — its language and its price tag. It does
-        // NOT decide where anyone buys: on a phone the link opens the App Store
-        // app, which only ever knows the store of the signed-in account.
-        //
-        // Measured 14.08. rather than assumed: without a country segment Apple
-        // redirects to /us/ for every browser language tried (th, de, en, ja),
-        // and even when its own response sets `geo=DE`. So the choice is not
-        // "auto-detect vs. fixed" — it is which fixed page we send people to.
-        //
-        // We send them to the one matching the language they are reading the
-        // site in: /de/ for German, no segment (→ /us/, English) otherwise.
-        // A German reader would otherwise land on an English page mid-sentence,
-        // and an international reader on a German one.
-        function localizeStoreUrl(url, lang) {
-            if (!url) return url;
-            // Only rewrite the canonical form, so a URL that already carries a
-            // country segment is left exactly as the data declares it.
-            return lang === "de"
-                ? url.replace(/^https:\/\/apps\.apple\.com\/app\//, "https://apps.apple.com/de/app/")
-                : url;
-        }
+<div class="shot two"><img alt="" src="/assets/img/sqnz-card-home-2026-09-15-en.png"/><img alt="" src="/assets/img/sqnz-card-run-2026-09-15-en.png"/></div>
+</a>
+</div>
+<div class="about-band">
+<div class="mark"><svg aria-hidden="true" focusable="false" viewbox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<path d="M47.76 5.82C47.37 5.82 46.20 5.82 45.41 5.82C44.63 5.82 43.85 5.82 43.07 5.82C42.29 5.82 41.51 5.82 40.73 5.82C39.94 5.82 39.16 5.82 38.38 5.82C37.60 5.82 36.82 5.82 36.04 5.82C35.26 5.82 34.47 5.82 33.69 5.82C32.91 5.82 32.13 5.82 31.35 5.82C30.57 5.82 29.79 5.81 29.00 5.83C28.22 5.85 27.43 5.89 26.66 5.95C25.90 6.00 25.14 6.06 24.40 6.18C23.66 6.29 22.96 6.44 22.24 6.63C21.52 6.83 20.80 7.07 20.09 7.34C19.37 7.61 18.64 7.90 17.95 8.25C17.26 8.59 16.59 8.99 15.93 9.43C15.28 9.86 14.62 10.35 14.02 10.85C13.42 11.35 12.89 11.88 12.35 12.45C11.81 13.01 11.25 13.64 10.78 14.25C10.31 14.86 9.91 15.46 9.53 16.11C9.15 16.75 8.80 17.44 8.49 18.11C8.19 18.79 7.94 19.43 7.69 20.17C7.45 20.90 7.19 21.74 7.02 22.52C6.84 23.29 6.74 24.06 6.65 24.84C6.57 25.61 6.51 26.40 6.51 27.18C6.51 27.96 6.56 28.75 6.64 29.53C6.72 30.30 6.84 31.08 7.01 31.85C7.18 32.62 7.43 33.41 7.67 34.16C7.92 34.90 8.19 35.60 8.51 36.31C8.82 37.02 9.19 37.76 9.58 38.41C9.97 39.06 10.38 39.63 10.84 40.22C11.30 40.81 11.82 41.39 12.35 41.95C12.88 42.51 13.43 43.05 14.02 43.56C14.61 44.07 15.25 44.55 15.89 44.98C16.54 45.42 17.18 45.78 17.89 46.15C18.59 46.51 19.36 46.89 20.10 47.18C20.83 47.47 21.54 47.69 22.28 47.89C23.03 48.08 23.80 48.23 24.58 48.34C25.35 48.45 26.14 48.48 26.92 48.53C27.70 48.58 28.48 48.58 29.27 48.62C30.05 48.66 30.83 48.74 31.61 48.77C32.39 48.80 33.17 48.80 33.95 48.80C34.73 48.80 35.52 48.80 36.30 48.80C37.08 48.80 37.86 48.80 38.64 48.80C39.42 48.80 40.20 48.81 40.99 48.77C41.77 48.74 42.56 48.70 43.33 48.60C44.10 48.50 44.92 48.48 45.63 48.20C46.33 47.92 47.13 47.52 47.56 46.92C48.00 46.33 48.24 45.40 48.24 44.64C48.24 43.89 48.00 42.97 47.56 42.39C47.13 41.82 46.33 41.44 45.63 41.18C44.92 40.91 44.10 40.88 43.33 40.80C42.56 40.73 41.77 40.74 40.99 40.73C40.20 40.71 39.42 40.73 38.64 40.73C37.86 40.73 37.08 40.73 36.30 40.73C35.52 40.73 34.73 40.73 33.95 40.73C33.17 40.73 32.39 40.73 31.61 40.73C30.83 40.73 30.05 40.74 29.27 40.72C28.48 40.70 27.69 40.70 26.92 40.61C26.15 40.53 25.38 40.40 24.64 40.20C23.90 40.01 23.16 39.74 22.48 39.44C21.80 39.13 21.17 38.81 20.54 38.38C19.90 37.94 19.25 37.37 18.69 36.81C18.14 36.26 17.62 35.68 17.20 35.06C16.77 34.44 16.43 33.80 16.13 33.09C15.83 32.39 15.59 31.60 15.41 30.83C15.24 30.06 15.14 29.26 15.10 28.48C15.06 27.70 15.09 26.91 15.18 26.14C15.27 25.37 15.42 24.62 15.64 23.87C15.86 23.11 16.15 22.31 16.50 21.62C16.85 20.92 17.27 20.30 17.75 19.69C18.23 19.09 18.81 18.51 19.40 18.00C19.99 17.50 20.65 17.04 21.30 16.67C21.95 16.30 22.59 16.02 23.32 15.78C24.04 15.54 24.87 15.35 25.64 15.22C26.42 15.09 27.19 15.04 27.96 14.99C28.74 14.94 29.53 14.95 30.31 14.94C31.09 14.93 31.87 14.94 32.65 14.94C33.43 14.94 34.21 14.94 35.00 14.94C35.78 14.94 36.56 14.94 37.34 14.94C38.12 14.94 38.90 14.94 39.68 14.94C40.47 14.94 41.25 14.92 42.03 14.95C42.81 14.99 43.60 14.99 44.36 15.13C45.11 15.28 45.96 15.39 46.57 15.81C47.18 16.24 47.78 16.98 48.03 17.70C48.29 18.42 48.29 19.39 48.12 20.12C47.96 20.84 47.57 21.55 47.06 22.06C46.56 22.57 45.83 22.93 45.12 23.17C44.41 23.41 43.58 23.44 42.81 23.50C42.03 23.56 41.25 23.53 40.47 23.53C39.68 23.54 38.90 23.53 38.12 23.53C37.34 23.53 36.56 23.53 35.78 23.53C35.00 23.53 34.21 23.53 33.43 23.53C32.65 23.53 31.87 23.53 31.09 23.54C30.31 23.55 29.52 23.52 28.74 23.59C27.97 23.66 27.14 23.67 26.45 23.96C25.76 24.24 25.01 24.68 24.62 25.30C24.24 25.92 24.14 26.92 24.16 27.69C24.18 28.45 24.30 29.32 24.72 29.88C25.15 30.45 26.00 30.85 26.71 31.09C27.42 31.33 28.23 31.29 29.00 31.33C29.78 31.38 30.57 31.35 31.35 31.35C32.13 31.35 32.91 31.35 33.69 31.35C34.47 31.35 35.26 31.35 36.04 31.35C36.82 31.35 37.60 31.35 38.38 31.35C39.16 31.35 39.94 31.34 40.73 31.35C41.51 31.36 42.29 31.37 43.07 31.42C43.85 31.46 44.64 31.53 45.41 31.64C46.18 31.74 46.96 31.87 47.69 32.06C48.43 32.26 49.13 32.49 49.82 32.79C50.50 33.09 51.19 33.43 51.83 33.85C52.46 34.28 53.09 34.80 53.63 35.33C54.17 35.85 54.62 36.39 55.06 37.01C55.50 37.63 55.94 38.32 56.27 39.03C56.61 39.74 56.88 40.50 57.08 41.26C57.29 42.03 57.45 42.84 57.52 43.62C57.60 44.40 57.60 45.17 57.54 45.93C57.47 46.70 57.33 47.48 57.13 48.21C56.94 48.95 56.69 49.65 56.37 50.34C56.05 51.04 55.66 51.74 55.20 52.40C54.74 53.05 54.17 53.72 53.62 54.27C53.07 54.83 52.53 55.29 51.89 55.73C51.25 56.17 50.52 56.60 49.78 56.94C49.05 57.27 48.27 57.56 47.50 57.76C46.73 57.95 45.93 58.05 45.15 58.12C44.37 58.19 43.59 58.17 42.81 58.18C42.03 58.19 41.25 58.18 40.47 58.18C39.68 58.18 38.90 58.18 38.12 58.18C37.34 58.18 36.56 58.18 35.78 58.18C35.00 58.18 34.21 58.18 33.43 58.18C32.65 58.18 31.87 58.18 31.09 58.18C30.31 58.18 29.53 58.18 28.74 58.18C27.96 58.18 27.18 58.18 26.40 58.18C25.62 58.18 24.84 58.18 24.06 58.18C23.27 58.18 22.49 58.18 21.71 58.18C20.93 58.18 20.15 58.18 19.37 58.18C18.59 58.18 17.63 58.18 17.02 58.18C16.42 58.18 15.94 58.18 15.72 58.18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.87"></path>
+</svg></div>
+<div>
 
-        function realStoreUrl(app) {
-            if (!app.appStore || app.status !== "live") return null;
-            if (STORE_PLACEHOLDER.test(app.appStore)) return null;
-            return app.appStore;
-        }
+<div class="label">About Casy Studio</div>
+<h3>Software that adapts to your technology, not the other way round</h3>
+<div class="band-text"><p>When we build our apps we follow one clear principle: software should adapt to the technology you already have, not the other way round.</p><p>Our aim is software that works reliably on as many existing devices as possible. Instead of assuming that new software calls for new hardware, we look for software solutions that make the most of the systems people already own.</p><p>That way modern software stays within reach, without forcing anyone to spend money on new devices. Good software should not fail just because the hardware is not brand new.</p><p>Questions or ideas? Write to us at <a href="mailto:support@casystudio.com">support@casystudio.com</a>.</p></div>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-        function escape(s) {
-            return String(s).replace(/[&<>"']/g, c => ({
-                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-            }[c]));
-        }
+</main>
+<footer>
+<div class="wrap">
+<span>© 2026 Adriano Camonita · All rights reserved.</span>
+<div class="fl">
+<a data-page="impressum" href="/impressum/">Legal notice</a>
+<a data-page="privacy" href="/datenschutz/">Website Privacy</a>
+</div>
 
-        function setLang(lang) {
-            if (!i18n[lang]) return;
-            currentLang = lang;
-            try { localStorage.setItem("casy_lang", lang); } catch (e) {}
-            const t = i18n[lang];
+</div>
+<div class="wrap foot-tm-row">
 
-            document.documentElement.lang = t.lang;
+<p class="foot-tm">Apple, the Apple logo, Apple Watch, iPhone, iPad, Mac and App Store are trademarks of Apple Inc., registered in the U.S. and other countries and regions. Camera brands such as Canon, Nikon, Sony, Fujifilm, Pentax, Leica and Ricoh belong to their respective owners. Casy Studio is independent and not affiliated with Apple or any camera manufacturer.</p> </div>
+</footer>
 
-            const enBtn = document.getElementById("lang-en");
-            const deBtn = document.getElementById("lang-de");
-            enBtn.classList.toggle("active", lang === "en");
-            deBtn.classList.toggle("active", lang === "de");
-            enBtn.setAttribute("aria-pressed", lang === "en" ? "true" : "false");
-            deBtn.setAttribute("aria-pressed", lang === "de" ? "true" : "false");
-
-            document.getElementById("hero-title").innerHTML =
-                `${escape(t.heroLead)} <span class="accent" id="hero-accent">${escape(t.heroAccent)}</span>`;
-            document.getElementById("lede").textContent = t.lede;
-            document.getElementById("cta-primary").textContent = t.ctaPrimary;
-            document.getElementById("cta-secondary").textContent = t.ctaSecondary;
-            document.getElementById("apps-title").textContent = t.appsTitle;
-            document.getElementById("footer-contact").textContent = t.contact;
-            const fi = document.getElementById("footer-impressum");
-            fi.textContent = t.impressum;
-            fi.href = t.impressumSuffix
-                ? `impressum/${t.impressumSuffix.replace(/^\//, "")}`
-                : "impressum/";
-            const fp = document.getElementById("footer-privacy");
-            fp.textContent = t.footerPrivacy;
-            fp.href = t.footerPrivacySuffix
-                ? `datenschutz/${t.footerPrivacySuffix.replace(/^\//, "")}`
-                : "datenschutz/";
-            document.getElementById("footer-legal").innerHTML = t.footerLegal;
-            document.getElementById("footer-hosting").textContent = t.footerHosting;
-            document.getElementById("footer-tm").textContent = t.footerTm;
-
-            renderApps();
-
-            // An open detail overlay is built once, on open — so a language switch
-            // used to leave its text (and now its screenshots) in the old language
-            // until it was closed and reopened. Rebuild it in place instead.
-            if (overlayCurrentKey && !overlay.root.hidden) overlayBuild(apps[overlayCurrentKey]);
-        }
-
-        function loadConfig() {
-            try {
-                return JSON.parse(document.getElementById("apps-config").textContent);
-            } catch {
-                return {};
-            }
-        }
-
-        function renderApps() {
-            const lang = currentLang;
-            const t = i18n[lang];
-            const grid = document.getElementById("app-grid");
-            const meta = document.getElementById("apps-meta");
-
-            const config = loadConfig();
-            const visible = Object.entries(config)
-                .filter(([key, on]) => on && apps[key])
-                .map(([key]) => ({ key, ...apps[key] }));
-
-            // Deep-link: if /?app=<folder> targets a visible app, move it to the
-            // front so it claims the featured slot — if it is live OR explicitly
-            // featured. That covers the coming-soon Sequence Lite (status:"soon",
-            // featured:true) so it lands on top by explicit intent, not by config
-            // order, and still works once it flips to live. Unknown / hidden /
-            // neither-live-nor-featured → left as-is (normal order). Runs on every
-            // render, so the ordering survives a language-switch re-render.
-            if (deepLinkApp) {
-                const di = visible.findIndex(a => a.key === deepLinkApp);
-                if (di > 0 && (visible[di].status === "live" || visible[di].featured)) {
-                    visible.unshift(visible.splice(di, 1)[0]);
-                }
-            }
-
-            meta.textContent = visible.length === 0
-                ? ""
-                : visible.length === 1
-                    ? t.appsMetaOne
-                    : t.appsMetaMany(visible.length);
-
-            if (visible.length === 0) {
-                grid.innerHTML = `<div class="empty-state">${escape(t.empty)}</div>`;
-                return;
-            }
-
-            // Featured (full-row bento) cards. Decoupled from status ON PURPOSE:
-            // an app opts in with `featured: true` regardless of whether it is
-            // "live" or still "soon" — so Sequence Lite can be showcased big
-            // while keeping its "Coming soon" badge and dead store button. Any
-            // number of apps may be featured (each spans the full row and they
-            // stack). Fallback: if nothing is flagged, the first live app is
-            // featured so a launched app is always showcased.
-            const featuredKeys = new Set(visible.filter(app => app.featured).map(app => app.key));
-            if (featuredKeys.size === 0) {
-                const firstLive = visible.find(app => app.status === "live");
-                if (firstLive) featuredKeys.add(firstLive.key);
-            }
-
-            grid.innerHTML = visible.map(app => {
-                        const featured = featuredKeys.has(app.key);
-                        // Layout selector, in priority order:
-                        //   showcase — real Apple-bezel device PNGs beside the copy
-                        //              (app.devices[]). Straight, side-by-side, no
-                        //              rotation/reflection (Apple guideline); the card
-                        //              carries its own violet CSS glow, NOT a mockup image.
-                        //   media    — legacy single composite mockup as the card
-                        //              background (app.cardImage). Kept as a graceful
-                        //              fallback for any app that has a cardImage but no
-                        //              devices[].
-                        //   plain    — neither; the standard frosted card.
-                        const hasDevices = Array.isArray(app.devices) && app.devices.length > 0;
-                        const hasMedia = !hasDevices && !!app.cardImage;
-
-                        // Store affordance (unchanged guard: realStoreUrl()). Genuinely
-                        // live apps get the OFFICIAL Apple App Store badge, swapped by
-                        // language and used unmodified. Apps that declare store intent
-                        // but aren't live yet (status:"soon"/placeholder URL) keep the
-                        // "Coming soon"/"Bald" pill — never a badge, never a 404 link.
-                        const realUrl = realStoreUrl(app);
-                        const badgeSrc = lang === "de"
-                            ? "apps/cards/appstore-badge-de.svg"
-                            : "apps/cards/appstore-badge-en.svg";
-                        const storeEl = realUrl
-                            ? `<a class="app-card__store" href="${escape(localizeStoreUrl(realUrl, lang))}" rel="noopener" target="_blank" aria-label="${escape(t.storeBadgeFor(app.name))}"><img src="${badgeSrc}" alt="" width="120" height="40" loading="lazy"></a>`
-                            : app.appStore
-                                ? `<span class="app-card__soon" aria-disabled="true">${escape(t.statusSoon)}</span>`
-                                : "";
-                        // The same QR as in the overlay, on the card itself — a desktop
-                        // visitor should not have to open "Learn more" first to find the
-                        // one route that gets the app onto their phone (owner, 14.08.).
-                        // Same two conditions as there: a real store URL, and a QR file
-                        // that actually exists for this app. CSS narrows it further to
-                        // wide cards with a mouse.
-                        //
-                        // The QR is NOT localized, unlike the badge link. It is scanned
-                        // by a phone, and the App Store app there shows the store of the
-                        // signed-in account whatever the URL said — a second QR per
-                        // language would be two files encoding the same outcome.
-                        const qrEl = (realUrl && app.qr)
-                            ? `<div class="app-card__qr" aria-hidden="true"><img src="${escape(app.qr)}" alt="" width="72" height="72" loading="lazy"><span>${escape(t.qrHint)}</span></div>`
-                            : "";
-                        // "Learn more" opens the detail overlay (delegated click on
-                        // data-detail). Its OWN action, separate from the store link.
-                        const detailTrigger = app.detail
-                            ? `<button type="button" class="detail-trigger" data-detail="${escape(app.key)}" aria-haspopup="dialog" aria-label="${escape(t.detailsCtaFor(app.name))}"><span>${escape(t.detailsCta)}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>`
-                            : "";
-                        // Live apps ship a real rounded icon (iconSrc); everything else
-                        // keeps the monogram badge fallback. Sits alone at the card top.
-                        const iconHtml = app.iconSrc
-                            ? `<img class="app-icon app-icon--img" src="${escape(app.iconSrc)}" alt="${escape(t.iconAlt(app.name))}" width="54" height="54" loading="lazy">`
-                            : `<div class="app-icon" style="background:${escape(app.color)}" aria-hidden="true">${escape(app.icon)}</div>`;
-                        // Accent category line (keynote-style), rendered only when set.
-                        const catLine = (app.cat && app.cat[lang])
-                            ? `<p class="app-card__cat">${escape(app.cat[lang])}</p>`
-                            : "";
-                        // Legacy full-bleed rendered mockup behind the card (device
-                        // right, mist left). Decorative; a CSS gradient keeps the left
-                        // column legible. Only for the media fallback (no devices[]).
-                        const bg = hasMedia
-                            ? `<div class="app-card__bg" aria-hidden="true"><img src="${escape(app.cardImage)}" alt="" loading="lazy"></div>`
-                            : "";
-
-                        // The shared inner copy column (icon → name → category →
-                        // description → platform → foot). Rendered directly inside the
-                        // article for plain/media cards, and wrapped in .app-card__body
-                        // for the showcase two-column split.
-                        const contentHtml = `
-                                ${iconHtml}
-                                <h3 class="app-card__name" id="app-${app.key}-title">${escape(app.name)}</h3>
-                                ${catLine}
-                                <p class="app-card__desc">${escape(app[lang])}</p>
-                                <p class="app-card__meta">${escape(app.platform)}</p>
-                                <div class="app-card__foot">
-                                    ${detailTrigger}
-                                    ${(storeEl || qrEl) ? `<div class="app-card__get">${storeEl}${qrEl}</div>` : ""}
-                                </div>`;
-
-                        // Showcase device row — one <img> per real Apple-bezel PNG,
-                        // largest device first (→ leftmost on desktop, top when the row
-                        // wraps on narrow screens). Each PNG is informative (shows the
-                        // app running on that device), so it gets a real alt text, not
-                        // aria-hidden. type ∈ iphone|ipad|mac|watch drives its size class;
-                        // unknown types still render (empty label) rather than break.
-                        const devicesHtml = hasDevices
-                            ? `<div class="app-card__devices">` + app.devices.map(d => {
-                                  const type = String(d.type || "");
-                                  const label = DEVICE_LABELS[type] || "";
-                                  // `src` may be a plain path or a per-language object,
-                                  // same shape as `detail.screenshots`. A device shot
-                                  // that carries readable UI text has to follow the
-                                  // language switch; one that shows an empty screen
-                                  // does not, and stays a plain string.
-                                  const src = (d.src && typeof d.src === "object")
-                                      ? (d.src[currentLang] || d.src.en)
-                                      : d.src;
-                                  return `<span class="device-slot device-slot--${escape(type)}"><img class="device device--${escape(type)}" src="${escape(src)}" alt="${escape(t.deviceAlt(app.name, label))}" loading="lazy" decoding="async"></span>`;
-                              }).join("") + `</div>`
-                            : "";
-
-                        // `app-card--featured` is retained as the deep-link hook (JS
-                        // queries `.app-card--featured[data-app]`). `--showcase` drives
-                        // the device-row layout; `--media` the legacy background image.
-                        const classes = ["app-card", "reveal"];
-                        if (hasDevices) classes.push("app-card--showcase");
-                        else if (hasMedia) classes.push("app-card--media");
-                        if (featured) classes.push("app-card--featured");
-
-                        if (hasDevices) {
-                            return `
-                            <article class="${classes.join(" ")}" data-app="${escape(app.key)}" aria-labelledby="app-${app.key}-title">
-                                <div class="app-card__glow" aria-hidden="true"></div>
-                                <div class="app-card__body">${contentHtml}</div>
-                                ${devicesHtml}
-                            </article>`;
-                        }
-
-                        return `
-                            <article class="${classes.join(" ")}" data-app="${escape(app.key)}" aria-labelledby="app-${app.key}-title">
-                                ${bg}
-                                <div class="app-card__glow" aria-hidden="true"></div>
-                                ${contentHtml}
-                            </article>`;
-                    }).join("");
-
-            observeReveals();
-        }
-
-        // Scroll-reveal: native IntersectionObserver, no library. We never
-        // un-set `.is-visible` — once revealed, the element stays revealed
-        // (avoids re-animating on scroll-up). Reduced-motion users skip
-        // observation entirely; the CSS already paints them visible.
-        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const revealObserver = (!reduceMotion && "IntersectionObserver" in window)
-            ? new IntersectionObserver((entries, obs) => {
-                  for (const entry of entries) {
-                      if (entry.isIntersecting) {
-                          entry.target.classList.add("is-visible");
-                          obs.unobserve(entry.target);
-                      }
-                  }
-              }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 })
-            : null;
-
-        function observeReveals() {
-            const targets = document.querySelectorAll(".reveal:not(.is-visible)");
-            if (!revealObserver) {
-                targets.forEach(el => el.classList.add("is-visible"));
-                return;
-            }
-            targets.forEach(el => revealObserver.observe(el));
-        }
-
-        // Deep-link focus — scroll to + briefly highlight the pre-selected app,
-        // ONCE on initial load (not on language-switch re-renders). Only fires
-        // when the featured card actually is the deep-linked app (i.e. it was
-        // visible + live); otherwise the page is in normal order and there is
-        // nothing to focus. Honors prefers-reduced-motion: no smooth scroll,
-        // no pulse — just snap into the correct position.
-        function runDeepLinkFocus() {
-            if (!deepLinkApp) return;
-            const card = document.querySelector(`.app-card--featured[data-app="${deepLinkApp}"]`);
-            if (!card) return;
-            card.classList.add("is-visible"); // ensure painted (reveal may not have fired yet)
-            if (reduceMotion) {
-                card.scrollIntoView({ block: "start" });
-                return;
-            }
-            card.scrollIntoView({ behavior: "smooth", block: "start" });
-            card.classList.add("app-card--deeplink");
-            setTimeout(() => card.classList.remove("app-card--deeplink"), 1400);
-        }
-
-        /* ============================================================
-           App-detail overlay — modal dialog, vanilla, no dependencies.
-           a11y: role=dialog/aria-modal, focus trap, Esc to close, focus
-           restore to trigger, body scroll-lock (scrollbar-compensated),
-           reduced-motion (CSS-driven). Gallery is navigable by keyboard
-           (←/→), pointer (prev/next + dots) and touch (swipe). Content is
-           rebuilt per-open in the current language from the app's
-           `detail` object — no localisation of an already-open overlay.
-           ============================================================ */
-        const overlay = {
-            root: document.getElementById("app-overlay"),
-            dialog: document.getElementById("overlay-dialog"),
-            icon: document.getElementById("overlay-icon"),
-            title: document.getElementById("overlay-title"),
-            platform: document.getElementById("overlay-platform"),
-            track: document.getElementById("overlay-track"),
-            prev: document.getElementById("overlay-prev"),
-            next: document.getElementById("overlay-next"),
-            counter: document.getElementById("overlay-counter"),
-            dots: document.getElementById("overlay-dots"),
-            desc: document.getElementById("overlay-desc"),
-            sections: document.getElementById("overlay-sections"),
-            links: document.getElementById("overlay-links"),
-            store: document.getElementById("overlay-store"),
-            storeBadge: document.getElementById("overlay-store-badge"),
-            qr: document.getElementById("overlay-qr"),
-            qrCode: document.getElementById("overlay-qr-code"),
-            qrHint: document.getElementById("overlay-qr-hint"),
-            close: document.getElementById("overlay-close"),
-            gallery: document.getElementById("overlay-gallery"),
-            viewport: document.querySelector("#app-overlay .overlay__viewport"),
-        };
-        const FOCUSABLE = 'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
-        let overlayIndex = 0;
-        let overlayCount = 0;
-        let overlayLastFocus = null;
-        // Which app the overlay currently shows, so a language switch can rebuild
-        // it in place instead of leaving stale text and screenshots on screen.
-        let overlayCurrentKey = null;
-        let overlayScrollLock = null;
-        let overlayTouchX = null;
-
-        function overlayUpdateGallery() {
-            const t = i18n[currentLang];
-            overlay.track.style.transform = `translateX(${-overlayIndex * 100}%)`;
-            overlay.counter.textContent = t.overlayCounter(overlayIndex + 1, overlayCount);
-            const atStart = overlayIndex === 0;
-            const atEnd = overlayIndex === overlayCount - 1;
-            overlay.prev.setAttribute("aria-disabled", atStart ? "true" : "false");
-            overlay.next.setAttribute("aria-disabled", atEnd ? "true" : "false");
-            overlay.prev.classList.toggle("is-disabled", atStart);
-            overlay.next.classList.toggle("is-disabled", atEnd);
-            Array.from(overlay.dots.children).forEach((dot, i) => {
-                const active = i === overlayIndex;
-                dot.classList.toggle("is-active", active);
-                dot.setAttribute("aria-current", active ? "true" : "false");
-            });
-        }
-
-        function overlayGo(index) {
-            if (overlayCount === 0) return;
-            overlayIndex = Math.max(0, Math.min(index, overlayCount - 1));
-            overlayUpdateGallery();
-        }
-
-        function overlayBuild(app) {
-            const t = i18n[currentLang];
-            const d = app.detail;
-
-            overlay.icon.src = app.iconSrc || "";
-            overlay.icon.alt = t.iconAlt(app.name);
-            overlay.title.textContent = app.name;
-            overlay.platform.textContent = app.platform || "";
-
-            // Screenshots are either one flat list (same shots in every language)
-            // or a per-language map, for apps whose UI text shows up in the shot.
-            // ShutterLife is the first of the latter kind: its onboarding names the
-            // supported file formats, so an English shot under a German heading
-            // states the wrong thing in the wrong language.
-            const shots = (Array.isArray(d.screenshots)
-                ? d.screenshots
-                : d.screenshots && (d.screenshots[currentLang] || d.screenshots.en)) || [];
-            overlayCount = shots.length;
-            overlay.track.innerHTML = shots.map((src, i) =>
-                `<div class="overlay__slide"><img class="overlay__shot" src="${escape(src)}" alt="${escape(t.shotAltN(app.name, i + 1, shots.length))}" width="1318" height="2717" loading="lazy"></div>`
-            ).join("");
-            overlay.dots.innerHTML = shots.map((_, i) =>
-                `<button type="button" class="overlay__dot" data-index="${i}" aria-label="${escape(t.overlayDot(i + 1, shots.length))}"></button>`
-            ).join("");
-            overlay.gallery.classList.toggle("is-single", overlayCount <= 1);
-
-            overlay.desc.textContent = (d.description && d.description[currentLang]) || "";
-            overlay.sections.innerHTML = (d.sections || []).map(s =>
-                `<section class="overlay__section"><h3>${escape(s.title[currentLang])}</h3><p>${escape(s.body[currentLang])}</p></section>`
-            ).join("");
-
-            // Per-app legal links live here (the keynote-faithful card foot only
-            // carries "Learn more" + the store affordance). Rendered only when the
-            // app declares a folder — otherwise the row stays empty.
-            overlay.links.innerHTML = app.folder
-                ? `<a href="${escape(app.folder)}/privacy${t.privacySuffix}">${escape(t.privacy)}</a>`
-                  + `<a href="${escape(app.folder)}/support${t.supportSuffix}">${escape(t.support)}</a>`
-                  + `<a href="${escape(app.folder)}/terms${t.termsSuffix}">${escape(t.terms)}</a>`
-                : "";
-
-            // Same guard as the card: only a real, live store URL is linked. A
-            // not-yet-launched app (placeholder URL) hides the overlay store button
-            // rather than offering a dead 404 link.
-            const overlayUrl = realStoreUrl(app);
-            if (overlayUrl) {
-                overlay.store.href = localizeStoreUrl(overlayUrl, currentLang);
-                // Apple's official badge artwork, localised. Apple forbids
-                // recreating or altering it, so this is their SVG unchanged —
-                // the alt text carries the accessible name, no aria-label on the
-                // link (it would override the alt).
-                overlay.storeBadge.src = `apps/cards/appstore-badge-${currentLang}.svg`;
-                overlay.storeBadge.alt = t.storeBadgeFor(app.name);
-                overlay.store.hidden = false;
-
-                // The QR needs its own file per app, generated from that app's
-                // store URL (tools/make-qr.swift). No file, no QR — deriving the
-                // path from the folder name would render a broken image the day
-                // an app goes live and nobody remembers this step. CSS decides
-                // whether a desktop visitor actually sees it.
-                if (app.qr) {
-                    overlay.qrCode.src = app.qr;
-                    overlay.qrHint.textContent = t.qrHint;
-                    overlay.qr.hidden = false;
-                } else {
-                    overlay.qr.hidden = true;
-                }
-            } else {
-                overlay.store.hidden = true;
-                overlay.qr.hidden = true;
-            }
-
-            overlay.gallery.setAttribute("aria-label", t.overlayGallery);
-            overlay.close.setAttribute("aria-label", t.overlayClose);
-            overlay.prev.setAttribute("aria-label", t.overlayPrev);
-            overlay.next.setAttribute("aria-label", t.overlayNext);
-            overlay.dialog.setAttribute("aria-label", app.name);
-
-            overlayIndex = 0;
-            overlayUpdateGallery();
-        }
-
-        function overlayOpen(key) {
-            const app = apps[key];
-            if (!app || !app.detail) return;
-            overlayLastFocus = document.activeElement;
-            overlayCurrentKey = key;
-            overlayBuild(app);
-
-            // Scroll-lock with scrollbar-width compensation (no layout shift).
-            const sbw = window.innerWidth - document.documentElement.clientWidth;
-            overlayScrollLock = {
-                overflow: document.body.style.overflow,
-                paddingRight: document.body.style.paddingRight,
-            };
-            document.body.style.overflow = "hidden";
-            if (sbw > 0) document.body.style.paddingRight = `${sbw}px`;
-
-            overlay.root.hidden = false;
-            requestAnimationFrame(() => overlay.root.classList.add("is-open"));
-            document.addEventListener("keydown", overlayOnKeydown, true);
-            overlay.close.focus();
-        }
-
-        function overlayCloseModal() {
-            if (overlay.root.hidden) return;
-            overlayCurrentKey = null;
-            overlay.root.classList.remove("is-open");
-            document.removeEventListener("keydown", overlayOnKeydown, true);
-            if (overlayScrollLock) {
-                document.body.style.overflow = overlayScrollLock.overflow;
-                document.body.style.paddingRight = overlayScrollLock.paddingRight;
-                overlayScrollLock = null;
-            }
-            const hide = () => { overlay.root.hidden = true; };
-            if (reduceMotion) hide(); else setTimeout(hide, 200);
-            if (overlayLastFocus && typeof overlayLastFocus.focus === "function") {
-                overlayLastFocus.focus();
-            }
-            overlayLastFocus = null;
-        }
-
-        function overlayOnKeydown(e) {
-            if (e.key === "Escape") { e.preventDefault(); overlayCloseModal(); return; }
-            if (e.key === "ArrowLeft") { e.preventDefault(); overlayGo(overlayIndex - 1); return; }
-            if (e.key === "ArrowRight") { e.preventDefault(); overlayGo(overlayIndex + 1); return; }
-            if (e.key !== "Tab") return;
-            const items = Array.from(overlay.dialog.querySelectorAll(FOCUSABLE))
-                .filter(el => el.offsetParent !== null && !el.hasAttribute("hidden"));
-            if (items.length === 0) { e.preventDefault(); return; }
-            const first = items[0];
-            const last = items[items.length - 1];
-            if (e.shiftKey && document.activeElement === first) {
-                e.preventDefault(); last.focus();
-            } else if (!e.shiftKey && document.activeElement === last) {
-                e.preventDefault(); first.focus();
-            } else if (!overlay.dialog.contains(document.activeElement)) {
-                e.preventDefault(); first.focus();
-            }
-        }
-
-        // Triggers (delegated — survives re-render on language switch).
-        document.getElementById("app-grid").addEventListener("click", (e) => {
-            const trigger = e.target.closest(".detail-trigger");
-            if (trigger) { e.preventDefault(); overlayOpen(trigger.dataset.detail); }
-        });
-        overlay.root.addEventListener("click", (e) => {
-            if (e.target.closest("[data-overlay-close]")) overlayCloseModal();
-        });
-        overlay.prev.addEventListener("click", () => overlayGo(overlayIndex - 1));
-        overlay.next.addEventListener("click", () => overlayGo(overlayIndex + 1));
-        overlay.dots.addEventListener("click", (e) => {
-            const dot = e.target.closest(".overlay__dot");
-            if (dot) overlayGo(parseInt(dot.dataset.index, 10));
-        });
-        overlay.viewport.addEventListener("touchstart", (e) => {
-            overlayTouchX = e.changedTouches[0].clientX;
-        }, { passive: true });
-        overlay.viewport.addEventListener("touchend", (e) => {
-            if (overlayTouchX === null) return;
-            const dx = e.changedTouches[0].clientX - overlayTouchX;
-            if (Math.abs(dx) > 40) overlayGo(overlayIndex + (dx < 0 ? 1 : -1));
-            overlayTouchX = null;
-        }, { passive: true });
-
-        // initial paint — read saved preference (shared with sub-pages via localStorage)
-        var savedLang = null;
-        try { savedLang = localStorage.getItem("casy_lang"); } catch (e) {}
-        setLang(i18n[savedLang] ? savedLang : "en");
-        observeReveals();
-        requestAnimationFrame(runDeepLinkFocus);
-    </script>
+<div aria-label="Suche" aria-modal="true" class="such" hidden="" id="such" role="dialog">
+<div class="such-box">
+<div class="such-kopf">
+<svg aria-hidden="true" focusable="false" viewbox="0 0 18 18"><circle cx="7.8" cy="7.8" fill="none" r="5.3" stroke="currentColor" stroke-width="1.6"></circle><path d="M11.8 11.8l4 4" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+<input aria-controls="such-liste" aria-describedby="such-status" autocapitalize="off" autocomplete="off" enterkeyhint="search" id="such-feld" spellcheck="false" type="search"/>
+<button class="such-zu" type="button">Schließen</button>
+</div>
+<div class="such-liste" id="such-liste"></div>
+<p aria-live="polite" class="sr-only" id="such-status"></p>
+</div>
+</div>
+<script src="/assets/casy.js"></script>
 </body>
 </html>

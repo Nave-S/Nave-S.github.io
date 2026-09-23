@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+<!-- Favicon Casy Studio (Owner-Wahl 14.09.2026): vereinfachtes Zeichen fuer kleine Groessen, auf das
+     32er-Raster gezeichnet. Mittellinien auf ungeraden ganzen Zahlen, Strich 2: bei 32 px liegen die
+     Kanten auf Pixelgrenzen, bei 16 px ergibt es genau 1 Pixel breite Linien. Eigene Tinten-Flaeche,
+     damit es auf hellen und dunklen Tab-Leisten gleich steht. Volles Zeichen: casy-favicon-voll.svg. -->
+<rect width="32" height="32" rx="7" fill="#0B1020"/>
+<path d="M25 7H13A6 6 0 0 0 7 13V19A6 6 0 0 0 13 25H21A4 4 0 0 0 25 21A4 4 0 0 0 21 17H13A2 2 0 0 1 11 15V13A2 2 0 0 1 13 11H23" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
