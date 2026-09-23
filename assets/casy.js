@@ -250,7 +250,7 @@
      Neue Frage in Support oder Uebersicht? Hier eine Zeile ergaenzen. */
   const UMSCHR={
     'APP:ShutterLife':'voraussetzungen welches iphone ipad mac requirements auslösezähler auslösungen wie oft ausgelöst wie viele fotos bilder gemacht kamera alter wie alt ist meine kamera gebrauchte kamera kaufen verkaufen verschleiß verschluss shutter count shutter counter how many shots camera age used camera',
-    'APP:SQNZ':'sequence lite intervall timer intervalltimer workout training sport tabata hiit fitness stoppuhr countdown atemübung meditation interval timer',
+    'APP:SQNZ':'sequence lite intervall timer intervalltimer workout training sport tabata hiit fitness stoppuhr countdown boxen zirkeltraining interval timer circuit boxing',
     'Welche Kameras werden unterstützt?':'kamera liste modelle geht meine kamera funktioniert mit meiner kamera canon nikon sony fujifilm fuji pentax leica ricoh unterstützte kameras kompatibel supported cameras which cameras compatible does my camera work',
     'Warum zeigt meine Kamera keinen Auslösezähler?':'kamera wird nicht erkannt camera not recognized not detected no shutter count erkennt meine kamera nicht kein wert keine zahl zeigt nichts an funktioniert nicht klappt nicht leer nicht auslesbar spiegelreflex dslr smartphone handy kompaktkamera no count shows nothing not working does not work',
     'Wie genau ist der Auslösezähler?':'stimmt der wert richtig genauigkeit falsch zu hoch zu niedrig zuverlässig vertrauen hdr firmware zurückgesetzt accurate wrong number reliable',
