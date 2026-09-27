@@ -159,6 +159,11 @@
 <h4>Is anything missing on older devices?</h4>
 <p>No, SQNZ works the same on all listed devices. The only exception: double tap for Pause and GO, for Stop at the end of a timer and for Done needs Apple Watch Series 9, Ultra 2 or SE 3. On older watches you tap the button on the screen.</p>
 </div>
+<div class="faq">
+<h4>How are AI voice announcements marked?</h4>
+<p>Every announcement SQNZ generates with the optional AI voice is a WAV file that carries a standard RIFF LIST/INFO chunk (marking version 1). ICMT: “AI-generated synthetic speech (EU AI Act Art. 50(2) marking). Model: Supertonic 3 (Supertone Inc.), Core ML int8 conversion by FluidInference (rev 9f3606bf). Generated on-device by SQNZ &lt;version&gt;.” ISFT: “SQNZ/&lt;version&gt; supertonic3-coreml”. A JSON file next to each WAV repeats this as fields: aiGenerated, model, modelRevision, markingVersion. Any tool that reads WAV metadata shows the marking, for example Apple's Core Audio, exiftool (Comment, Software) or ffprobe (comment, encoder). The files stay inside the app on your device; SQNZ never exports, shares or transmits them.</p>
+<p>Six short sample clips ship inside the app; they were made by us with the same model and carry the same marking, with a comment saying they were not generated on your device.</p>
+</div>
 
 </div>
 </section>

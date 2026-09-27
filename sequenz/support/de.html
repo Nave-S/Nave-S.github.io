@@ -159,6 +159,11 @@
 <h4>Fehlt auf älteren Geräten etwas?</h4>
 <p>Nein, SQNZ läuft auf allen genannten Geräten gleich. Einzige Ausnahme: Doppeltippen für Anhalten und LOS, für Stopp am Ende eines Timers und für Fertig gibt es erst ab Apple Watch Series 9, Ultra 2 und SE 3. Auf älteren Uhren tippst du den Knopf auf dem Display.</p>
 </div>
+<div class="faq">
+<h4>Wie sind die Ansagen der KI-Stimme gekennzeichnet?</h4>
+<p>Jede Ansage, die SQNZ mit der optionalen KI-Stimme erzeugt, ist eine WAV-Datei mit einem standardisierten RIFF-LIST/INFO-Block (Markierung Fassung 1). ICMT: „AI-generated synthetic speech (EU AI Act Art. 50(2) marking). Model: Supertonic 3 (Supertone Inc.), Core ML int8 conversion by FluidInference (rev 9f3606bf). Generated on-device by SQNZ &lt;Version&gt;.“ ISFT: „SQNZ/&lt;Version&gt; supertonic3-coreml“. Eine JSON-Datei neben jeder WAV wiederholt das als Felder: aiGenerated, model, modelRevision, markingVersion. Jedes Programm, das WAV-Metadaten liest, zeigt den Vermerk an, etwa Apples Core Audio, exiftool (Comment, Software) oder ffprobe (comment, encoder). Die Dateien bleiben in der App auf deinem Gerät; SQNZ exportiert, teilt oder überträgt sie nie.</p>
+<p>Sechs kurze Hörproben sind in der App enthalten. Wir haben sie mit demselben Modell erzeugt, und sie tragen dieselbe Kennzeichnung, mit dem Vermerk, dass sie nicht auf deinem Gerät erzeugt wurden.</p>
+</div>
 
 </div>
 </section>
