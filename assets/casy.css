@@ -292,6 +292,8 @@
   .ad-gal-box{margin-top:var(--gap);padding:clamp(18px,3vw,40px);background:var(--bg-soft);border-radius:var(--r-lg)}
   .ad-gal{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2.4vw,32px)}
   .ad-gal img{width:100%;height:auto;display:block}
+  /* Fuenf Bilder (SQNZ ab 1.0.3 mit Flow) stehen am Desktop in einer Reihe statt 4 + 1. */
+  @media (min-width:561px){ .ad-gal:has(> img:nth-child(5):last-child){grid-template-columns:repeat(5,minmax(0,1fr))} }
   .ad-gal-nav{display:none}
 
   .ad-secs{margin-top:var(--gap);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 56px}
@@ -322,6 +324,9 @@
       overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
     .ad-gal::-webkit-scrollbar{display:none}
     .ad-gal img:nth-child(odd){scroll-snap-align:start;scroll-snap-stop:always}
+    /* Ungerade Bildzahl: leere halbe Spalte am Ende, damit das letzte Bild allein einrasten kann
+       und der Zaehler dann stimmt. */
+    .ad-gal:not([data-per="1"]):has(> img:last-child:nth-child(odd))::after{content:""}
     .ad-gal-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:16px}
     .ad-gal-btn{width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid var(--line);
       display:grid;place-items:center;transition:opacity .2s,border-color .2s}
