@@ -279,6 +279,7 @@
     'Ist Premium ein Abo?':'abo abonnement kündigen kosten preis monatlich einmal bezahlen subscription price cancel',
     'Wie lösche ich meine Daten?':'daten löschen zurücksetzen alles weg entfernen reset delete data',
     'Braucht SQNZ eine Internetverbindung?':'offline ohne internet wlan netz flugmodus wifi',
+    'Was ist auf dem iPad anders?':'ipad tablet läuft auf dem ipad unterschied vibration watch ohne iphone ipad different tablet',
     'Fehlt auf älteren Geräten etwas?':'welches iphone läuft auf meinem iphone geht mein iphone voraussetzungen kompatibel iphone 8 iphone 11 iphone se which iphone requirements compatible altes iphone alte uhr ältere geräte doppeltippen funktioniert nicht series old device double tap',
     'Kostenlos und Premium':'kostenlos gratis preis kosten was ist frei premium unterschied free price',
     'Timer selbst bauen':'intervalle runden pausen eigene timer vorlagen tabata custom intervals rounds',
