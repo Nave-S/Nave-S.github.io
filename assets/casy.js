@@ -274,7 +274,7 @@
     'Wie funktioniert die KI-Hilfe beim Erstellen?':'ki chatgpt claude künstliche intelligenz text beschreiben automatisch erstellen ai',
     'Wie synchronisiere ich mit der Apple Watch?':'uhr watch verbinden koppeln abgleichen sync synchronisieren smartwatch erscheint nicht auf der uhr',
     'Pausiert der Timer automatisch bei einem Anruf?':'anruf telefon klingelt telefonat unterbrochen phone call pause',
-    'Wie teile ich einen Timer mit anderen?':'teilen verschicken senden freunde weitergeben datei qr share send',
+    'Wie teile ich einen Timer oder Flow?':'teilen verschicken senden freunde weitergeben datei sqtimer sqflow flow share send',
     'Wie stelle ich meinen Kauf wieder her?':'gekauft premium weg verloren neues iphone handy gewechselt wiederherstellen restore purchase bezahlt',
     'Ist Premium ein Abo?':'abo abonnement kündigen kosten preis monatlich einmal bezahlen subscription price cancel',
     'Wie lösche ich meine Daten?':'daten löschen zurücksetzen alles weg entfernen reset delete data',
