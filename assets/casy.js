@@ -82,7 +82,7 @@
       const target = view==='overview' ? art.querySelector('.ad-name') : art.querySelector('.ad-panel[data-view="'+view+'"] .ad-doc-title');
       if(target) target.focus({preventScroll:true});
     }
-    curView=view; updateTitle(); tabsEdge(); updateMini();
+    curView=view; tabsEdge(); updateMini();
   }
 
   /* Schmale Zeile am Handy: Beschriftung und Haken nach aktuellem Bereich und Sprache */
@@ -98,22 +98,8 @@
     });
   }
 
-  /* 2.4.2: Seitentitel je Ansicht und Sprache */
+  /* 2.4.2: Der Seitentitel steht im HTML jeder Datei, das Skript fasst ihn nicht an. */
   let curPage='home', curView='overview';
-  const TITLES={
-    de:{home:'Casy Studio: Apps für Apple-Plattformen',contact:'Kontakt · Casy Studio',privacy:'Datenschutz Website · Casy Studio',impressum:'Impressum · Casy Studio',app:'ShutterLife · Casy Studio',sqnz:'SQNZ · Casy Studio'},
-    en:{home:'Casy Studio: Apps for Apple platforms',contact:'Contact · Casy Studio',privacy:'Website Privacy · Casy Studio',impressum:'Legal Notice · Casy Studio',app:'ShutterLife · Casy Studio',sqnz:'SQNZ · Casy Studio'}
-  };
-  function updateTitle(){
-    // nicht die Variable lang lesen: route() laeuft, bevor "let lang" deklariert ist
-    const L=document.documentElement.lang==='en'?'en':'de';
-    let s=TITLES[L][curPage]||TITLES[L].home;
-    if((curPage==='app'||curPage==='sqnz') && curView!=='overview'){
-      const tab=document.querySelector('#'+pages[curPage]+' .ad-tabs a[data-view="'+curView+'"]');
-      if(tab) s=tab.textContent.trim()+' · '+s;
-    }
-    document.title=s;
-  }
 
   /* Reiterleiste: weiche Kante rechts, solange rechts noch Reiter verborgen sind */
   function tabsEdge(){
@@ -209,7 +195,6 @@
   const lang = document.documentElement.lang==='en' ? 'en' : 'de';
   curPage = document.body.dataset.page || 'home';
   if(document.body.dataset.view) setAppView(document.body.dataset.view, false, pages[curPage]);
-  else updateTitle();
 
   // „Zu den Apps" auf der Startseite: weich scrollen statt springen
   document.querySelectorAll('[data-scroll]').forEach(a=>a.addEventListener('click',e=>{
