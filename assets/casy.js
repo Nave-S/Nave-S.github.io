@@ -501,7 +501,7 @@
      unsichtbarem Tab; Punkt antippen oder wischen haelt an. „Bewegung reduzieren": nur die Gruppe. */
   (function(){
     const rot=document.querySelector('.dev-rot'); if(!rot) return;
-    const MOVE=1400, DWELL_GROUP=5000, DWELL=4500, NAMES={iphone:'iPhone',ipad:'iPad',watch:'Apple Watch',mac:'Mac'};
+    const MOVE=1400, DWELL_GROUP=5000, DWELL=4500, NAMES={iphone:'iPhone',ipad:'iPad',ipadsq:'iPad',watch:'Apple Watch',mac:'Mac'};
     const stage=rot.querySelector('.dev-stage'), dotsBox=rot.querySelector('.dev-dots'), pauseBtn=rot.querySelector('.dev-pause'), cap=rot.querySelector('.dev-cap');
     const imgs={}; stage.querySelectorAll('.devices img').forEach(im=>imgs[im.dataset.dev]=im);
     const en=()=>document.documentElement.lang==='en';
@@ -541,11 +541,11 @@
       const g=stage.querySelector('.grpB'), gap=parseFloat(getComputedStyle(g).columnGap)||0;
       return imgs.iphone.offsetWidth+imgs.watch.offsetWidth+gap <= stage.clientWidth;
     }
-    // Ablauf: Gruppe A, Gruppe B, dann einzeln Mac, iPad, iPhone, Apple Watch
+    // Ablauf: Gruppe A, Gruppe B, dann einzeln Mac, iPad, iPhone, SQNZ-iPad, Apple Watch
     function available(){
       const W=stage.clientWidth;
       const macH=W/(imgs.mac.naturalWidth/imgs.mac.naturalHeight||1600/966);
-      return ['groupA', fitsB()&&'groupB', macH>=200&&'mac', 'ipad', 'iphone', 'watch'].filter(Boolean);   // Apple: einzeln mindestens 200 px
+      return ['groupA', fitsB()&&'groupB', macH>=200&&'mac', 'ipad', 'iphone', 'ipadsq', 'watch'].filter(Boolean);   // Apple: einzeln mindestens 200 px
     }
     function labels(){
       pauseBtn.setAttribute('aria-label', mode==='run' ? (en()?'Pause switching':'Wechsel anhalten') : (en()?'Resume switching':'Wechsel fortsetzen'));

@@ -114,6 +114,11 @@
   .devices.grpB{flex-direction:row;align-items:center;justify-content:center;gap:26px}
   .devices .d-iphone{width:220px}   /* SQNZ-Rahmenbild 440 x 900 -> 220 x 450 px (150 mm bei 3,0 px/mm) */
   .devices .d-watch{width:132px;margin-top:243px}   /* Unterkanten buendig: 450 - 207 */
+  /* SQNZ-iPad (Owner 29.10.): nur einzeln. In Gruppe B passt es nicht im gemeinsamen Massstab (13" bei 3,0 px/mm
+     waere rund 850 px hoch). Liegt unsichtbar in der Buehnenmitte und gleitet von dort gross herein. */
+  .devices .d-ipadsq{position:absolute;left:50%;top:50%;margin:-170px 0 0 -121px}
+  .dev-stage[data-show="B"] .grpB .d-ipadsq{opacity:0}
+  .dev-stage.stack .d-ipadsq{display:none}
 
   /* Apps section */
   .apps{padding-top:130px;text-align:center}
