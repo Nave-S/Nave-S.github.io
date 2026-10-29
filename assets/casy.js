@@ -364,8 +364,9 @@
         treffer:n=>n===1?'1 result':n+' results',ov:'Overview',support:'Support',datenschutz:'Privacy',hinweise:'App Notes',impressum:'Legal Notice',
         web:'Website',betreff:'Question from casystudio.com',body:q=>'I searched the website for: '+q+'\n\n'}
   };
-  const STOPP=new Set(('der die das den dem des ein eine einen einem einer eines und oder aber ist sind war bin bist wie was wo wann warum wieso weshalb welche welcher welches '+
-    'ich mein meine meinen meinem meiner mir mich du dein deine dir dich es er sie wir ihr man kann koennen kann konnen muss soll will mit von vom zu zum zur im in ins auf fur '+
+  // Durch suchNorm wie die Anfrage selbst, sonst greifen Woerter wie „does" (wird zu „dos") nie
+  const STOPP=new Set(suchNorm('der die das den dem des ein eine einen einem einer eines und oder aber ist sind war bin bist wie was wo wann warum wieso weshalb welche welcher welches '+
+    'ich mein meine meinen meinem meiner mir mich du dein deine dir dich es er sie wir ihr man kann konnen muss soll will mit von vom zu zum zur im in ins auf fur '+
     'bei nicht kein keine keinen noch schon auch nur mal denn dass bitte gibt geht hat habe haben hast wird werden wurde so da dann als am an aus uber um wenn ob sich hier '+
     'the a an is are was be how what where why when which i my me mine do does did can could to of in on for with and or not no it its you your we our this that there have has').split(' '));
   function suchNorm(t){
