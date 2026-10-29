@@ -1,3 +1,7 @@
+/* Casy Studio: Verhalten aller Seiten. Laeuft am Ende von <body>. */
+(function(){
+  'use strict';
+
   /* Galerie-Band am Handy: Knoepfe springen um zwei Bilder, der Zaehler folgt
      auch beim Wischen. Am Desktop ist die Leiste per CSS ausgeblendet. */
   /* Je Galerie-Kasten eine eigene Steuerung (ShutterLife: ein Kasten, SQNZ: iPhone und Apple Watch).
@@ -691,3 +695,4 @@
       }, 800);
     });
   })();
+})();
