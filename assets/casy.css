@@ -632,6 +632,13 @@
     .ad-gal.ad-gal--watch{grid-template-columns:none;grid-auto-columns:100%;justify-content:initial}
     .ad-gal--watch img{width:min(100%,240px);justify-self:center;scroll-snap-align:center;scroll-snap-stop:always}
   }
+  /* iPad (SQNZ): drei pro Reihe am Desktop, am Handy eins pro Ansicht wie die Watch,
+     zwei nebeneinander waeren unter 200 px breit. */
+  .ad-gal--ipad{grid-template-columns:repeat(3,minmax(0,1fr))}
+  @media (max-width:560px){
+    .ad-gal.ad-gal--ipad{grid-template-columns:none;grid-auto-columns:100%}
+    .ad-gal--ipad img{scroll-snap-align:center;scroll-snap-stop:always}
+  }
   .ad-doc-body .note{font-size:15px;line-height:1.6;background:var(--bg-soft);border:1px solid var(--line);
     border-radius:var(--r-sm);padding:16px 20px;margin:16px 0 8px}
 
