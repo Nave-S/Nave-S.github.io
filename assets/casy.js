@@ -2,6 +2,95 @@
 (function(){
   'use strict';
 
+  /* ============ Fehler und Ausfaelle sichtbar machen (18.09.2026, Owner-Auftrag) ============
+     Steht als Erstes, damit auch Fehler im Rest dieser Datei gemeldet werden.
+     Auf einer Seite ohne Server koennen vier Dinge schiefgehen: das Skript bricht ab (Knoepfe tot),
+     das Netz fehlt (App-Store-Links), ein Bild fehlt, oder das Mailprogramm oeffnet nicht.
+     Jeder Fall bekommt eine Rueckmeldung mit Ausweg. Nichts davon blockiert die Seite. */
+  (function(){
+    const en=()=>document.documentElement.lang==='en';
+    let leiste, schliessTimer;
+    function bauen(){
+      if(leiste) return leiste;
+      leiste=document.createElement('div');
+      leiste.className='hinweis'; leiste.setAttribute('role','status'); leiste.setAttribute('aria-live','polite');
+      leiste.innerHTML='<span class="txt"></span><button type="button" class="tun" hidden></button><button type="button" class="zu" aria-label="Schließen">&times;</button>';
+      leiste.querySelector('.zu').addEventListener('click',()=>verbergen());
+      document.body.appendChild(leiste);
+      return leiste;
+    }
+    function verbergen(){ if(leiste) leiste.classList.remove('an'); clearTimeout(schliessTimer); }
+    /* text: Meldung · aktion: {text, tun} oder null · dauer: ms, 0 = bleibt stehen */
+    function zeigen(text, aktion, dauer){
+      const l=bauen();
+      // Text erst im naechsten Frame: ein frisch eingehaengter Live-Bereich wird sonst nicht vorgelesen
+      requestAnimationFrame(()=>{ l.querySelector('.txt').textContent=text; });
+      const knopf=l.querySelector('.tun');
+      if(aktion){ knopf.hidden=false; knopf.textContent=aktion.text; knopf.onclick=aktion.tun; }
+      else { knopf.hidden=true; knopf.onclick=null; }
+      l.querySelector('.zu').setAttribute('aria-label', en()?'Dismiss':'Schließen');
+      l.classList.add('an');
+      clearTimeout(schliessTimer);
+      if(dauer) schliessTimer=setTimeout(verbergen, dauer);
+      // mit Knopf: stehen lassen, solange Maus oder Fokus darin sind (WCAG 2.2.1)
+      l.onpointerenter=l.onfocusin=()=>clearTimeout(schliessTimer);
+      l.onpointerleave=l.onfocusout=()=>{ if(dauer && !l.contains(document.activeElement)) schliessTimer=setTimeout(verbergen, dauer); };
+    }
+    bauen(); // Live-Bereich steht von Anfang an im DOM
+
+    /* 1 · Skriptfehler: nur EINMAL melden, sonst haemmert eine kaputte Schleife den Nutzer zu */
+    let schonGemeldet=false;
+    function skriptfehler(){
+      if(schonGemeldet) return; schonGemeldet=true;
+      zeigen(en() ? 'Something on this page did not work. Reloading usually helps.'
+                  : 'Etwas auf dieser Seite hat nicht funktioniert. Meist hilft ein Neuladen.',
+             {text: en()?'Reload':'Neu laden', tun:()=>location.reload()}, 0);
+    }
+    // nur Fehler aus unseren eigenen Skripten; Browser-Erweiterungen melden sich mit fremder Adresse
+    addEventListener('error', e=>{ if(e && e.target && e.target!==window) return; if(e.filename && !e.filename.startsWith(location.origin+'/assets/')) return; skriptfehler(); }, true);
+    addEventListener('unhandledrejection', skriptfehler);
+
+    /* 2 · Kein Netz: die Seite laeuft weiter, App Store und QR brauchen aber eine Verbindung */
+    function netzlage(){
+      if(navigator.onLine===false){
+        zeigen(en() ? 'No internet connection. The page keeps working, links to the App Store do not.'
+                    : 'Keine Internetverbindung. Die Seite funktioniert weiter, Links zum App Store nicht.', null, 0);
+      } else verbergen();
+    }
+    addEventListener('offline', netzlage); addEventListener('online', netzlage);
+    if(navigator.onLine===false) netzlage();
+
+    /* 3 · Bild fehlt: ruhige Flaeche mit dem Alternativtext statt kaputtem Symbol */
+    function bildFehlt(el){
+      if(!el || el.tagName!=='IMG' || el.dataset.fehltBehandelt) return;
+      el.dataset.fehltBehandelt='1';
+      const txt=el.getAttribute('alt');
+      el.classList.add('fehlt');
+      el.removeAttribute('src');
+      if(txt){ el.setAttribute('role','img'); el.setAttribute('aria-label', txt); } // Deko-Bilder (alt="") bleiben stumm
+    }
+    addEventListener('error', e=>bildFehlt(e.target), true);
+    // Bilder, die schon vor diesem Skript gescheitert sind, haben ihr error-Ereignis verpasst
+    [...document.images].forEach(im=>{ if(im.complete && im.naturalWidth===0) bildFehlt(im); });
+
+    /* 4 · Mail-Knopf: ohne eingerichtetes Mailprogramm passiert sonst gar nichts */
+    document.addEventListener('click', e=>{
+      const a=e.target.closest && e.target.closest('a[href^="mailto:"]');
+      if(!a) return;
+      const adresse=decodeURIComponent(a.getAttribute('href').slice(7).split('?')[0]);
+      setTimeout(()=>{
+        zeigen(en() ? 'Your mail app should have opened. If not, write to '+adresse
+                    : 'Dein Mailprogramm sollte sich geöffnet haben. Falls nicht, schreib an '+adresse,
+               {text: en()?'Copy address':'Adresse kopieren', tun:()=>{
+                  const fertig=()=>zeigen(en()?'Address copied.':'Adresse kopiert.', null, 2600);
+                  const misslungen=()=>zeigen((en()?'Copying did not work. The address is ':'Kopieren hat nicht geklappt. Die Adresse lautet ')+adresse, null, 7000);
+                  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(adresse).then(fertig, misslungen);
+                  else misslungen();
+               }}, 9000);
+      }, 800);
+    });
+  })();
+
   /* Galerie-Band am Handy: Knoepfe springen um zwei Bilder, der Zaehler folgt
      auch beim Wischen. Am Desktop ist die Leiste per CSS ausgeblendet. */
   /* Je Galerie-Kasten eine eigene Steuerung (ShutterLife: ein Kasten, SQNZ: iPhone und Apple Watch).
@@ -601,91 +690,5 @@
     btns.forEach(b=>b.addEventListener('click',()=>{ window.casyTheme.set(b.dataset.themeSet); sync(); }));
     btns.forEach(b=>b.addEventListener('pointerenter',()=>{ b.title=b.getAttribute('aria-label')||''; }));
     sync();
-  })();
-
-  /* ============ Fehler und Ausfaelle sichtbar machen (18.09.2026, Owner-Auftrag) ============
-     Auf einer Seite ohne Server koennen vier Dinge schiefgehen: das Skript bricht ab (Knoepfe tot),
-     das Netz fehlt (App-Store-Links), ein Bild fehlt, oder das Mailprogramm oeffnet nicht.
-     Jeder Fall bekommt eine Rueckmeldung mit Ausweg. Nichts davon blockiert die Seite. */
-  (function(){
-    const en=()=>document.documentElement.lang==='en';
-    let leiste, schliessTimer;
-    function bauen(){
-      if(leiste) return leiste;
-      leiste=document.createElement('div');
-      leiste.className='hinweis'; leiste.setAttribute('role','status'); leiste.setAttribute('aria-live','polite');
-      leiste.innerHTML='<span class="txt"></span><button type="button" class="tun" hidden></button><button type="button" class="zu" aria-label="Schließen">&times;</button>';
-      leiste.querySelector('.zu').addEventListener('click',()=>verbergen());
-      document.body.appendChild(leiste);
-      return leiste;
-    }
-    function verbergen(){ if(leiste) leiste.classList.remove('an'); clearTimeout(schliessTimer); }
-    /* text: Meldung · aktion: {text, tun} oder null · dauer: ms, 0 = bleibt stehen */
-    function zeigen(text, aktion, dauer){
-      const l=bauen();
-      // Text erst im naechsten Frame: ein frisch eingehaengter Live-Bereich wird sonst nicht vorgelesen
-      requestAnimationFrame(()=>{ l.querySelector('.txt').textContent=text; });
-      const knopf=l.querySelector('.tun');
-      if(aktion){ knopf.hidden=false; knopf.textContent=aktion.text; knopf.onclick=aktion.tun; }
-      else { knopf.hidden=true; knopf.onclick=null; }
-      l.querySelector('.zu').setAttribute('aria-label', en()?'Dismiss':'Schließen');
-      l.classList.add('an');
-      clearTimeout(schliessTimer);
-      if(dauer) schliessTimer=setTimeout(verbergen, dauer);
-      // mit Knopf: stehen lassen, solange Maus oder Fokus darin sind (WCAG 2.2.1)
-      l.onpointerenter=l.onfocusin=()=>clearTimeout(schliessTimer);
-      l.onpointerleave=l.onfocusout=()=>{ if(dauer && !l.contains(document.activeElement)) schliessTimer=setTimeout(verbergen, dauer); };
-    }
-    bauen(); // Live-Bereich steht von Anfang an im DOM
-
-    /* 1 · Skriptfehler: nur EINMAL melden, sonst haemmert eine kaputte Schleife den Nutzer zu */
-    let schonGemeldet=false;
-    function skriptfehler(){
-      if(schonGemeldet) return; schonGemeldet=true;
-      zeigen(en() ? 'Something on this page did not work. Reloading usually helps.'
-                  : 'Etwas auf dieser Seite hat nicht funktioniert. Meist hilft ein Neuladen.',
-             {text: en()?'Reload':'Neu laden', tun:()=>location.reload()}, 0);
-    }
-    // nur Fehler aus unseren eigenen Skripten; Browser-Erweiterungen melden sich mit fremder Adresse
-    addEventListener('error', e=>{ if(e && e.target && e.target!==window) return; if(e.filename && !e.filename.startsWith(location.origin+'/assets/')) return; skriptfehler(); }, true);
-    addEventListener('unhandledrejection', skriptfehler);
-
-    /* 2 · Kein Netz: die Seite laeuft weiter, App Store und QR brauchen aber eine Verbindung */
-    function netzlage(){
-      if(navigator.onLine===false){
-        zeigen(en() ? 'No internet connection. The page keeps working, links to the App Store do not.'
-                    : 'Keine Internetverbindung. Die Seite funktioniert weiter, Links zum App Store nicht.', null, 0);
-      } else verbergen();
-    }
-    addEventListener('offline', netzlage); addEventListener('online', netzlage);
-    if(navigator.onLine===false) netzlage();
-
-    /* 3 · Bild fehlt: ruhige Flaeche mit dem Alternativtext statt kaputtem Symbol */
-    addEventListener('error', e=>{
-      const el=e.target;
-      if(!el || el.tagName!=='IMG' || el.dataset.fehltBehandelt) return;
-      el.dataset.fehltBehandelt='1';
-      const txt=el.getAttribute('alt');
-      el.classList.add('fehlt');
-      el.removeAttribute('src');
-      if(txt){ el.setAttribute('role','img'); el.setAttribute('aria-label', txt); } // Deko-Bilder (alt="") bleiben stumm
-    }, true);
-
-    /* 4 · Mail-Knopf: ohne eingerichtetes Mailprogramm passiert sonst gar nichts */
-    document.addEventListener('click', e=>{
-      const a=e.target.closest && e.target.closest('a[href^="mailto:"]');
-      if(!a) return;
-      const adresse=decodeURIComponent(a.getAttribute('href').slice(7).split('?')[0]);
-      setTimeout(()=>{
-        zeigen(en() ? 'Your mail app should have opened. If not, write to '+adresse
-                    : 'Dein Mailprogramm sollte sich geöffnet haben. Falls nicht, schreib an '+adresse,
-               {text: en()?'Copy address':'Adresse kopieren', tun:()=>{
-                  const fertig=()=>zeigen(en()?'Address copied.':'Adresse kopiert.', null, 2600);
-                  const misslungen=()=>zeigen((en()?'Copying did not work. The address is ':'Kopieren hat nicht geklappt. Die Adresse lautet ')+adresse, null, 7000);
-                  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(adresse).then(fertig, misslungen);
-                  else misslungen();
-               }}, 9000);
-      }, 800);
-    });
   })();
 })();
