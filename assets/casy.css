@@ -50,10 +50,9 @@ img{display:block;max-width:100%}
 .btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(11,16,32,.35)}
 .btn:active{transform:translateY(0)}
 
-/* Jede Datei hat genau einen Inhaltsbereich (section.page.active), der beim Laden kurz einblendet. */
+/* Jede Datei hat genau einen Inhaltsbereich (section.page.active); er erscheint sofort, ohne Einblenden. */
 .page{display:none}
-.page.active{display:block;animation:fade .35s ease}
-@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.page.active{display:block}
 
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .skip{position:absolute;left:16px;top:-60px;z-index:100;background:var(--ink);color:var(--btn-ink);padding:10px 16px;border-radius:10px;font-size:15px}
