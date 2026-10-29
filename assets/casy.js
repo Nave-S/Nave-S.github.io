@@ -14,7 +14,7 @@
     document.addEventListener('keydown', e=>{ if(e.key==='Escape' && istOffen()){ zu(); knopf.focus(); } });
   }
 
-  /* ============ Fehler und Ausfaelle sichtbar machen (18.09.2026, Owner-Auftrag) ============
+  /* ============ Fehler und Ausfaelle sichtbar machen ============
      Steht als Erstes, damit auch Fehler im Rest dieser Datei gemeldet werden.
      Auf einer Seite ohne Server koennen vier Dinge schiefgehen: das Skript bricht ab (Knoepfe tot),
      das Netz fehlt (App-Store-Links), ein Bild fehlt, oder das Mailprogramm oeffnet nicht.
@@ -102,10 +102,9 @@
     });
   })();
 
-  /* Galerie-Band am Handy: Knoepfe springen um zwei Bilder, der Zaehler folgt
-     auch beim Wischen. Am Desktop ist die Leiste per CSS ausgeblendet. */
-  /* Je Galerie-Kasten eine eigene Steuerung (ShutterLife: ein Kasten, SQNZ: iPhone und Apple Watch).
-     data-per="1": ein Geraet pro Ansicht (Apple Watch am Handy). */
+  /* Galerie-Band am Handy: je Kasten (iPhone, iPad, Mac, Apple Watch) eine eigene Steuerung. Knoepfe springen um
+     eine Ansicht, der Zaehler folgt auch beim Wischen. data-per="1": ein Geraet pro Ansicht. Am Desktop ist die
+     Leiste per CSS ausgeblendet. */
   function makeGal(box){
     const gal=box.querySelector('.ad-gal'); if(!gal) return null;
     const per=+(gal.dataset.per||2);
@@ -120,8 +119,7 @@
       prev.disabled=page===0; next.disabled=page===pagesN-1;
     }
     // Ziel einer Seite: bei zwei Geraeten die linke Kante des ersten Bildes, bei einem Geraet
-    // (Apple Watch am Handy) so, dass das Bild in der Mitte der Galerie steht. Frueher stand hier
-    // nur offsetLeft: die Watch lag dann um die halbe Restbreite links (Owner 14.09.: „nicht mehr mittig").
+    // (Apple Watch am Handy) so, dass das Bild in der Mitte der Galerie steht.
     function target(p){
       const im=imgs[p*per];
       return per===1 ? im.offsetLeft-(gal.clientWidth-im.offsetWidth)/2 : im.offsetLeft;
@@ -178,7 +176,7 @@
     document.querySelectorAll('nav.ad-tabs').forEach(n=>n.classList.toggle('more', n.scrollWidth - n.clientWidth - n.scrollLeft > 4));
   }
   document.querySelectorAll('nav.ad-tabs').forEach(n=>n.addEventListener('scroll',tabsEdge,{passive:true}));
-  /* Angedockt oder nicht (18.09.): entscheidet, ob die Leiste ihre Flaeche zeigt. Gemessen am Anker ueber der Leiste. */
+  /* Angedockt oder nicht: entscheidet, ob die Leiste ihre Flaeche zeigt. Gemessen am Anker ueber der Leiste. */
   const tabPaare=[...document.querySelectorAll('.ad-tabs-anchor')].map(a=>[a, a.nextElementSibling]).filter(([,n])=>n&&n.classList.contains('ad-tabs'));
   let tabsGeplant=false;
   function tabsPruefen(){
@@ -202,8 +200,8 @@
   }
   addEventListener('resize',tabsEdge);
 
-  /* Handy (18.09.): Kopf weicht beim Runterscrollen, ein Stueck hoch holt ihn sofort zurueck (wie Safari). Tastaturfokus
-     im Kopf holt ihn ebenfalls zurueck. Ab 641 px bleibt er fest wie bisher. */
+  /* Handy: Kopf weicht beim Runterscrollen, ein Stueck hoch holt ihn sofort zurueck (wie Safari). Tastaturfokus
+     im Kopf holt ihn ebenfalls zurueck. Ab 641 px bleibt er fest. */
   const kopf=document.querySelector('header'), menuBtn=kopf && kopf.querySelector('.nav-menu');
   let kopfY=window.scrollY;
   function kopfWeg(w, y){
@@ -278,7 +276,7 @@
 
   /* Sprachwahl merken (localStorage casy_lang, steht so in der Datenschutzerklaerung Abschnitt 6).
      Das Umleiten beim Laden macht casy-kopf.js, bevor die Seite zeichnet. Beim Wechsel bleibt die Scrollposition,
-     damit die Seite nicht springt (Owner 05.09.): sie reist im Adressanker mit (#y=…) und wird hier wieder eingenommen. */
+     damit die Seite nicht springt: sie reist im Adressanker mit (#y=…) und wird hier wieder eingenommen. */
   document.querySelectorAll('header .lang a').forEach(a=>a.addEventListener('click',e=>{
     try{ localStorage.setItem('casy_lang', a.getAttribute('lang')); }catch(err){}
     if(window.scrollY>0 && !location.hash && !eigenerKlick(e)){ e.preventDefault(); location.href=a.getAttribute('href')+'#y='+Math.round(window.scrollY); }
@@ -292,7 +290,7 @@
 
   adGals.forEach(g=>g.render()); tabsEdge();
 
-  /* ===================== Suche (19.09.2026) =====================
+  /* ===================== Suche =====================
      Kein externer Dienst, nichts verlaesst das Geraet. Der Index entsteht beim Oeffnen aus der Seite selbst (also immer in der
      eingestellten Sprache). Dazu kommen gepflegte Umschreibungen (UMSCHR): so fragen Leute, die die Fachwoerter nicht kennen.
      Schluessel ist die DEUTSCHE Ueberschrift; die englische Fassung findet ihre Umschreibungen ueber dieselbe Position.
@@ -395,7 +393,7 @@
     return 0;
   }
   const suchText=el=>{ if(!el) return ''; const c=el.cloneNode(true); c.querySelectorAll('.soon-pill').forEach(x=>x.remove()); return c.textContent.trim(); };
-  /* Seit dem Livegang ist jede Adresse eine eigene Datei. Beim ersten Oeffnen der Suche holt das Skript die
+  /* Jede Adresse ist eine eigene Datei. Beim ersten Oeffnen der Suche holt das Skript die
      Nachbarseiten derselben Website (fetch, gleicher Server, kein Dritter) und baut daraus den Index; so bleibt er
      immer auf dem Stand der Dateien, und es gibt keine zweite Liste, die man pflegen muss. Auf Englisch kommen die
      deutschen Seiten dazu, weil die Umschreibungen an den deutschen Ueberschriften haengen (gleiche Position). */
@@ -563,7 +561,7 @@
     function natural(im){ let x=0,y=0,e=im; while(e&&e!==stage){ x+=e.offsetLeft; y+=e.offsetTop; e=e.offsetParent; } return {x,y,w:im.offsetWidth,h:im.offsetHeight}; }
     function target(dev,n){
       const W=stage.clientWidth, H=stage.clientHeight-44, asp=n.w/n.h;
-      // Watch einzeln 360 px hoch (Gehaeuse gut 230 px, ueber Apples 200 px), die anderen wie bisher
+      // Watch einzeln 360 px hoch (Gehaeuse gut 230 px, ueber Apples 200 px), die anderen bis 560 px
       let h=Math.min(H-10, dev==='watch'?360:560), w=h*asp;
       if(w>W){ w=W; h=w/asp; }
       return {x:(W-w)/2, y:(H-h)/2, w, h};
@@ -641,10 +639,8 @@
     let rz; addEventListener('resize',()=>{ stage.classList.add('no-anim'); const n=available().length; if(n!==states.length) build(); else apply();
       clearTimeout(rz); rz=setTimeout(()=>stage.classList.remove('no-anim'),50); });
     beiAenderung(bewegungAus, build);
-    /* Owner 16.09.: „der Mac wird nicht einzeln angezeigt". Ursache gemessen: Kommt man ueber eine Unterseite
-       (Kontakt, ShutterLife) auf die Startseite, ist die Buehne beim Start unsichtbar und 0 px breit. Dann fielen
-       Mac einzeln UND „iPhone und Apple Watch" aus der Liste (6 → 4 Stationen), und der Seitenwechsel rechnete nicht
-       neu. Jetzt: wird die Buehne sichtbar (0 → echte Breite), neu aufbauen, ohne Bewegung. */
+    /* Ist die Buehne beim Start unsichtbar (0 px breit), fallen Mac einzeln und „iPhone und Apple Watch" aus der
+       Liste. Sobald sie sichtbar wird, neu aufbauen, ohne Bewegung. */
     if('ResizeObserver' in window){
       let w0=stage.clientWidth;
       new ResizeObserver(()=>{ const w=stage.clientWidth;
@@ -654,7 +650,7 @@
     if(imgs.mac.complete) build(); else imgs.mac.addEventListener('load',build,{once:true});
     addEventListener('load',()=>{ stage.classList.add('no-anim'); apply(); setTimeout(()=>stage.classList.remove('no-anim'),50); });
   })();
-  // Darstellungs-Schalter (15.09.2026): System / Hell / Dunkel, Logik im Kopf (window.casyTheme)
+  // Darstellungs-Schalter: System / Hell / Dunkel, die Logik liegt in casy-kopf.js (window.casyTheme)
   (function(){
     const btns=[...document.querySelectorAll('[data-theme-set]')];
     const sync=()=>btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.themeSet===window.casyTheme.get())));

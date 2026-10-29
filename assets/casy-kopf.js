@@ -8,7 +8,7 @@
 (function(){
   var path=location.pathname, isDe=/\/de\.html$/.test(path), saved=null, ok=true;
   try{ saved=localStorage.getItem('casy_lang'); }catch(e){ ok=false; }
-  // Alte Verweise auf die Startseite mit ?app=… (bis 09/2026 gab es keine App-Seiten) fuehren jetzt zur App-Seite
+  // Alte Verweise auf die Startseite mit ?app=… fuehren zur App-Seite
   var app=(location.search.match(/[?&]app=(shutterlife|sequenz|sqnz)\b/)||[])[1];
   if(app && /^\/((de|index)\.html)?$/.test(path)){ location.replace('/'+(app==='sqnz'?'sequenz':app)+'/'+(isDe?'de.html':'')); return; }
   var want=saved;
