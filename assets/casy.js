@@ -2,13 +2,24 @@
 (function(){
   'use strict';
 
+  /* Gemeinsam genutzt: Sprache der Seite, „Bewegung reduzieren", Kontaktadresse */
+  const lang=document.documentElement.lang==='en' ? 'en' : 'de', en=lang==='en';
+  const bewegungAus=matchMedia('(prefers-reduced-motion: reduce)'), reducedMotion=()=>bewegungAus.matches;
+  const MAIL='support@casystudio.com';
+  // Safari vor Version 14 kennt an MediaQueryList nur addListener
+  function beiAenderung(mq, fn){ if(mq.addEventListener) mq.addEventListener('change', fn); else mq.addListener(fn); }
+  // Aufklappbares: Klick daneben schliesst, Esc schliesst und gibt den Fokus an den Knopf zurueck
+  function schliessenVonAussen(box, istOffen, zu, knopf){
+    document.addEventListener('click', e=>{ if(!box.contains(e.target)) zu(); });
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape' && istOffen()){ zu(); knopf.focus(); } });
+  }
+
   /* ============ Fehler und Ausfaelle sichtbar machen (18.09.2026, Owner-Auftrag) ============
      Steht als Erstes, damit auch Fehler im Rest dieser Datei gemeldet werden.
      Auf einer Seite ohne Server koennen vier Dinge schiefgehen: das Skript bricht ab (Knoepfe tot),
      das Netz fehlt (App-Store-Links), ein Bild fehlt, oder das Mailprogramm oeffnet nicht.
      Jeder Fall bekommt eine Rueckmeldung mit Ausweg. Nichts davon blockiert die Seite. */
   (function(){
-    const en=()=>document.documentElement.lang==='en';
     let leiste, schliessTimer;
     function bauen(){
       if(leiste) return leiste;
@@ -28,7 +39,7 @@
       const knopf=l.querySelector('.tun');
       if(aktion){ knopf.hidden=false; knopf.textContent=aktion.text; knopf.onclick=aktion.tun; }
       else { knopf.hidden=true; knopf.onclick=null; }
-      l.querySelector('.zu').setAttribute('aria-label', en()?'Dismiss':'Schließen');
+      l.querySelector('.zu').setAttribute('aria-label', en?'Dismiss':'Schließen');
       l.classList.add('an');
       clearTimeout(schliessTimer);
       if(dauer) schliessTimer=setTimeout(verbergen, dauer);
@@ -42,9 +53,9 @@
     let schonGemeldet=false;
     function skriptfehler(){
       if(schonGemeldet) return; schonGemeldet=true;
-      zeigen(en() ? 'Something on this page did not work. Reloading usually helps.'
+      zeigen(en ? 'Something on this page did not work. Reloading usually helps.'
                   : 'Etwas auf dieser Seite hat nicht funktioniert. Meist hilft ein Neuladen.',
-             {text: en()?'Reload':'Neu laden', tun:()=>location.reload()}, 0);
+             {text: en?'Reload':'Neu laden', tun:()=>location.reload()}, 0);
     }
     // nur Fehler aus unseren eigenen Skripten; Browser-Erweiterungen melden sich mit fremder Adresse
     addEventListener('error', e=>{ if(e && e.target && e.target!==window) return; if(e.filename && !e.filename.startsWith(location.origin+'/assets/')) return; skriptfehler(); }, true);
@@ -53,7 +64,7 @@
     /* 2 · Kein Netz: die Seite laeuft weiter, App Store und QR brauchen aber eine Verbindung */
     function netzlage(){
       if(navigator.onLine===false){
-        zeigen(en() ? 'No internet connection. The page keeps working, links to the App Store do not.'
+        zeigen(en ? 'No internet connection. The page keeps working, links to the App Store do not.'
                     : 'Keine Internetverbindung. Die Seite funktioniert weiter, Links zum App Store nicht.', null, 0);
       } else verbergen();
     }
@@ -79,11 +90,11 @@
       if(!a) return;
       const adresse=decodeURIComponent(a.getAttribute('href').slice(7).split('?')[0]);
       setTimeout(()=>{
-        zeigen(en() ? 'Your mail app should have opened. If not, write to '+adresse
+        zeigen(en ? 'Your mail app should have opened. If not, write to '+adresse
                     : 'Dein Mailprogramm sollte sich geöffnet haben. Falls nicht, schreib an '+adresse,
-               {text: en()?'Copy address':'Adresse kopieren', tun:()=>{
-                  const fertig=()=>zeigen(en()?'Address copied.':'Adresse kopiert.', null, 2600);
-                  const misslungen=()=>zeigen((en()?'Copying did not work. The address is ':'Kopieren hat nicht geklappt. Die Adresse lautet ')+adresse, null, 7000);
+               {text: en?'Copy address':'Adresse kopieren', tun:()=>{
+                  const fertig=()=>zeigen(en?'Address copied.':'Adresse kopiert.', null, 2600);
+                  const misslungen=()=>zeigen((en?'Copying did not work. The address is ':'Kopieren hat nicht geklappt. Die Adresse lautet ')+adresse, null, 7000);
                   if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(adresse).then(fertig, misslungen);
                   else misslungen();
                }}, 9000);
@@ -105,7 +116,7 @@
     function render(){
       const a=page*per+1, b=Math.min(a+per-1,imgs.length);
       const span = a===b ? String(a) : a+'–'+b;
-      count.textContent=(lang==='en'?(a===b?'Screenshot ':'Screenshots '):(a===b?'Bild ':'Bilder '))+span+(lang==='en'?' of ':' von ')+imgs.length;
+      count.textContent=(en?(a===b?'Screenshot ':'Screenshots '):(a===b?'Bild ':'Bilder '))+span+(en?' of ':' von ')+imgs.length;
       prev.disabled=page===0; next.disabled=page===pagesN-1;
     }
     // Ziel einer Seite: bei zwei Geraeten die linke Kante des ersten Bildes, bei einem Geraet
@@ -117,8 +128,7 @@
     }
     function go(p){
       page=Math.max(0,Math.min(pagesN-1,p));
-      const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-      gal.scrollTo({left:target(page), behavior:reduce?'auto':'smooth'});
+      gal.scrollTo({left:target(page), behavior:reducedMotion()?'auto':'smooth'});
       render();
     }
     // Aendert sich die Breite (Fenster verkleinern, Handy drehen), bleibt die Scrollposition sonst
@@ -210,12 +220,11 @@
       if(y<=kopf.offsetHeight) kopfWeg(false); else if(d>6) kopfWeg(true); else if(d<-6) kopfWeg(false);
     },{passive:true});
     kopf.addEventListener('focusin',()=>kopfWeg(false));
-    handy.addEventListener('change',()=>{ kopfWeg(false); kopfMenu(false); });
+    beiAenderung(handy, ()=>{ kopfWeg(false); kopfMenu(false); });
     if(menuBtn){
       menuBtn.addEventListener('click',()=>kopfMenu(!kopf.classList.contains('menu-offen')));
       kopf.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>kopfMenu(false)));
-      document.addEventListener('click',e=>{ if(!kopf.contains(e.target)) kopfMenu(false); });
-      document.addEventListener('keydown',e=>{ if(e.key==='Escape' && kopf.classList.contains('menu-offen')){ kopfMenu(false); menuBtn.focus(); } });
+      schliessenVonAussen(kopf, ()=>kopf.classList.contains('menu-offen'), ()=>kopfMenu(false), menuBtn);
     }
   }
 
@@ -227,8 +236,7 @@
     const b=m.querySelector('.ad-mini-btn');
     b.addEventListener('click',()=>miniSet(m, b.getAttribute('aria-expanded')!=='true'));
     m.querySelectorAll('.ad-mini-menu a').forEach(a=>a.addEventListener('click',()=>miniSet(m,false)));
-    document.addEventListener('click',e=>{ if(!m.contains(e.target)) miniZu(m); });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape' && b.getAttribute('aria-expanded')==='true'){ miniSet(m,false); b.focus(); } });
+    schliessenVonAussen(m, ()=>b.getAttribute('aria-expanded')==='true', ()=>miniZu(m), b);
   });
 
   /* QR: Klick oeffnet/schliesst, Esc und Klick daneben schliessen */
@@ -237,8 +245,7 @@
     const b=w.querySelector('.ad-qr');
     const set=o=>{ w.classList.toggle('open',o); b.setAttribute('aria-expanded',o?'true':'false'); };
     b.addEventListener('click',()=>set(!w.classList.contains('open')));
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape' && w.classList.contains('open')){ set(false); b.focus(); } });
-    document.addEventListener('click',e=>{ if(!w.contains(e.target)) set(false); });
+    schliessenVonAussen(w, ()=>w.classList.contains('open'), ()=>set(false), b);
   })();
 
   /* Skip-Link: springt zum Inhalt, ohne die Hash-Route zu veraendern */
@@ -249,7 +256,6 @@
 
   /* Jede Adresse ist eine eigene Datei. Der Reiter einer App-Seite steht am <body> (data-view), die Sprache an <html lang>;
      DE/EN sind Links auf die Nachbardatei. */
-  const lang = document.documentElement.lang==='en' ? 'en' : 'de';
   const view=document.body.dataset.view;
   if(view && view!=='overview') zumDokument(view);
 
@@ -260,11 +266,10 @@
   document.querySelectorAll('[data-scroll]').forEach(a=>a.addEventListener('click',e=>{
     const el=document.getElementById('apps'); if(!el || eigenerKlick(e)) return;
     e.preventDefault();
-    el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    el.scrollIntoView({behavior:reducedMotion()?'auto':'smooth'});
   }));
 
   // Kontakt: der Knopf traegt den Betreff, sonst passiert hier nichts mehr.
-  const MAIL='support@casystudio.com';
   const SUBJ={de:'Hallo Casy Studio',en:'Hello Casy Studio'};
   const mailDirect=document.getElementById('mailto-direct');
   if(mailDirect) mailDirect.addEventListener('click',function(){
@@ -365,7 +370,7 @@
     'the a an is are was be how what where why when which i my me mine do does did can could to of in on for with and or not no it its you your we our this that there have has').split(' '));
   function suchNorm(t){
     return (t||'').toLowerCase().replace(/ä|ae/g,'a').replace(/ö|oe/g,'o').replace(/ü|ue/g,'u').replace(/ß/g,'ss')
-      .normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
   }
   function suchStamm(w){
     if(w.length>5){ for(const e of ['ungen','ung','en','er','es','e','n','s']){ if(w.endsWith(e) && w.length-e.length>=4) return w.slice(0,-e.length); } }
@@ -447,7 +452,7 @@
   }
   let suchIndex=null, unvollstaendig=false;
   function suchIndexHolen(){
-    if(!suchIndex) suchIndex=Promise.all([seitenLaden(lang), lang==='en'?seitenLaden('de'):null]).then(([out,de])=>{
+    if(!suchIndex) suchIndex=Promise.all([seitenLaden(lang), en?seitenLaden('de'):null]).then(([out,de])=>{
       if(unvollstaendig){ suchIndex=null; unvollstaendig=false; } // ohne Netz geladen: beim naechsten Oeffnen neu holen
       const suchDE={}; (de||out).forEach(o=>{ suchDE[o.id]=(o.titel||'').trim(); });
       return suchVorbereiten(out, suchDE);
@@ -487,7 +492,7 @@
     const dlg=document.getElementById('such'), feld=document.getElementById('such-feld'), liste=document.getElementById('such-liste'),
           status=document.getElementById('such-status'), zu=dlg.querySelector('.such-zu'), knopf=document.querySelector('.nav-such');
     let idx=[], treffer=[], ausloeser=null, timer=null;
-    const X=()=>SUCH_TXT[document.documentElement.lang==='en'?'en':'de'];
+    const X=()=>SUCH_TXT[lang];
     const esc=t=>(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
     const kurz=t=>t.length>150?t.slice(0,147).replace(/\s+\S*$/,'')+' …':t;
     function zeigen(){
@@ -498,7 +503,7 @@
       if(!idx.length){ liste.innerHTML='<div class="such-leer">'+esc(x.lade)+'</div>'; status.textContent=''; treffer=[]; return; }
       treffer=suchen(q, idx);
       if(!treffer.length){
-        const mail='mailto:support@casystudio.com?subject='+encodeURIComponent(x.betreff)+'&body='+encodeURIComponent(x.body(q));
+        const mail='mailto:'+MAIL+'?subject='+encodeURIComponent(x.betreff)+'&body='+encodeURIComponent(x.body(q));
         liste.innerHTML='<div class="such-leer"><b>'+esc(x.nix)+'</b><br>'+esc(x.nix2)+'<br><a class="btn" href="'+mail+'">'+esc(x.frag)+'</a></div>';
         status.textContent=x.nix; return; }
       liste.innerHTML=treffer.map((o,i)=>'<a href="'+o.href+'" data-i="'+i+'"><span class="such-ort">'+esc(o.ort)+'</span><span class="such-titel">'+esc(o.titel)+'</span>'+
@@ -550,8 +555,6 @@
     const MOVE=1400, DWELL_GROUP=5000, DWELL=4500, NAMES={iphone:'iPhone',ipad:'iPad',ipadsq:'iPad',watch:'Apple Watch',mac:'Mac'};
     const stage=rot.querySelector('.dev-stage'), dotsBox=rot.querySelector('.dev-dots'), pauseBtn=rot.querySelector('.dev-pause'), cap=rot.querySelector('.dev-cap');
     const imgs={}; stage.querySelectorAll('.devices img').forEach(im=>imgs[im.dataset.dev]=im);
-    const en=()=>document.documentElement.lang==='en';
-    const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
     let states=[], i=0, mode='run', hov=false, foc=false, tHandle=null, tStart=0, remain=0;
     const suspended=()=>hov||foc||document.hidden;
     const stepFor=k=>MOVE+(states[k].startsWith('group')?DWELL_GROUP:DWELL);
@@ -566,7 +569,7 @@
     }
     function apply(){
       const st=states[i], grp=st==='groupA'?'A':st==='groupB'?'B':null;
-      const stack=reduce()&&fitsB();
+      const stack=reducedMotion()&&fitsB();
       stage.classList.toggle('stack',stack);
       stage.dataset.show = stack ? 'all' : (grp||'single');
       Object.entries(imgs).forEach(([dev,im])=>{
@@ -594,7 +597,7 @@
       return ['groupA', fitsB()&&'groupB', macH>=200&&'mac', 'ipad', 'iphone', 'ipadsq', 'watch'].filter(Boolean);   // Apple: einzeln mindestens 200 px
     }
     function labels(){
-      pauseBtn.setAttribute('aria-label', mode==='run' ? (en()?'Pause switching':'Wechsel anhalten') : (en()?'Resume switching':'Wechsel fortsetzen'));
+      pauseBtn.setAttribute('aria-label', mode==='run' ? (en?'Pause switching':'Wechsel anhalten') : (en?'Resume switching':'Wechsel fortsetzen'));
       cap.setAttribute('aria-live', mode==='run'?'off':'polite');
       rot.classList.toggle('paused', mode!=='run');
     }
@@ -605,14 +608,14 @@
       states=available(); if(i>=states.length) i=0;
       dotsBox.innerHTML='';
       states.forEach((s,k)=>{const b=document.createElement('button');b.type='button';
-        const nm=s==='groupA'?(en()?'Mac and iPad':'Mac und iPad'):s==='groupB'?(en()?'iPhone and Apple Watch':'iPhone und Apple Watch'):NAMES[s];
-        b.setAttribute('aria-label',en()?('Show '+nm):(nm+' zeigen'));
+        const nm=s==='groupA'?(en?'Mac and iPad':'Mac und iPad'):s==='groupB'?(en?'iPhone and Apple Watch':'iPhone und Apple Watch'):NAMES[s];
+        b.setAttribute('aria-label',en?('Show '+nm):(nm+' zeigen'));
         b.addEventListener('click',()=>{ mode='stop'; clearTimeout(tHandle); tHandle=null; go(k); });
         dotsBox.appendChild(b);});
       render();
     }
     function render(){
-      if(reduce()){ i=0; mode='stop'; clearTimeout(tHandle); tHandle=null; }
+      if(reducedMotion()){ i=0; mode='stop'; clearTimeout(tHandle); tHandle=null; }
       apply();
       [...dotsBox.children].forEach((b,k)=>b.setAttribute('aria-current',k===i?'true':'false'));
       labels();
@@ -636,8 +639,7 @@
     // Fenstergroesse geaendert: Ziel neu berechnen, ohne Bewegung
     let rz; addEventListener('resize',()=>{ stage.classList.add('no-anim'); const n=available().length; if(n!==states.length) build(); else apply();
       clearTimeout(rz); rz=setTimeout(()=>stage.classList.remove('no-anim'),50); });
-    const mq=matchMedia('(prefers-reduced-motion: reduce)');
-    (mq.addEventListener?mq.addEventListener('change',build):mq.addListener(build));
+    beiAenderung(bewegungAus, build);
     /* Owner 16.09.: „der Mac wird nicht einzeln angezeigt". Ursache gemessen: Kommt man ueber eine Unterseite
        (Kontakt, ShutterLife) auf die Startseite, ist die Buehne beim Start unsichtbar und 0 px breit. Dann fielen
        Mac einzeln UND „iPhone und Apple Watch" aus der Liste (6 → 4 Stationen), und der Seitenwechsel rechnete nicht
