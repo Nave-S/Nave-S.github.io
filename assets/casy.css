@@ -461,7 +461,7 @@
   @media (prefers-reduced-motion:reduce){ .dev-ctrl{display:none} }
   .dev-dots{display:flex;gap:2px}
   .dev-dots button{position:relative;width:28px;height:28px;display:grid;place-items:center;border-radius:50%}
-  .dev-dots button::before{content:"";width:7px;height:7px;border-radius:4px;background:#D9D2C8;transition:width .25s,background .25s}
+  .dev-dots button::before{content:"";width:7px;height:7px;border-radius:4px;background:color-mix(in srgb,var(--muted) 75%,var(--bg));transition:width .25s,background .25s}  /* 3,4:1 (WCAG 1.4.11) */
   /* Aktive Marke als ruhige, feste Pille (Owner 14.09.: ein sich fuellender Balken zieht den Blick an;
      Recherche: NN/g, Bewegung am Rand des Blickfelds). Wechselt beim Bildwechsel weich in 300 ms. */
   .dev-dots button[aria-current="true"]{width:32px}
@@ -660,8 +660,8 @@
   .hinweis{position:fixed;left:50%;bottom:18px;transform:translate(-50%,12px);z-index:60;max-width:min(560px,calc(100% - 32px));
     display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:14px;background:var(--bg-hi,#fff);
     border:1px solid var(--line);box-shadow:var(--shadow-soft,0 12px 40px -12px rgba(23,18,14,.35));
-    font-size:14.5px;line-height:1.45;color:var(--ink);opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease}
-  .hinweis.an{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+    font-size:14.5px;line-height:1.45;color:var(--ink);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,transform .2s ease,visibility 0s .2s}
+  .hinweis.an{opacity:1;visibility:visible;transform:translate(-50%,0);pointer-events:auto;transition-delay:0s}  /* verborgen: Knoepfe nicht per Tab erreichbar */
   .hinweis .txt{flex:1;min-width:0}
   .hinweis .tun{flex:none;font:inherit;font-size:14px;font-weight:500;color:var(--accent-ink);background:none;
     text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:2px;border-radius:6px}
@@ -744,7 +744,7 @@
     html[data-theme="dark"] nav.ad-tabs a,html[data-theme="dark"] nav.ad-tabs a:first-child{background:var(--bg-soft)}
     html[data-theme="dark"] nav.ad-tabs a[aria-current]{background:var(--on-accent-soft);color:var(--accent-ink);border-color:var(--on-accent-soft-line)}
   }
-  html[data-theme="dark"] .dev-dots button::before{background:color-mix(in srgb,var(--muted) 45%,var(--bg))}
+  html[data-theme="dark"] .dev-dots button::before{background:color-mix(in srgb,var(--muted) 60%,var(--bg))}  /* 3,7:1 */
   html[data-theme="dark"] .dev-dots button[aria-current="true"]::before{background:var(--accent)}
   /* QR: dunkle Module auf weissem Grund behalten (sicherer fuer Kameras) */
   html[data-theme="dark"] .ad-qr-code{background:#fff}
@@ -845,7 +845,8 @@
   .such-zu:hover{color:var(--ink)}
   .such-liste{overflow-y:auto;overscroll-behavior:contain;padding:8px}
   .such-liste a{display:block;padding:11px 12px;border-radius:10px;color:var(--ink)}
-  .such-liste a:hover,.such-liste a:focus-visible,.such-liste a.an{background:var(--bg-soft);outline:none}
+  .such-liste a:hover,.such-liste a:focus-visible{background:var(--bg-soft);outline:none}
+  .such-liste a:focus-visible{outline:2px solid var(--accent-ink);outline-offset:-2px}
   .such-ort{display:block;font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--muted);margin-bottom:2px}
   .such-titel{display:block;font-weight:600;font-size:16px;line-height:1.35}
   .such-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:14px;line-height:1.45;color:var(--muted);margin-top:2px}

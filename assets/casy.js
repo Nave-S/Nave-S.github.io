@@ -196,9 +196,12 @@
   curPage = document.body.dataset.page || 'home';
   if(document.body.dataset.view) setAppView(document.body.dataset.view, false, pages[curPage]);
 
+  // Cmd-, Strg-, Umschalt- oder Mittelklick: neuer Tab oder Fenster, der Browser macht das selbst
+  const eigenerKlick=e=>e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey;
+
   // „Zu den Apps" auf der Startseite: weich scrollen statt springen
   document.querySelectorAll('[data-scroll]').forEach(a=>a.addEventListener('click',e=>{
-    const el=document.getElementById('apps'); if(!el) return;
+    const el=document.getElementById('apps'); if(!el || eigenerKlick(e)) return;
     e.preventDefault();
     el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
   }));
@@ -216,7 +219,7 @@
      damit die Seite nicht springt (Owner 05.09.): sie reist im Adressanker mit (#y=…) und wird hier wieder eingenommen. */
   document.querySelectorAll('header .lang a').forEach(a=>a.addEventListener('click',e=>{
     try{ localStorage.setItem('casy_lang', a.getAttribute('lang')); }catch(err){}
-    if(window.scrollY>0 && !location.hash){ e.preventDefault(); location.href=a.getAttribute('href')+'#y='+Math.round(window.scrollY); }
+    if(window.scrollY>0 && !location.hash && !eigenerKlick(e)){ e.preventDefault(); location.href=a.getAttribute('href')+'#y='+Math.round(window.scrollY); }
   }));
   (function(){
     const m=location.hash.match(/^#y=(\d+)$/); if(!m) return;
@@ -381,13 +384,14 @@
   function seitenLaden(L){
     return Promise.all(SEITEN.map(p=>{
       if(L===lang && p===hierPfad) return Promise.resolve(suchSammeln(document,L));
-      return fetch(seiteUrl(p,L)).then(r=>r.ok?r.text():'').then(t=>t?suchSammeln(new DOMParser().parseFromString(t,'text/html'),L):[]).catch(()=>[]);
+      return fetch(seiteUrl(p,L)).then(r=>r.ok?r.text():'').then(t=>t?suchSammeln(new DOMParser().parseFromString(t,'text/html'),L):[]).catch(()=>{ unvollstaendig=true; return []; });
     })).then(listen=>{ const seen=new Set(), out=[];
       listen.flat().forEach(o=>{ if(!seen.has(o.id)){ seen.add(o.id); out.push(o); } }); return out; });
   }
-  let suchIndex=null;
+  let suchIndex=null, unvollstaendig=false;
   function suchIndexHolen(){
     if(!suchIndex) suchIndex=Promise.all([seitenLaden(lang), lang==='en'?seitenLaden('de'):null]).then(([out,de])=>{
+      if(unvollstaendig){ suchIndex=null; unvollstaendig=false; } // ohne Netz geladen: beim naechsten Oeffnen neu holen
       const suchDE={}; (de||out).forEach(o=>{ suchDE[o.id]=(o.titel||'').trim(); });
       return suchVorbereiten(out, suchDE);
     });
@@ -402,7 +406,8 @@
   }
   (function(){
     const m=location.hash.match(/^#s=(.+)$/); if(!m) return;
-    const id=decodeURIComponent(m[1]); history.replaceState(null,'',location.pathname+location.search);
+    let id; try{ id=decodeURIComponent(m[1]); }catch(e){ return; }
+    history.replaceState(null,'',location.pathname+location.search);
     const o=suchSammeln(document,lang).find(x=>x.id===id);
     if(o&&o.el){ const go=()=>suchMarkieren(o.el); go(); addEventListener('load',go,{once:true}); }
   })();
@@ -441,7 +446,7 @@
         status.textContent=x.nix; return; }
       liste.innerHTML=treffer.map((o,i)=>'<a href="'+o.href+'" data-i="'+i+'"><span class="such-ort">'+esc(o.ort)+'</span><span class="such-titel">'+esc(o.titel)+'</span>'+
         (o.text?'<span class="such-text">'+esc(kurz(o.text))+'</span>':'')+'</a>').join('');
-      liste.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); gehe(treffer[+a.dataset.i]); }));
+      liste.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{ if(eigenerKlick(e)) return; e.preventDefault(); gehe(treffer[+a.dataset.i]); }));
       status.textContent=x.treffer(treffer.length);
     }
     function oeffnen(){
@@ -472,7 +477,7 @@
     document.addEventListener('keydown',e=>{
       if(!dlg.hidden && e.key==='Escape'){ e.preventDefault(); schliessen(true); return; }
       if(!dlg.hidden && e.key==='Tab'){ // Fokus bleibt im Fenster
-        const f=[feld,...liste.querySelectorAll('a,button'),zu]; const i=f.indexOf(document.activeElement);
+        const f=[...dlg.querySelectorAll('input,button,a[href]')].filter(el=>!el.hidden && el.offsetParent!==null); const i=f.indexOf(document.activeElement);
         if(e.shiftKey && i<=0){ e.preventDefault(); f[f.length-1].focus(); } else if(!e.shiftKey && i===f.length-1){ e.preventDefault(); f[0].focus(); } }
       const tipp=/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||'');
       if(dlg.hidden && !tipp && (e.key==='/' || ((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k'))){ e.preventDefault(); oeffnen(); } });
@@ -620,7 +625,8 @@
     /* text: Meldung · aktion: {text, tun} oder null · dauer: ms, 0 = bleibt stehen */
     function zeigen(text, aktion, dauer){
       const l=bauen();
-      l.querySelector('.txt').textContent=text;
+      // Text erst im naechsten Frame: ein frisch eingehaengter Live-Bereich wird sonst nicht vorgelesen
+      requestAnimationFrame(()=>{ l.querySelector('.txt').textContent=text; });
       const knopf=l.querySelector('.tun');
       if(aktion){ knopf.hidden=false; knopf.textContent=aktion.text; knopf.onclick=aktion.tun; }
       else { knopf.hidden=true; knopf.onclick=null; }
@@ -628,7 +634,11 @@
       l.classList.add('an');
       clearTimeout(schliessTimer);
       if(dauer) schliessTimer=setTimeout(verbergen, dauer);
+      // mit Knopf: stehen lassen, solange Maus oder Fokus darin sind (WCAG 2.2.1)
+      l.onpointerenter=l.onfocusin=()=>clearTimeout(schliessTimer);
+      l.onpointerleave=l.onfocusout=()=>{ if(dauer && !l.contains(document.activeElement)) schliessTimer=setTimeout(verbergen, dauer); };
     }
+    bauen(); // Live-Bereich steht von Anfang an im DOM
     window.casyHinweis=zeigen;
 
     /* 1 · Skriptfehler: nur EINMAL melden, sonst haemmert eine kaputte Schleife den Nutzer zu */
@@ -639,7 +649,8 @@
                   : 'Etwas auf dieser Seite hat nicht funktioniert. Meist hilft ein Neuladen.',
              {text: en()?'Reload':'Neu laden', tun:()=>location.reload()}, 0);
     }
-    addEventListener('error', e=>{ if(e && e.target && e.target!==window) return; skriptfehler(); }, true);
+    // nur Fehler aus unseren eigenen Skripten; Browser-Erweiterungen melden sich mit fremder Adresse
+    addEventListener('error', e=>{ if(e && e.target && e.target!==window) return; if(e.filename && !e.filename.startsWith(location.origin+'/assets/')) return; skriptfehler(); }, true);
     addEventListener('unhandledrejection', skriptfehler);
 
     /* 2 · Kein Netz: die Seite laeuft weiter, App Store und QR brauchen aber eine Verbindung */
@@ -660,8 +671,7 @@
       const txt=el.getAttribute('alt');
       el.classList.add('fehlt');
       el.removeAttribute('src');
-      el.setAttribute('role','img');
-      el.setAttribute('aria-label', txt || (en()?'Image could not be loaded':'Bild konnte nicht geladen werden'));
+      if(txt){ el.setAttribute('role','img'); el.setAttribute('aria-label', txt); } // Deko-Bilder (alt="") bleiben stumm
     }, true);
 
     /* 4 · Mail-Knopf: ohne eingerichtetes Mailprogramm passiert sonst gar nichts */
