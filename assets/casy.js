@@ -1,4 +1,4 @@
-/* Casy Studio: Verhalten aller Seiten. Laeuft am Ende von <body>. */
+/* Casy Studio: Verhalten aller Seiten. Laeuft am Ende von <body>; nichts davon landet auf window. */
 (function(){
   'use strict';
 
@@ -79,7 +79,7 @@
       /* Handy (18.09.): Kopf weg, Reiter aus dem Bild, der Text beginnt direkt unter der schmalen Zeile (50 px) */
       if(view!=='overview' || wasStuck){
         const ziel=Math.max(0, tabsNav.getBoundingClientRect().bottom + window.scrollY - 18);  // Titel rund 16 px unter der Zeile
-        window.scrollTo({top:ziel, behavior:'instant'}); if(window.casyKopf) window.casyKopf.weg(true, ziel);
+        window.scrollTo({top:ziel, behavior:'instant'}); if(kopf) kopfWeg(true, ziel);
       }
     } else if(view!=='overview' || wasStuck) window.scrollTo({top: anchor.getBoundingClientRect().top + gapAbove + window.scrollY - hdr, behavior:'instant'});
     if(keepPos || view!=='overview'){
@@ -111,71 +111,67 @@
   }
   document.querySelectorAll('nav.ad-tabs').forEach(n=>n.addEventListener('scroll',tabsEdge,{passive:true}));
   /* Angedockt oder nicht (18.09.): entscheidet, ob die Leiste ihre Flaeche zeigt. Gemessen am Anker ueber der Leiste. */
-  (function(){
-    const paare=[...document.querySelectorAll('.ad-tabs-anchor')].map(a=>[a, a.nextElementSibling]).filter(([,n])=>n&&n.classList.contains('ad-tabs'));
-    if(!paare.length) return;
-    let laeuft=false;
-    function pruefen(){
-      laeuft=false;
-      const hdr=document.querySelector('header').offsetHeight;
-      paare.forEach(([anker,nav])=>{
-        const sichtbar=nav.offsetParent!==null;
-        nav.classList.toggle('gedockt', sichtbar && !handy.matches && anker.getBoundingClientRect().top <= hdr + 1);
-        const mini=anker.previousElementSibling;
-        if(mini && mini.classList.contains('ad-mini')){
-          const oben=document.querySelector('header').classList.contains('weg')?0:hdr;
-          const an=sichtbar && handy.matches && nav.getBoundingClientRect().bottom <= oben + 51;  // Reiter ganz unter der 50-px-Zeile
-          mini.classList.toggle('an',an); if(!an && window.casyMiniZu) window.casyMiniZu(mini);
-        }
-      });
-    }
-    addEventListener('scroll',()=>{ if(!laeuft){ laeuft=true; requestAnimationFrame(pruefen); } },{passive:true});
-    addEventListener('resize',pruefen); addEventListener('load',pruefen); pruefen();
-    window.casyTabsPruefen=pruefen;
-  })();
+  const tabPaare=[...document.querySelectorAll('.ad-tabs-anchor')].map(a=>[a, a.nextElementSibling]).filter(([,n])=>n&&n.classList.contains('ad-tabs'));
+  let tabsGeplant=false;
+  function tabsPruefen(){
+    tabsGeplant=false;
+    if(!tabPaare.length) return;
+    const hdr=document.querySelector('header').offsetHeight;
+    tabPaare.forEach(([anker,nav])=>{
+      const sichtbar=nav.offsetParent!==null;
+      nav.classList.toggle('gedockt', sichtbar && !handy.matches && anker.getBoundingClientRect().top <= hdr + 1);
+      const mini=anker.previousElementSibling;
+      if(mini && mini.classList.contains('ad-mini')){
+        const oben=document.querySelector('header').classList.contains('weg')?0:hdr;
+        const an=sichtbar && handy.matches && nav.getBoundingClientRect().bottom <= oben + 51;  // Reiter ganz unter der 50-px-Zeile
+        mini.classList.toggle('an',an); if(!an) miniZu(mini);
+      }
+    });
+  }
+  if(tabPaare.length){
+    addEventListener('scroll',()=>{ if(!tabsGeplant){ tabsGeplant=true; requestAnimationFrame(tabsPruefen); } },{passive:true});
+    addEventListener('resize',tabsPruefen); addEventListener('load',tabsPruefen); tabsPruefen();
+  }
   addEventListener('resize',tabsEdge);
 
   /* Handy (18.09.): Kopf weicht beim Runterscrollen, ein Stueck hoch holt ihn sofort zurueck (wie Safari). Tastaturfokus
      im Kopf holt ihn ebenfalls zurueck. Ab 641 px bleibt er fest wie bisher. */
-  (function(){
-    const h=document.querySelector('header'); if(!h) return;
-    let last=window.scrollY;
-    function weg(w, y){
-      if(typeof y==='number') last=y;
-      if(h.classList.contains('weg')===w){ return; }
-      h.classList.toggle('weg',w); setHdr(); if(window.casyTabsPruefen) window.casyTabsPruefen();
-    }
-    window.casyKopf={weg, menu:o=>menu(o)};
+  const kopf=document.querySelector('header'), menuBtn=kopf && kopf.querySelector('.nav-menu');
+  let kopfY=window.scrollY;
+  function kopfWeg(w, y){
+    if(typeof y==='number') kopfY=y;
+    if(kopf.classList.contains('weg')===w){ return; }
+    kopf.classList.toggle('weg',w); setHdr(); tabsPruefen();
+  }
+  /* Menue-Knopf im Kopf: Apps, Kontakt, Darstellung */
+  function kopfMenu(o){ kopf.classList.toggle('menu-offen',o); if(menuBtn) menuBtn.setAttribute('aria-expanded',o?'true':'false'); setHdr(); }
+  if(kopf){
     addEventListener('scroll',()=>{
-      const y=window.scrollY, d=y-last; last=y;
-      if(!handy.matches || h.classList.contains('menu-offen')){ weg(false); return; }
-      if(y<=h.offsetHeight) weg(false); else if(d>6) weg(true); else if(d<-6) weg(false);
+      const y=window.scrollY, d=y-kopfY; kopfY=y;
+      if(!handy.matches || kopf.classList.contains('menu-offen')){ kopfWeg(false); return; }
+      if(y<=kopf.offsetHeight) kopfWeg(false); else if(d>6) kopfWeg(true); else if(d<-6) kopfWeg(false);
     },{passive:true});
-    h.addEventListener('focusin',()=>weg(false));
-    handy.addEventListener('change',()=>{ weg(false); menu(false); });
-
-    /* Menue-Knopf im Kopf: Apps, Kontakt, Darstellung */
-    const btn=h.querySelector('.nav-menu');
-    function menu(o){ h.classList.toggle('menu-offen',o); if(btn) btn.setAttribute('aria-expanded',o?'true':'false'); setHdr(); }
-    if(btn){
-      btn.addEventListener('click',()=>menu(!h.classList.contains('menu-offen')));
-      h.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>menu(false)));
-      document.addEventListener('click',e=>{ if(!h.contains(e.target)) menu(false); });
-      document.addEventListener('keydown',e=>{ if(e.key==='Escape' && h.classList.contains('menu-offen')){ menu(false); btn.focus(); } });
+    kopf.addEventListener('focusin',()=>kopfWeg(false));
+    handy.addEventListener('change',()=>{ kopfWeg(false); kopfMenu(false); });
+    if(menuBtn){
+      menuBtn.addEventListener('click',()=>kopfMenu(!kopf.classList.contains('menu-offen')));
+      kopf.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>kopfMenu(false)));
+      document.addEventListener('click',e=>{ if(!kopf.contains(e.target)) kopfMenu(false); });
+      document.addEventListener('keydown',e=>{ if(e.key==='Escape' && kopf.classList.contains('menu-offen')){ kopfMenu(false); menuBtn.focus(); } });
     }
+  }
 
-    /* Auswahl in der schmalen Zeile */
-    function miniSet(m,o){ const b=m.querySelector('.ad-mini-btn'), l=m.querySelector('.ad-mini-menu');
-      b.setAttribute('aria-expanded',o?'true':'false'); l.hidden=!o; }
-    window.casyMiniZu=m=>{ if(m.querySelector('.ad-mini-btn').getAttribute('aria-expanded')==='true') miniSet(m,false); };
-    document.querySelectorAll('.ad-mini').forEach(m=>{
-      const b=m.querySelector('.ad-mini-btn');
-      b.addEventListener('click',()=>miniSet(m, b.getAttribute('aria-expanded')!=='true'));
-      m.querySelectorAll('.ad-mini-menu a').forEach(a=>a.addEventListener('click',()=>miniSet(m,false)));
-      document.addEventListener('click',e=>{ if(!m.contains(e.target)) window.casyMiniZu(m); });
-      document.addEventListener('keydown',e=>{ if(e.key==='Escape' && b.getAttribute('aria-expanded')==='true'){ miniSet(m,false); b.focus(); } });
-    });
-  })();
+  /* Auswahl in der schmalen Zeile */
+  function miniSet(m,o){ const b=m.querySelector('.ad-mini-btn'), l=m.querySelector('.ad-mini-menu');
+    b.setAttribute('aria-expanded',o?'true':'false'); l.hidden=!o; }
+  function miniZu(m){ if(m.querySelector('.ad-mini-btn').getAttribute('aria-expanded')==='true') miniSet(m,false); }
+  if(kopf) document.querySelectorAll('.ad-mini').forEach(m=>{
+    const b=m.querySelector('.ad-mini-btn');
+    b.addEventListener('click',()=>miniSet(m, b.getAttribute('aria-expanded')!=='true'));
+    m.querySelectorAll('.ad-mini-menu a').forEach(a=>a.addEventListener('click',()=>miniSet(m,false)));
+    document.addEventListener('click',e=>{ if(!m.contains(e.target)) miniZu(m); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape' && b.getAttribute('aria-expanded')==='true'){ miniSet(m,false); b.focus(); } });
+  });
 
   /* QR: Klick oeffnet/schliesst, Esc und Klick daneben schliessen */
   (function(){
@@ -454,7 +450,7 @@
       status.textContent=x.treffer(treffer.length);
     }
     function oeffnen(){
-      if(window.casyKopf && window.casyKopf.menu) window.casyKopf.menu(false);
+      if(kopf) kopfMenu(false);
       ausloeser=document.activeElement;
       suchIndexHolen().then(i=>{ idx=i; if(!dlg.hidden && feld.value.trim()) zeigen(); });
       const x=X(); dlg.setAttribute('aria-label',x.label); feld.placeholder=x.ph; feld.setAttribute('aria-label',x.label); zu.textContent=x.zu;
@@ -485,7 +481,6 @@
         if(e.shiftKey && i<=0){ e.preventDefault(); f[f.length-1].focus(); } else if(!e.shiftKey && i===f.length-1){ e.preventDefault(); f[0].focus(); } }
       const tipp=/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||'');
       if(dlg.hidden && !tipp && (e.key==='/' || ((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k'))){ e.preventDefault(); oeffnen(); } });
-    window.casySuche={oeffnen, suchen:q=>suchIndexHolen().then(i=>suchen(q,i).map(o=>o.ort+' | '+o.titel+' | '+o.href))};
   })();
 
 
@@ -586,7 +581,6 @@
       clearTimeout(rz); rz=setTimeout(()=>stage.classList.remove('no-anim'),50); });
     const mq=matchMedia('(prefers-reduced-motion: reduce)');
     (mq.addEventListener?mq.addEventListener('change',build):mq.addListener(build));
-    window.devRotLang=()=>build();
     /* Owner 16.09.: „der Mac wird nicht einzeln angezeigt". Ursache gemessen: Kommt man ueber eine Unterseite
        (Kontakt, ShutterLife) auf die Startseite, ist die Buehne beim Start unsichtbar und 0 px breit. Dann fielen
        Mac einzeln UND „iPhone und Apple Watch" aus der Liste (6 → 4 Stationen), und der Seitenwechsel rechnete nicht
@@ -643,7 +637,6 @@
       l.onpointerleave=l.onfocusout=()=>{ if(dauer && !l.contains(document.activeElement)) schliessTimer=setTimeout(verbergen, dauer); };
     }
     bauen(); // Live-Bereich steht von Anfang an im DOM
-    window.casyHinweis=zeigen;
 
     /* 1 · Skriptfehler: nur EINMAL melden, sonst haemmert eine kaputte Schleife den Nutzer zu */
     let schonGemeldet=false;
