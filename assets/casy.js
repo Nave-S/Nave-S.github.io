@@ -140,59 +140,28 @@
   }
   const adGals=[...document.querySelectorAll('.ad-gal-box')].map(makeGal).filter(Boolean);
 
-  /* Reiter: welcher Inhalt unter dem App-Kopf steht. Beim Wechsel innerhalb der
-     App-Seite springt die Seite nicht nach oben; ist die Leiste schon oben
-     angeheftet, bleibt sie dort und der neue Inhalt beginnt direkt darunter. */
   function setHdr(){ const h=document.querySelector('header'); if(!h) return; const r=document.documentElement.style;
     r.setProperty('--hdr',h.offsetHeight+'px'); r.setProperty('--hdr-sicht',(h.classList.contains('weg')?0:h.offsetHeight)+'px'); }
   const handy=matchMedia('(max-width:640px)');
   setHdr(); addEventListener('resize',setHdr);
-  function setAppView(view, keepPos, pageId){
-    const art=document.querySelector('#'+(pageId||'page-app')+' .ad-page'); if(!art) return;
-    const anchor=art.querySelector('.ad-tabs-anchor');
-    const kopf=document.querySelector('header'), hdr=kopf.offsetHeight;
-    const tabsNav=art.querySelector('.ad-tabs');
-    const wasStuck = keepPos && (handy.matches
-      ? tabsNav.getBoundingClientRect().bottom <= (kopf.classList.contains('weg')?0:hdr)+51
-      : anchor.getBoundingClientRect().top < hdr);
-    art.querySelectorAll('.ad-panel').forEach(p=>{ p.hidden = p.dataset.view!==view; });
-    art.querySelectorAll('.ad-tabs a').forEach(a=>{
-      if(a.dataset.view===view) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
-    });
-    /* Kopf bleibt immer wie auf der Uebersicht (Owner 14.09.). Damit der Text trotzdem
-       sofort sichtbar ist, rollt ein Rechts-Reiter die Leiste direkt unter die Kopfzeile,
-       auch beim direkten Aufruf (etwa ueber den Datenschutz-Link in der App).
-       instant: die Vorlage scrollt sonst weich, der Text stuende kurz ausserhalb. */
-    const gapAbove=parseFloat(getComputedStyle(art.querySelector('.ad-tabs')).marginTop)||0; // Abstand ueber der Leiste
+
+  /* Rechts-Reiter (Datenschutz, Support, Hinweise, Impressum): der Kopf der App bleibt wie auf der Uebersicht, damit der
+     Text trotzdem sofort sichtbar ist, rollt die Seite die Reiterleiste direkt unter die Kopfzeile, auch beim direkten
+     Aufruf aus der App. Der Titel bekommt den Fokus, damit Screenreader dort weiterlesen.
+     instant: html scrollt sonst weich, der Text stuende kurz ausserhalb. */
+  function zumDokument(view){
+    const panel=document.querySelector('.ad-panel[data-view="'+view+'"]'); if(!panel) return;
+    const art=panel.closest('.ad-page'), anchor=art.querySelector('.ad-tabs-anchor'), tabsNav=art.querySelector('.ad-tabs');
     if(handy.matches){
-      /* Handy (18.09.): Kopf weg, Reiter aus dem Bild, der Text beginnt direkt unter der schmalen Zeile (50 px) */
-      if(view!=='overview' || wasStuck){
-        const ziel=Math.max(0, tabsNav.getBoundingClientRect().bottom + window.scrollY - 18);  // Titel rund 16 px unter der Zeile
-        window.scrollTo({top:ziel, behavior:'instant'}); if(kopf) kopfWeg(true, ziel);
-      }
-    } else if(view!=='overview' || wasStuck) window.scrollTo({top: anchor.getBoundingClientRect().top + gapAbove + window.scrollY - hdr, behavior:'instant'});
-    if(keepPos || view!=='overview'){
-      const target = view==='overview' ? art.querySelector('.ad-name') : art.querySelector('.ad-panel[data-view="'+view+'"] .ad-doc-title');
-      if(target) target.focus({preventScroll:true});
+      // Handy: Kopf weg, Reiter aus dem Bild, der Titel steht rund 16 px unter der schmalen Zeile (50 px)
+      const ziel=Math.max(0, tabsNav.getBoundingClientRect().bottom + window.scrollY - 18);
+      window.scrollTo({top:ziel, behavior:'instant'}); if(kopf) kopfWeg(true, ziel);
+    } else {
+      const abstandOben=parseFloat(getComputedStyle(tabsNav).marginTop)||0;
+      window.scrollTo({top: anchor.getBoundingClientRect().top + abstandOben + window.scrollY - document.querySelector('header').offsetHeight, behavior:'instant'});
     }
-    curView=view; tabsEdge(); updateMini();
+    const titel=panel.querySelector('.ad-doc-title'); if(titel) titel.focus({preventScroll:true});
   }
-
-  /* Schmale Zeile am Handy: Beschriftung und Haken nach aktuellem Bereich und Sprache */
-  function updateMini(){
-    const K={de:{overview:'Übersicht',datenschutz:'Datenschutz',support:'Support',hinweise:'Hinweise',impressum:'Impressum'},
-             en:{overview:'Overview',datenschutz:'Privacy',support:'Support',hinweise:'App Notes',impressum:'Legal Notice'}};
-    const L=document.documentElement.lang==='en'?'en':'de';
-    document.querySelectorAll('.ad-mini').forEach(m=>{
-      const cur=m.closest('.ad-page').querySelector('.ad-tabs a[aria-current]'), v=cur?cur.dataset.view:'overview';
-      m.querySelector('.ad-mini-akt').textContent=K[L][v];
-      m.querySelectorAll('.ad-mini-menu a').forEach(a=>{ a.textContent=K[L][a.dataset.view];
-        if(a.dataset.view===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
-    });
-  }
-
-  /* 2.4.2: Der Seitentitel steht im HTML jeder Datei, das Skript fasst ihn nicht an. */
-  let curPage='home', curView='overview';
 
   /* Reiterleiste: weiche Kante rechts, solange rechts noch Reiter verborgen sind */
   function tabsEdge(){
@@ -277,13 +246,12 @@
     e.preventDefault(); const m=document.getElementById('main-content'); if(m) m.focus();
   }));
 
-  const pages = {app:'page-app',sqnz:'page-sqnz',home:'page-home',contact:'page-contact',privacy:'page-privacy',impressum:'page-impressum'};
 
-  /* Jede Adresse ist eine eigene Datei (seit dem Livegang 09/2026): welche Seite und welcher Reiter,
-     steht am <body> (data-page, data-view). Die Sprache steht an <html lang>; DE/EN sind Links auf die Nachbardatei. */
+  /* Jede Adresse ist eine eigene Datei. Der Reiter einer App-Seite steht am <body> (data-view), die Sprache an <html lang>;
+     DE/EN sind Links auf die Nachbardatei. */
   const lang = document.documentElement.lang==='en' ? 'en' : 'de';
-  curPage = document.body.dataset.page || 'home';
-  if(document.body.dataset.view) setAppView(document.body.dataset.view, false, pages[curPage]);
+  const view=document.body.dataset.view;
+  if(view && view!=='overview') zumDokument(view);
 
   // Cmd-, Strg-, Umschalt- oder Mittelklick: neuer Tab oder Fenster, der Browser macht das selbst
   const eigenerKlick=e=>e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey;
@@ -317,7 +285,7 @@
     go(); addEventListener('load',go,{once:true});
   })();
 
-  adGals.forEach(g=>g.render()); tabsEdge(); updateMini();
+  adGals.forEach(g=>g.render()); tabsEdge();
 
   /* ===================== Suche (19.09.2026) =====================
      Kein externer Dienst, nichts verlaesst das Geraet. Der Index entsteht beim Oeffnen aus der Seite selbst (also immer in der
