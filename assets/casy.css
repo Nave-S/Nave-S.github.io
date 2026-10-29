@@ -31,7 +31,7 @@
 
   /* NAV */
   header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line)}
-  nav{height:82px;display:flex;align-items:center;justify-content:space-between}
+  .site-nav{height:82px;display:flex;align-items:center;justify-content:space-between}
   .logo{display:flex;align-items:center;gap:12px;font-weight:600;font-size:20px;letter-spacing:-.01em;white-space:nowrap;flex:none}
   .logo svg{width:32px;height:32px}
   .links{display:flex;gap:44px;font-size:16px;color:var(--ink)}
@@ -342,7 +342,7 @@
 
   /* ---------- Reiter der App-Seite (14.09.2026) ---------- */
   .ad-tabs-anchor{height:0}
-  nav.ad-tabs{position:sticky;top:var(--hdr,82px);z-index:10;height:auto;justify-content:safe center;
+  nav.ad-tabs{position:sticky;top:var(--hdr,82px);z-index:10;align-items:center;justify-content:safe center;
     margin-top:40px;display:flex;flex-wrap:nowrap;padding:0;gap:4px;overflow-x:auto;scrollbar-width:none;
     border-bottom:1px solid var(--line)}
   .ad-tabs::-webkit-scrollbar{display:none}
@@ -482,7 +482,7 @@
      nichts wird beschnitten. */
   @media (max-width:1000px){
     .wrap{width:min(var(--wrap),calc(100% - 40px))}
-    nav{height:70px}
+    .site-nav{height:70px}
     .hero{padding:56px 0 24px;grid-template-columns:1fr;gap:44px;min-height:0}
     .hero h1{min-height:0}
     .hero p{min-height:0;font-size:19px;max-width:none}
@@ -504,10 +504,8 @@
   /* Telefon: eine Spalte, alles etwas kleiner, nichts laeuft ueber. */
   @media (max-width:640px){
     .wrap{width:calc(100% - 32px)}
-    nav{height:64px}
     .logo{font-size:16px;gap:9px}
     .logo-mark{width:28px;height:28px;border-radius:8px}
-    nav{gap:10px}
     .nav-right{gap:14px;min-width:0}
     .links{gap:16px;font-size:14px}
     .lang a{padding:5px 10px;font-size:12px}
@@ -538,7 +536,6 @@
      Gemessen 16.09. in Rahmen von 320/375/430/560 px: bei 430 lief der Mond-Knopf aus dem Bild.
      Darunter deshalb zwei Zeilen: Logo oben, Links und Schalter darunter. */
   @media (max-width:560px){
-    nav{height:auto;padding:10px 0;flex-wrap:wrap;gap:8px 12px}
     .nav-right{width:100%;justify-content:space-between;gap:12px}
   }
 
@@ -549,7 +546,6 @@
      verstecken. */
   @media (max-width:420px){
     .wrap{width:calc(100% - 24px)}
-    nav{height:auto;padding:10px 0;flex-wrap:wrap;gap:8px 12px}
     .nav-right{width:100%;justify-content:space-between;gap:12px}
     .links{gap:14px}
     .hero h1{font-size:clamp(30px,8.5vw,40px)}
@@ -787,10 +783,11 @@
       border:1px solid var(--line);border-radius:999px;background:var(--bg-hi,#fff);color:var(--ink);white-space:nowrap}
     .ad-mini-btn svg{width:14px;height:14px;transition:transform .2s}
     .ad-mini-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
-    nav.ad-mini-menu{display:block;height:auto;width:100vw;margin-left:calc(50% - 50vw);background:var(--mini-bg);
+    nav.ad-mini-menu{display:block;width:100vw;margin-left:calc(50% - 50vw);background:var(--mini-bg);
       -webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);
       border-radius:0 0 16px 16px;box-shadow:0 18px 30px -18px rgba(23,18,14,.5);overflow:hidden}
     nav.ad-mini-menu[hidden]{display:none}
+    @media (max-width:560px){ nav.ad-mini-menu{padding-block:10px} }
     .ad-mini-menu a{display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 20px;font-size:16px;
       border-top:1px solid var(--line);color:var(--ink)}
     .ad-mini-menu a[aria-current]{color:var(--accent-ink);font-weight:500}
