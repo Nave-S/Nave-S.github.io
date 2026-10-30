@@ -8,7 +8,7 @@
 (function(){
   var path=location.pathname, isDe=/\/de\.html$/.test(path), saved=null, ok=true;
   try{ saved=localStorage.getItem('casy_lang'); }catch(e){ ok=false; }
-  // Alte Verweise auf die Startseite mit ?app=… (bis 09/2026 gab es keine App-Seiten) fuehren jetzt zur App-Seite
+  // Alte Verweise auf die Startseite mit ?app=… fuehren zur App-Seite
   var app=(location.search.match(/[?&]app=(shutterlife|sequenz|sqnz)\b/)||[])[1];
   if(app && /^\/((de|index)\.html)?$/.test(path)){ location.replace('/'+(app==='sqnz'?'sequenz':app)+'/'+(isDe?'de.html':'')); return; }
   var want=saved;
@@ -29,7 +29,8 @@
   try{ choice=sessionStorage.getItem('casy_theme')||'system'; }catch(e){}
   function apply(){ root.setAttribute('data-theme', choice==='system' ? (mq.matches?'dark':'light') : choice); }
   apply();
-  mq.addEventListener('change',function(){ if(choice==='system') apply(); });
+  function systemWechsel(){ if(choice==='system') apply(); }
+  if(mq.addEventListener) mq.addEventListener('change',systemWechsel); else mq.addListener(systemWechsel);  // Safari vor 14: nur addListener
   window.casyTheme={
     get:function(){ return choice; },
     set:function(v){ choice=v; try{ v==='system' ? sessionStorage.removeItem('casy_theme') : sessionStorage.setItem('casy_theme',v); }catch(e){} apply(); }

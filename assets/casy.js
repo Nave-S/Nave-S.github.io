@@ -1,7 +1,110 @@
-  /* Galerie-Band am Handy: Knoepfe springen um zwei Bilder, der Zaehler folgt
-     auch beim Wischen. Am Desktop ist die Leiste per CSS ausgeblendet. */
-  /* Je Galerie-Kasten eine eigene Steuerung (ShutterLife: ein Kasten, SQNZ: iPhone und Apple Watch).
-     data-per="1": ein Geraet pro Ansicht (Apple Watch am Handy). */
+/* Casy Studio: Verhalten aller Seiten. Laeuft am Ende von <body>; nichts davon landet auf window. */
+(function(){
+  'use strict';
+
+  /* Gemeinsam genutzt: Sprache der Seite, „Bewegung reduzieren", Kontaktadresse */
+  const lang=document.documentElement.lang==='en' ? 'en' : 'de', en=lang==='en';
+  const bewegungAus=matchMedia('(prefers-reduced-motion: reduce)'), reducedMotion=()=>bewegungAus.matches;
+  const MAIL='support@casystudio.com';
+  // Safari vor Version 14 kennt an MediaQueryList nur addListener
+  function beiAenderung(mq, fn){ if(mq.addEventListener) mq.addEventListener('change', fn); else mq.addListener(fn); }
+  // Aufklappbares: Klick daneben schliesst, Esc schliesst und gibt den Fokus an den Knopf zurueck
+  function schliessenVonAussen(box, istOffen, zu, knopf){
+    document.addEventListener('click', e=>{ if(!box.contains(e.target)) zu(); });
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape' && istOffen()){ zu(); knopf.focus(); } });
+  }
+
+  /* ============ Fehler und Ausfaelle sichtbar machen ============
+     Steht als Erstes, damit auch Fehler im Rest dieser Datei gemeldet werden.
+     Auf einer Seite ohne Server koennen vier Dinge schiefgehen: das Skript bricht ab (Knoepfe tot),
+     das Netz fehlt (App-Store-Links), ein Bild fehlt, oder das Mailprogramm oeffnet nicht.
+     Jeder Fall bekommt eine Rueckmeldung mit Ausweg. Nichts davon blockiert die Seite. */
+  (function(){
+    let leiste, schliessTimer;
+    function bauen(){
+      if(leiste) return leiste;
+      leiste=document.createElement('div');
+      leiste.className='hinweis'; leiste.setAttribute('role','status'); leiste.setAttribute('aria-live','polite');
+      leiste.innerHTML='<span class="txt"></span><button type="button" class="tun" hidden></button><button type="button" class="zu" aria-label="Schließen">&times;</button>';
+      leiste.querySelector('.zu').addEventListener('click',()=>verbergen());
+      document.body.appendChild(leiste);
+      return leiste;
+    }
+    function verbergen(){ if(leiste) leiste.classList.remove('an'); clearTimeout(schliessTimer); }
+    /* text: Meldung · aktion: {text, tun} oder null · dauer: ms, 0 = bleibt stehen */
+    function zeigen(text, aktion, dauer){
+      const l=bauen();
+      // Text erst im naechsten Frame: ein frisch eingehaengter Live-Bereich wird sonst nicht vorgelesen
+      requestAnimationFrame(()=>{ l.querySelector('.txt').textContent=text; });
+      const knopf=l.querySelector('.tun');
+      if(aktion){ knopf.hidden=false; knopf.textContent=aktion.text; knopf.onclick=aktion.tun; }
+      else { knopf.hidden=true; knopf.onclick=null; }
+      l.querySelector('.zu').setAttribute('aria-label', en?'Dismiss':'Schließen');
+      l.classList.add('an');
+      clearTimeout(schliessTimer);
+      if(dauer) schliessTimer=setTimeout(verbergen, dauer);
+      // mit Knopf: stehen lassen, solange Maus oder Fokus darin sind (WCAG 2.2.1)
+      l.onpointerenter=l.onfocusin=()=>clearTimeout(schliessTimer);
+      l.onpointerleave=l.onfocusout=()=>{ if(dauer && !l.contains(document.activeElement)) schliessTimer=setTimeout(verbergen, dauer); };
+    }
+    bauen(); // Live-Bereich steht von Anfang an im DOM
+
+    /* 1 · Skriptfehler: nur EINMAL melden, sonst haemmert eine kaputte Schleife den Nutzer zu */
+    let schonGemeldet=false;
+    function skriptfehler(){
+      if(schonGemeldet) return; schonGemeldet=true;
+      zeigen(en ? 'Something on this page did not work. Reloading usually helps.'
+                  : 'Etwas auf dieser Seite hat nicht funktioniert. Meist hilft ein Neuladen.',
+             {text: en?'Reload':'Neu laden', tun:()=>location.reload()}, 0);
+    }
+    // nur Fehler aus unseren eigenen Skripten; Browser-Erweiterungen melden sich mit fremder Adresse
+    addEventListener('error', e=>{ if(e && e.target && e.target!==window) return; if(e.filename && !e.filename.startsWith(location.origin+'/assets/')) return; skriptfehler(); }, true);
+    addEventListener('unhandledrejection', skriptfehler);
+
+    /* 2 · Kein Netz: die Seite laeuft weiter, App Store und QR brauchen aber eine Verbindung */
+    function netzlage(){
+      if(navigator.onLine===false){
+        zeigen(en ? 'No internet connection. The page keeps working, links to the App Store do not.'
+                    : 'Keine Internetverbindung. Die Seite funktioniert weiter, Links zum App Store nicht.', null, 0);
+      } else verbergen();
+    }
+    addEventListener('offline', netzlage); addEventListener('online', netzlage);
+    if(navigator.onLine===false) netzlage();
+
+    /* 3 · Bild fehlt: ruhige Flaeche mit dem Alternativtext statt kaputtem Symbol */
+    function bildFehlt(el){
+      if(!el || el.tagName!=='IMG' || el.dataset.fehltBehandelt) return;
+      el.dataset.fehltBehandelt='1';
+      const txt=el.getAttribute('alt');
+      el.classList.add('fehlt');
+      el.removeAttribute('src');
+      if(txt){ el.setAttribute('role','img'); el.setAttribute('aria-label', txt); } // Deko-Bilder (alt="") bleiben stumm
+    }
+    addEventListener('error', e=>bildFehlt(e.target), true);
+    // Bilder, die schon vor diesem Skript gescheitert sind, haben ihr error-Ereignis verpasst
+    [...document.images].forEach(im=>{ if(im.complete && im.naturalWidth===0) bildFehlt(im); });
+
+    /* 4 · Mail-Knopf: ohne eingerichtetes Mailprogramm passiert sonst gar nichts */
+    document.addEventListener('click', e=>{
+      const a=e.target.closest && e.target.closest('a[href^="mailto:"]');
+      if(!a) return;
+      const adresse=decodeURIComponent(a.getAttribute('href').slice(7).split('?')[0]);
+      setTimeout(()=>{
+        zeigen(en ? 'Your mail app should have opened. If not, write to '+adresse
+                    : 'Dein Mailprogramm sollte sich geöffnet haben. Falls nicht, schreib an '+adresse,
+               {text: en?'Copy address':'Adresse kopieren', tun:()=>{
+                  const fertig=()=>zeigen(en?'Address copied.':'Adresse kopiert.', null, 2600);
+                  const misslungen=()=>zeigen((en?'Copying did not work. The address is ':'Kopieren hat nicht geklappt. Die Adresse lautet ')+adresse, null, 7000);
+                  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(adresse).then(fertig, misslungen);
+                  else misslungen();
+               }}, 9000);
+      }, 800);
+    });
+  })();
+
+  /* Galerie-Band am Handy: je Kasten (iPhone, iPad, Mac, Apple Watch) eine eigene Steuerung. Knoepfe springen um
+     eine Ansicht, der Zaehler folgt auch beim Wischen. data-per="1": ein Geraet pro Ansicht. Am Desktop ist die
+     Leiste per CSS ausgeblendet. */
   function makeGal(box){
     const gal=box.querySelector('.ad-gal'); if(!gal) return null;
     const per=+(gal.dataset.per||2);
@@ -12,20 +115,18 @@
     function render(){
       const a=page*per+1, b=Math.min(a+per-1,imgs.length);
       const span = a===b ? String(a) : a+'–'+b;
-      count.textContent=(lang==='en'?(a===b?'Screenshot ':'Screenshots '):(a===b?'Bild ':'Bilder '))+span+(lang==='en'?' of ':' von ')+imgs.length;
+      count.textContent=(en?(a===b?'Screenshot ':'Screenshots '):(a===b?'Bild ':'Bilder '))+span+(en?' of ':' von ')+imgs.length;
       prev.disabled=page===0; next.disabled=page===pagesN-1;
     }
     // Ziel einer Seite: bei zwei Geraeten die linke Kante des ersten Bildes, bei einem Geraet
-    // (Apple Watch am Handy) so, dass das Bild in der Mitte der Galerie steht. Frueher stand hier
-    // nur offsetLeft: die Watch lag dann um die halbe Restbreite links (Owner 14.09.: „nicht mehr mittig").
+    // (Apple Watch am Handy) so, dass das Bild in der Mitte der Galerie steht.
     function target(p){
       const im=imgs[p*per];
       return per===1 ? im.offsetLeft-(gal.clientWidth-im.offsetWidth)/2 : im.offsetLeft;
     }
     function go(p){
       page=Math.max(0,Math.min(pagesN-1,p));
-      const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-      gal.scrollTo({left:target(page), behavior:reduce?'auto':'smooth'});
+      gal.scrollTo({left:target(page), behavior:reducedMotion()?'auto':'smooth'});
       render();
     }
     // Aendert sich die Breite (Fenster verkleinern, Handy drehen), bleibt die Scrollposition sonst
@@ -47,131 +148,94 @@
   }
   const adGals=[...document.querySelectorAll('.ad-gal-box')].map(makeGal).filter(Boolean);
 
-  /* Reiter: welcher Inhalt unter dem App-Kopf steht. Beim Wechsel innerhalb der
-     App-Seite springt die Seite nicht nach oben; ist die Leiste schon oben
-     angeheftet, bleibt sie dort und der neue Inhalt beginnt direkt darunter. */
   function setHdr(){ const h=document.querySelector('header'); if(!h) return; const r=document.documentElement.style;
     r.setProperty('--hdr',h.offsetHeight+'px'); r.setProperty('--hdr-sicht',(h.classList.contains('weg')?0:h.offsetHeight)+'px'); }
   const handy=matchMedia('(max-width:640px)');
   setHdr(); addEventListener('resize',setHdr);
-  function setAppView(view, keepPos, pageId){
-    const art=document.querySelector('#'+(pageId||'page-app')+' .ad-page'); if(!art) return;
-    const anchor=art.querySelector('.ad-tabs-anchor');
-    const kopf=document.querySelector('header'), hdr=kopf.offsetHeight;
-    const tabsNav=art.querySelector('.ad-tabs');
-    const wasStuck = keepPos && (handy.matches
-      ? tabsNav.getBoundingClientRect().bottom <= (kopf.classList.contains('weg')?0:hdr)+51
-      : anchor.getBoundingClientRect().top < hdr);
-    art.querySelectorAll('.ad-panel').forEach(p=>{ p.hidden = p.dataset.view!==view; });
-    art.querySelectorAll('.ad-tabs a').forEach(a=>{
-      if(a.dataset.view===view) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
-    });
-    /* Kopf bleibt immer wie auf der Uebersicht (Owner 14.09.). Damit der Text trotzdem
-       sofort sichtbar ist, rollt ein Rechts-Reiter die Leiste direkt unter die Kopfzeile,
-       auch beim direkten Aufruf (etwa ueber den Datenschutz-Link in der App).
-       instant: die Vorlage scrollt sonst weich, der Text stuende kurz ausserhalb. */
-    const gapAbove=parseFloat(getComputedStyle(art.querySelector('.ad-tabs')).marginTop)||0; // Abstand ueber der Leiste
+
+  /* Rechts-Reiter (Datenschutz, Support, Hinweise, Impressum): der Kopf der App bleibt wie auf der Uebersicht, damit der
+     Text trotzdem sofort sichtbar ist, rollt die Seite die Reiterleiste direkt unter die Kopfzeile, auch beim direkten
+     Aufruf aus der App. Der Titel bekommt den Fokus, damit Screenreader dort weiterlesen.
+     instant: html scrollt sonst weich, der Text stuende kurz ausserhalb. */
+  function zumDokument(view){
+    const panel=document.querySelector('.ad-panel[data-view="'+view+'"]'); if(!panel) return;
+    const art=panel.closest('.ad-page'), anchor=art.querySelector('.ad-tabs-anchor'), tabsNav=art.querySelector('.ad-tabs');
     if(handy.matches){
-      /* Handy (18.09.): Kopf weg, Reiter aus dem Bild, der Text beginnt direkt unter der schmalen Zeile (50 px) */
-      if(view!=='overview' || wasStuck){
-        const ziel=Math.max(0, tabsNav.getBoundingClientRect().bottom + window.scrollY - 18);  // Titel rund 16 px unter der Zeile
-        window.scrollTo({top:ziel, behavior:'instant'}); if(window.casyKopf) window.casyKopf.weg(true, ziel);
-      }
-    } else if(view!=='overview' || wasStuck) window.scrollTo({top: anchor.getBoundingClientRect().top + gapAbove + window.scrollY - hdr, behavior:'instant'});
-    if(keepPos || view!=='overview'){
-      const target = view==='overview' ? art.querySelector('.ad-name') : art.querySelector('.ad-panel[data-view="'+view+'"] .ad-doc-title');
-      if(target) target.focus({preventScroll:true});
+      // Handy: Kopf weg, Reiter aus dem Bild, der Titel steht rund 16 px unter der schmalen Zeile (50 px)
+      const ziel=Math.max(0, tabsNav.getBoundingClientRect().bottom + window.scrollY - 18);
+      window.scrollTo({top:ziel, behavior:'instant'}); if(kopf) kopfWeg(true, ziel);
+    } else {
+      const abstandOben=parseFloat(getComputedStyle(tabsNav).marginTop)||0;
+      window.scrollTo({top: anchor.getBoundingClientRect().top + abstandOben + window.scrollY - document.querySelector('header').offsetHeight, behavior:'instant'});
     }
-    curView=view; tabsEdge(); updateMini();
+    const titel=panel.querySelector('.ad-doc-title'); if(titel) titel.focus({preventScroll:true});
   }
-
-  /* Schmale Zeile am Handy: Beschriftung und Haken nach aktuellem Bereich und Sprache */
-  function updateMini(){
-    const K={de:{overview:'Übersicht',datenschutz:'Datenschutz',support:'Support',hinweise:'Hinweise',impressum:'Impressum'},
-             en:{overview:'Overview',datenschutz:'Privacy',support:'Support',hinweise:'App Notes',impressum:'Legal Notice'}};
-    const L=document.documentElement.lang==='en'?'en':'de';
-    document.querySelectorAll('.ad-mini').forEach(m=>{
-      const cur=m.closest('.ad-page').querySelector('.ad-tabs a[aria-current]'), v=cur?cur.dataset.view:'overview';
-      m.querySelector('.ad-mini-akt').textContent=K[L][v];
-      m.querySelectorAll('.ad-mini-menu a').forEach(a=>{ a.textContent=K[L][a.dataset.view];
-        if(a.dataset.view===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
-    });
-  }
-
-  /* 2.4.2: Der Seitentitel steht im HTML jeder Datei, das Skript fasst ihn nicht an. */
-  let curPage='home', curView='overview';
 
   /* Reiterleiste: weiche Kante rechts, solange rechts noch Reiter verborgen sind */
   function tabsEdge(){
     document.querySelectorAll('nav.ad-tabs').forEach(n=>n.classList.toggle('more', n.scrollWidth - n.clientWidth - n.scrollLeft > 4));
   }
   document.querySelectorAll('nav.ad-tabs').forEach(n=>n.addEventListener('scroll',tabsEdge,{passive:true}));
-  /* Angedockt oder nicht (18.09.): entscheidet, ob die Leiste ihre Flaeche zeigt. Gemessen am Anker ueber der Leiste. */
-  (function(){
-    const paare=[...document.querySelectorAll('.ad-tabs-anchor')].map(a=>[a, a.nextElementSibling]).filter(([,n])=>n&&n.classList.contains('ad-tabs'));
-    if(!paare.length) return;
-    let laeuft=false;
-    function pruefen(){
-      laeuft=false;
-      const hdr=document.querySelector('header').offsetHeight;
-      paare.forEach(([anker,nav])=>{
-        const sichtbar=nav.offsetParent!==null;
-        nav.classList.toggle('gedockt', sichtbar && !handy.matches && anker.getBoundingClientRect().top <= hdr + 1);
-        const mini=anker.previousElementSibling;
-        if(mini && mini.classList.contains('ad-mini')){
-          const oben=document.querySelector('header').classList.contains('weg')?0:hdr;
-          const an=sichtbar && handy.matches && nav.getBoundingClientRect().bottom <= oben + 51;  // Reiter ganz unter der 50-px-Zeile
-          mini.classList.toggle('an',an); if(!an && window.casyMiniZu) window.casyMiniZu(mini);
-        }
-      });
-    }
-    addEventListener('scroll',()=>{ if(!laeuft){ laeuft=true; requestAnimationFrame(pruefen); } },{passive:true});
-    addEventListener('resize',pruefen); addEventListener('load',pruefen); pruefen();
-    window.casyTabsPruefen=pruefen;
-  })();
+  /* Angedockt oder nicht: entscheidet, ob die Leiste ihre Flaeche zeigt. Gemessen am Anker ueber der Leiste. */
+  const tabPaare=[...document.querySelectorAll('.ad-tabs-anchor')].map(a=>[a, a.nextElementSibling]).filter(([,n])=>n&&n.classList.contains('ad-tabs'));
+  let tabsGeplant=false;
+  function tabsPruefen(){
+    tabsGeplant=false;
+    if(!tabPaare.length) return;
+    const hdr=document.querySelector('header').offsetHeight;
+    tabPaare.forEach(([anker,nav])=>{
+      const sichtbar=nav.offsetParent!==null;
+      nav.classList.toggle('gedockt', sichtbar && !handy.matches && anker.getBoundingClientRect().top <= hdr + 1);
+      const mini=anker.previousElementSibling;
+      if(mini && mini.classList.contains('ad-mini')){
+        const oben=document.querySelector('header').classList.contains('weg')?0:hdr;
+        const an=sichtbar && handy.matches && nav.getBoundingClientRect().bottom <= oben + 51;  // Reiter ganz unter der 50-px-Zeile
+        mini.classList.toggle('an',an); if(!an) miniZu(mini);
+      }
+    });
+  }
+  if(tabPaare.length){
+    addEventListener('scroll',()=>{ if(!tabsGeplant){ tabsGeplant=true; requestAnimationFrame(tabsPruefen); } },{passive:true});
+    addEventListener('resize',tabsPruefen); addEventListener('load',tabsPruefen); tabsPruefen();
+  }
   addEventListener('resize',tabsEdge);
 
-  /* Handy (18.09.): Kopf weicht beim Runterscrollen, ein Stueck hoch holt ihn sofort zurueck (wie Safari). Tastaturfokus
-     im Kopf holt ihn ebenfalls zurueck. Ab 641 px bleibt er fest wie bisher. */
-  (function(){
-    const h=document.querySelector('header'); if(!h) return;
-    let last=window.scrollY;
-    function weg(w, y){
-      if(typeof y==='number') last=y;
-      if(h.classList.contains('weg')===w){ return; }
-      h.classList.toggle('weg',w); setHdr(); if(window.casyTabsPruefen) window.casyTabsPruefen();
-    }
-    window.casyKopf={weg, menu:o=>menu(o)};
+  /* Handy: Kopf weicht beim Runterscrollen, ein Stueck hoch holt ihn sofort zurueck (wie Safari). Tastaturfokus
+     im Kopf holt ihn ebenfalls zurueck. Ab 641 px bleibt er fest. */
+  const kopf=document.querySelector('header'), menuBtn=kopf && kopf.querySelector('.nav-menu');
+  let kopfY=window.scrollY;
+  function kopfWeg(w, y){
+    if(typeof y==='number') kopfY=y;
+    if(kopf.classList.contains('weg')===w){ return; }
+    kopf.classList.toggle('weg',w); setHdr(); tabsPruefen();
+  }
+  /* Menue-Knopf im Kopf: Apps, Kontakt, Darstellung */
+  function kopfMenu(o){ kopf.classList.toggle('menu-offen',o); if(menuBtn) menuBtn.setAttribute('aria-expanded',o?'true':'false'); setHdr(); }
+  if(kopf){
     addEventListener('scroll',()=>{
-      const y=window.scrollY, d=y-last; last=y;
-      if(!handy.matches || h.classList.contains('menu-offen')){ weg(false); return; }
-      if(y<=h.offsetHeight) weg(false); else if(d>6) weg(true); else if(d<-6) weg(false);
+      const y=window.scrollY, d=y-kopfY; kopfY=y;
+      if(!handy.matches || kopf.classList.contains('menu-offen')){ kopfWeg(false); return; }
+      if(y<=kopf.offsetHeight) kopfWeg(false); else if(d>6) kopfWeg(true); else if(d<-6) kopfWeg(false);
     },{passive:true});
-    h.addEventListener('focusin',()=>weg(false));
-    handy.addEventListener('change',()=>{ weg(false); menu(false); });
-
-    /* Menue-Knopf im Kopf: Apps, Kontakt, Darstellung */
-    const btn=h.querySelector('.nav-menu');
-    function menu(o){ h.classList.toggle('menu-offen',o); if(btn) btn.setAttribute('aria-expanded',o?'true':'false'); setHdr(); }
-    if(btn){
-      btn.addEventListener('click',()=>menu(!h.classList.contains('menu-offen')));
-      h.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>menu(false)));
-      document.addEventListener('click',e=>{ if(!h.contains(e.target)) menu(false); });
-      document.addEventListener('keydown',e=>{ if(e.key==='Escape' && h.classList.contains('menu-offen')){ menu(false); btn.focus(); } });
+    kopf.addEventListener('focusin',()=>kopfWeg(false));
+    beiAenderung(handy, ()=>{ kopfWeg(false); kopfMenu(false); });
+    if(menuBtn){
+      menuBtn.addEventListener('click',()=>kopfMenu(!kopf.classList.contains('menu-offen')));
+      kopf.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>kopfMenu(false)));
+      schliessenVonAussen(kopf, ()=>kopf.classList.contains('menu-offen'), ()=>kopfMenu(false), menuBtn);
     }
+  }
 
-    /* Auswahl in der schmalen Zeile */
-    function miniSet(m,o){ const b=m.querySelector('.ad-mini-btn'), l=m.querySelector('.ad-mini-menu');
-      b.setAttribute('aria-expanded',o?'true':'false'); l.hidden=!o; }
-    window.casyMiniZu=m=>{ if(m.querySelector('.ad-mini-btn').getAttribute('aria-expanded')==='true') miniSet(m,false); };
-    document.querySelectorAll('.ad-mini').forEach(m=>{
-      const b=m.querySelector('.ad-mini-btn');
-      b.addEventListener('click',()=>miniSet(m, b.getAttribute('aria-expanded')!=='true'));
-      m.querySelectorAll('.ad-mini-menu a').forEach(a=>a.addEventListener('click',()=>miniSet(m,false)));
-      document.addEventListener('click',e=>{ if(!m.contains(e.target)) window.casyMiniZu(m); });
-      document.addEventListener('keydown',e=>{ if(e.key==='Escape' && b.getAttribute('aria-expanded')==='true'){ miniSet(m,false); b.focus(); } });
-    });
-  })();
+  /* Auswahl in der schmalen Zeile */
+  function miniSet(m,o){ const b=m.querySelector('.ad-mini-btn'), l=m.querySelector('.ad-mini-menu');
+    b.setAttribute('aria-expanded',o?'true':'false'); l.hidden=!o; }
+  function miniZu(m){ if(m.querySelector('.ad-mini-btn').getAttribute('aria-expanded')==='true') miniSet(m,false); }
+  if(kopf) document.querySelectorAll('.ad-mini').forEach(m=>{
+    const b=m.querySelector('.ad-mini-btn');
+    b.addEventListener('click',()=>miniSet(m, b.getAttribute('aria-expanded')!=='true'));
+    m.querySelectorAll('.ad-mini-menu a').forEach(a=>a.addEventListener('click',()=>miniSet(m,false)));
+    schliessenVonAussen(m, ()=>b.getAttribute('aria-expanded')==='true', ()=>miniZu(m), b);
+  });
 
   /* QR: Klick oeffnet/schliesst, Esc und Klick daneben schliessen */
   (function(){
@@ -179,8 +243,7 @@
     const b=w.querySelector('.ad-qr');
     const set=o=>{ w.classList.toggle('open',o); b.setAttribute('aria-expanded',o?'true':'false'); };
     b.addEventListener('click',()=>set(!w.classList.contains('open')));
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape' && w.classList.contains('open')){ set(false); b.focus(); } });
-    document.addEventListener('click',e=>{ if(!w.contains(e.target)) set(false); });
+    schliessenVonAussen(w, ()=>w.classList.contains('open'), ()=>set(false), b);
   })();
 
   /* Skip-Link: springt zum Inhalt, ohne die Hash-Route zu veraendern */
@@ -188,13 +251,11 @@
     e.preventDefault(); const m=document.getElementById('main-content'); if(m) m.focus();
   }));
 
-  const pages = {app:'page-app',sqnz:'page-sqnz',home:'page-home',contact:'page-contact',privacy:'page-privacy',impressum:'page-impressum'};
 
-  /* Jede Adresse ist eine eigene Datei (seit dem Livegang 09/2026): welche Seite und welcher Reiter,
-     steht am <body> (data-page, data-view). Die Sprache steht an <html lang>; DE/EN sind Links auf die Nachbardatei. */
-  const lang = document.documentElement.lang==='en' ? 'en' : 'de';
-  curPage = document.body.dataset.page || 'home';
-  if(document.body.dataset.view) setAppView(document.body.dataset.view, false, pages[curPage]);
+  /* Jede Adresse ist eine eigene Datei. Der Reiter einer App-Seite steht am <body> (data-view), die Sprache an <html lang>;
+     DE/EN sind Links auf die Nachbardatei. */
+  const view=document.body.dataset.view;
+  if(view && view!=='overview') zumDokument(view);
 
   // Cmd-, Strg-, Umschalt- oder Mittelklick: neuer Tab oder Fenster, der Browser macht das selbst
   const eigenerKlick=e=>e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey;
@@ -203,11 +264,10 @@
   document.querySelectorAll('[data-scroll]').forEach(a=>a.addEventListener('click',e=>{
     const el=document.getElementById('apps'); if(!el || eigenerKlick(e)) return;
     e.preventDefault();
-    el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    el.scrollIntoView({behavior:reducedMotion()?'auto':'smooth'});
   }));
 
   // Kontakt: der Knopf traegt den Betreff, sonst passiert hier nichts mehr.
-  const MAIL='support@casystudio.com';
   const SUBJ={de:'Hallo Casy Studio',en:'Hello Casy Studio'};
   const mailDirect=document.getElementById('mailto-direct');
   if(mailDirect) mailDirect.addEventListener('click',function(){
@@ -216,7 +276,7 @@
 
   /* Sprachwahl merken (localStorage casy_lang, steht so in der Datenschutzerklaerung Abschnitt 6).
      Das Umleiten beim Laden macht casy-kopf.js, bevor die Seite zeichnet. Beim Wechsel bleibt die Scrollposition,
-     damit die Seite nicht springt (Owner 05.09.): sie reist im Adressanker mit (#y=…) und wird hier wieder eingenommen. */
+     damit die Seite nicht springt: sie reist im Adressanker mit (#y=…) und wird hier wieder eingenommen. */
   document.querySelectorAll('header .lang a').forEach(a=>a.addEventListener('click',e=>{
     try{ localStorage.setItem('casy_lang', a.getAttribute('lang')); }catch(err){}
     if(window.scrollY>0 && !location.hash && !eigenerKlick(e)){ e.preventDefault(); location.href=a.getAttribute('href')+'#y='+Math.round(window.scrollY); }
@@ -228,9 +288,9 @@
     go(); addEventListener('load',go,{once:true});
   })();
 
-  adGals.forEach(g=>g.render()); tabsEdge(); updateMini();
+  adGals.forEach(g=>g.render()); tabsEdge();
 
-  /* ===================== Suche (19.09.2026) =====================
+  /* ===================== Suche =====================
      Kein externer Dienst, nichts verlaesst das Geraet. Der Index entsteht beim Oeffnen aus der Seite selbst (also immer in der
      eingestellten Sprache). Dazu kommen gepflegte Umschreibungen (UMSCHR): so fragen Leute, die die Fachwoerter nicht kennen.
      Schluessel ist die DEUTSCHE Ueberschrift; die englische Fassung findet ihre Umschreibungen ueber dieselbe Position.
@@ -302,13 +362,14 @@
         treffer:n=>n===1?'1 result':n+' results',ov:'Overview',support:'Support',datenschutz:'Privacy',hinweise:'App Notes',impressum:'Legal Notice',
         web:'Website',betreff:'Question from casystudio.com',body:q=>'I searched the website for: '+q+'\n\n'}
   };
-  const STOPP=new Set(('der die das den dem des ein eine einen einem einer eines und oder aber ist sind war bin bist wie was wo wann warum wieso weshalb welche welcher welches '+
-    'ich mein meine meinen meinem meiner mir mich du dein deine dir dich es er sie wir ihr man kann koennen kann konnen muss soll will mit von vom zu zum zur im in ins auf fur '+
+  // Durch suchNorm wie die Anfrage selbst, sonst greifen Woerter wie „does" (wird zu „dos") nie
+  const STOPP=new Set(suchNorm('der die das den dem des ein eine einen einem einer eines und oder aber ist sind war bin bist wie was wo wann warum wieso weshalb welche welcher welches '+
+    'ich mein meine meinen meinem meiner mir mich du dein deine dir dich es er sie wir ihr man kann konnen muss soll will mit von vom zu zum zur im in ins auf fur '+
     'bei nicht kein keine keinen noch schon auch nur mal denn dass bitte gibt geht hat habe haben hast wird werden wurde so da dann als am an aus uber um wenn ob sich hier '+
     'the a an is are was be how what where why when which i my me mine do does did can could to of in on for with and or not no it its you your we our this that there have has').split(' '));
   function suchNorm(t){
     return (t||'').toLowerCase().replace(/ä|ae/g,'a').replace(/ö|oe/g,'o').replace(/ü|ue/g,'u').replace(/ß/g,'ss')
-      .normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
   }
   function suchStamm(w){
     if(w.length>5){ for(const e of ['ungen','ung','en','er','es','e','n','s']){ if(w.endsWith(e) && w.length-e.length>=4) return w.slice(0,-e.length); } }
@@ -332,7 +393,7 @@
     return 0;
   }
   const suchText=el=>{ if(!el) return ''; const c=el.cloneNode(true); c.querySelectorAll('.soon-pill').forEach(x=>x.remove()); return c.textContent.trim(); };
-  /* Seit dem Livegang ist jede Adresse eine eigene Datei. Beim ersten Oeffnen der Suche holt das Skript die
+  /* Jede Adresse ist eine eigene Datei. Beim ersten Oeffnen der Suche holt das Skript die
      Nachbarseiten derselben Website (fetch, gleicher Server, kein Dritter) und baut daraus den Index; so bleibt er
      immer auf dem Stand der Dateien, und es gibt keine zweite Liste, die man pflegen muss. Auf Englisch kommen die
      deutschen Seiten dazu, weil die Umschreibungen an den deutschen Ueberschriften haengen (gleiche Position). */
@@ -390,7 +451,7 @@
   }
   let suchIndex=null, unvollstaendig=false;
   function suchIndexHolen(){
-    if(!suchIndex) suchIndex=Promise.all([seitenLaden(lang), lang==='en'?seitenLaden('de'):null]).then(([out,de])=>{
+    if(!suchIndex) suchIndex=Promise.all([seitenLaden(lang), en?seitenLaden('de'):null]).then(([out,de])=>{
       if(unvollstaendig){ suchIndex=null; unvollstaendig=false; } // ohne Netz geladen: beim naechsten Oeffnen neu holen
       const suchDE={}; (de||out).forEach(o=>{ suchDE[o.id]=(o.titel||'').trim(); });
       return suchVorbereiten(out, suchDE);
@@ -430,7 +491,7 @@
     const dlg=document.getElementById('such'), feld=document.getElementById('such-feld'), liste=document.getElementById('such-liste'),
           status=document.getElementById('such-status'), zu=dlg.querySelector('.such-zu'), knopf=document.querySelector('.nav-such');
     let idx=[], treffer=[], ausloeser=null, timer=null;
-    const X=()=>SUCH_TXT[document.documentElement.lang==='en'?'en':'de'];
+    const X=()=>SUCH_TXT[lang];
     const esc=t=>(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
     const kurz=t=>t.length>150?t.slice(0,147).replace(/\s+\S*$/,'')+' …':t;
     function zeigen(){
@@ -441,7 +502,7 @@
       if(!idx.length){ liste.innerHTML='<div class="such-leer">'+esc(x.lade)+'</div>'; status.textContent=''; treffer=[]; return; }
       treffer=suchen(q, idx);
       if(!treffer.length){
-        const mail='mailto:support@casystudio.com?subject='+encodeURIComponent(x.betreff)+'&body='+encodeURIComponent(x.body(q));
+        const mail='mailto:'+MAIL+'?subject='+encodeURIComponent(x.betreff)+'&body='+encodeURIComponent(x.body(q));
         liste.innerHTML='<div class="such-leer"><b>'+esc(x.nix)+'</b><br>'+esc(x.nix2)+'<br><a class="btn" href="'+mail+'">'+esc(x.frag)+'</a></div>';
         status.textContent=x.nix; return; }
       liste.innerHTML=treffer.map((o,i)=>'<a href="'+o.href+'" data-i="'+i+'"><span class="such-ort">'+esc(o.ort)+'</span><span class="such-titel">'+esc(o.titel)+'</span>'+
@@ -450,7 +511,7 @@
       status.textContent=x.treffer(treffer.length);
     }
     function oeffnen(){
-      if(window.casyKopf && window.casyKopf.menu) window.casyKopf.menu(false);
+      if(kopf) kopfMenu(false);
       ausloeser=document.activeElement;
       suchIndexHolen().then(i=>{ idx=i; if(!dlg.hidden && feld.value.trim()) zeigen(); });
       const x=X(); dlg.setAttribute('aria-label',x.label); feld.placeholder=x.ph; feld.setAttribute('aria-label',x.label); zu.textContent=x.zu;
@@ -481,7 +542,6 @@
         if(e.shiftKey && i<=0){ e.preventDefault(); f[f.length-1].focus(); } else if(!e.shiftKey && i===f.length-1){ e.preventDefault(); f[0].focus(); } }
       const tipp=/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||'');
       if(dlg.hidden && !tipp && (e.key==='/' || ((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k'))){ e.preventDefault(); oeffnen(); } });
-    window.casySuche={oeffnen, suchen:q=>suchIndexHolen().then(i=>suchen(q,i).map(o=>o.ort+' | '+o.titel+' | '+o.href))};
   })();
 
 
@@ -494,8 +554,6 @@
     const MOVE=1400, DWELL_GROUP=5000, DWELL=4500, NAMES={iphone:'iPhone',ipad:'iPad',ipadsq:'iPad',watch:'Apple Watch',mac:'Mac'};
     const stage=rot.querySelector('.dev-stage'), dotsBox=rot.querySelector('.dev-dots'), pauseBtn=rot.querySelector('.dev-pause'), cap=rot.querySelector('.dev-cap');
     const imgs={}; stage.querySelectorAll('.devices img').forEach(im=>imgs[im.dataset.dev]=im);
-    const en=()=>document.documentElement.lang==='en';
-    const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
     let states=[], i=0, mode='run', hov=false, foc=false, tHandle=null, tStart=0, remain=0;
     const suspended=()=>hov||foc||document.hidden;
     const stepFor=k=>MOVE+(states[k].startsWith('group')?DWELL_GROUP:DWELL);
@@ -503,14 +561,14 @@
     function natural(im){ let x=0,y=0,e=im; while(e&&e!==stage){ x+=e.offsetLeft; y+=e.offsetTop; e=e.offsetParent; } return {x,y,w:im.offsetWidth,h:im.offsetHeight}; }
     function target(dev,n){
       const W=stage.clientWidth, H=stage.clientHeight-44, asp=n.w/n.h;
-      // Watch einzeln 360 px hoch (Gehaeuse gut 230 px, ueber Apples 200 px), die anderen wie bisher
+      // Watch einzeln 360 px hoch (Gehaeuse gut 230 px, ueber Apples 200 px), die anderen bis 560 px
       let h=Math.min(H-10, dev==='watch'?360:560), w=h*asp;
       if(w>W){ w=W; h=w/asp; }
       return {x:(W-w)/2, y:(H-h)/2, w, h};
     }
     function apply(){
       const st=states[i], grp=st==='groupA'?'A':st==='groupB'?'B':null;
-      const stack=reduce()&&fitsB();
+      const stack=reducedMotion()&&fitsB();
       stage.classList.toggle('stack',stack);
       stage.dataset.show = stack ? 'all' : (grp||'single');
       Object.entries(imgs).forEach(([dev,im])=>{
@@ -538,7 +596,7 @@
       return ['groupA', fitsB()&&'groupB', macH>=200&&'mac', 'ipad', 'iphone', 'ipadsq', 'watch'].filter(Boolean);   // Apple: einzeln mindestens 200 px
     }
     function labels(){
-      pauseBtn.setAttribute('aria-label', mode==='run' ? (en()?'Pause switching':'Wechsel anhalten') : (en()?'Resume switching':'Wechsel fortsetzen'));
+      pauseBtn.setAttribute('aria-label', mode==='run' ? (en?'Pause switching':'Wechsel anhalten') : (en?'Resume switching':'Wechsel fortsetzen'));
       cap.setAttribute('aria-live', mode==='run'?'off':'polite');
       rot.classList.toggle('paused', mode!=='run');
     }
@@ -549,14 +607,14 @@
       states=available(); if(i>=states.length) i=0;
       dotsBox.innerHTML='';
       states.forEach((s,k)=>{const b=document.createElement('button');b.type='button';
-        const nm=s==='groupA'?(en()?'Mac and iPad':'Mac und iPad'):s==='groupB'?(en()?'iPhone and Apple Watch':'iPhone und Apple Watch'):NAMES[s];
-        b.setAttribute('aria-label',en()?('Show '+nm):(nm+' zeigen'));
+        const nm=s==='groupA'?(en?'Mac and iPad':'Mac und iPad'):s==='groupB'?(en?'iPhone and Apple Watch':'iPhone und Apple Watch'):NAMES[s];
+        b.setAttribute('aria-label',en?('Show '+nm):(nm+' zeigen'));
         b.addEventListener('click',()=>{ mode='stop'; clearTimeout(tHandle); tHandle=null; go(k); });
         dotsBox.appendChild(b);});
       render();
     }
     function render(){
-      if(reduce()){ i=0; mode='stop'; clearTimeout(tHandle); tHandle=null; }
+      if(reducedMotion()){ i=0; mode='stop'; clearTimeout(tHandle); tHandle=null; }
       apply();
       [...dotsBox.children].forEach((b,k)=>b.setAttribute('aria-current',k===i?'true':'false'));
       labels();
@@ -580,13 +638,9 @@
     // Fenstergroesse geaendert: Ziel neu berechnen, ohne Bewegung
     let rz; addEventListener('resize',()=>{ stage.classList.add('no-anim'); const n=available().length; if(n!==states.length) build(); else apply();
       clearTimeout(rz); rz=setTimeout(()=>stage.classList.remove('no-anim'),50); });
-    const mq=matchMedia('(prefers-reduced-motion: reduce)');
-    (mq.addEventListener?mq.addEventListener('change',build):mq.addListener(build));
-    window.devRotLang=()=>build();
-    /* Owner 16.09.: „der Mac wird nicht einzeln angezeigt". Ursache gemessen: Kommt man ueber eine Unterseite
-       (Kontakt, ShutterLife) auf die Startseite, ist die Buehne beim Start unsichtbar und 0 px breit. Dann fielen
-       Mac einzeln UND „iPhone und Apple Watch" aus der Liste (6 → 4 Stationen), und der Seitenwechsel rechnete nicht
-       neu. Jetzt: wird die Buehne sichtbar (0 → echte Breite), neu aufbauen, ohne Bewegung. */
+    beiAenderung(bewegungAus, build);
+    /* Ist die Buehne beim Start unsichtbar (0 px breit), fallen Mac einzeln und „iPhone und Apple Watch" aus der
+       Liste. Sobald sie sichtbar wird, neu aufbauen, ohne Bewegung. */
     if('ResizeObserver' in window){
       let w0=stage.clientWidth;
       new ResizeObserver(()=>{ const w=stage.clientWidth;
@@ -596,7 +650,7 @@
     if(imgs.mac.complete) build(); else imgs.mac.addEventListener('load',build,{once:true});
     addEventListener('load',()=>{ stage.classList.add('no-anim'); apply(); setTimeout(()=>stage.classList.remove('no-anim'),50); });
   })();
-  // Darstellungs-Schalter (15.09.2026): System / Hell / Dunkel, Logik im Kopf (window.casyTheme)
+  // Darstellungs-Schalter: System / Hell / Dunkel, die Logik liegt in casy-kopf.js (window.casyTheme)
   (function(){
     const btns=[...document.querySelectorAll('[data-theme-set]')];
     const sync=()=>btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.themeSet===window.casyTheme.get())));
@@ -604,90 +658,4 @@
     btns.forEach(b=>b.addEventListener('pointerenter',()=>{ b.title=b.getAttribute('aria-label')||''; }));
     sync();
   })();
-
-  /* ============ Fehler und Ausfaelle sichtbar machen (18.09.2026, Owner-Auftrag) ============
-     Auf einer Seite ohne Server koennen vier Dinge schiefgehen: das Skript bricht ab (Knoepfe tot),
-     das Netz fehlt (App-Store-Links), ein Bild fehlt, oder das Mailprogramm oeffnet nicht.
-     Jeder Fall bekommt eine Rueckmeldung mit Ausweg. Nichts davon blockiert die Seite. */
-  (function(){
-    const en=()=>document.documentElement.lang==='en';
-    let leiste, schliessTimer;
-    function bauen(){
-      if(leiste) return leiste;
-      leiste=document.createElement('div');
-      leiste.className='hinweis'; leiste.setAttribute('role','status'); leiste.setAttribute('aria-live','polite');
-      leiste.innerHTML='<span class="txt"></span><button type="button" class="tun" hidden></button><button type="button" class="zu" aria-label="Schließen">&times;</button>';
-      leiste.querySelector('.zu').addEventListener('click',()=>verbergen());
-      document.body.appendChild(leiste);
-      return leiste;
-    }
-    function verbergen(){ if(leiste) leiste.classList.remove('an'); clearTimeout(schliessTimer); }
-    /* text: Meldung · aktion: {text, tun} oder null · dauer: ms, 0 = bleibt stehen */
-    function zeigen(text, aktion, dauer){
-      const l=bauen();
-      // Text erst im naechsten Frame: ein frisch eingehaengter Live-Bereich wird sonst nicht vorgelesen
-      requestAnimationFrame(()=>{ l.querySelector('.txt').textContent=text; });
-      const knopf=l.querySelector('.tun');
-      if(aktion){ knopf.hidden=false; knopf.textContent=aktion.text; knopf.onclick=aktion.tun; }
-      else { knopf.hidden=true; knopf.onclick=null; }
-      l.querySelector('.zu').setAttribute('aria-label', en()?'Dismiss':'Schließen');
-      l.classList.add('an');
-      clearTimeout(schliessTimer);
-      if(dauer) schliessTimer=setTimeout(verbergen, dauer);
-      // mit Knopf: stehen lassen, solange Maus oder Fokus darin sind (WCAG 2.2.1)
-      l.onpointerenter=l.onfocusin=()=>clearTimeout(schliessTimer);
-      l.onpointerleave=l.onfocusout=()=>{ if(dauer && !l.contains(document.activeElement)) schliessTimer=setTimeout(verbergen, dauer); };
-    }
-    bauen(); // Live-Bereich steht von Anfang an im DOM
-    window.casyHinweis=zeigen;
-
-    /* 1 · Skriptfehler: nur EINMAL melden, sonst haemmert eine kaputte Schleife den Nutzer zu */
-    let schonGemeldet=false;
-    function skriptfehler(){
-      if(schonGemeldet) return; schonGemeldet=true;
-      zeigen(en() ? 'Something on this page did not work. Reloading usually helps.'
-                  : 'Etwas auf dieser Seite hat nicht funktioniert. Meist hilft ein Neuladen.',
-             {text: en()?'Reload':'Neu laden', tun:()=>location.reload()}, 0);
-    }
-    // nur Fehler aus unseren eigenen Skripten; Browser-Erweiterungen melden sich mit fremder Adresse
-    addEventListener('error', e=>{ if(e && e.target && e.target!==window) return; if(e.filename && !e.filename.startsWith(location.origin+'/assets/')) return; skriptfehler(); }, true);
-    addEventListener('unhandledrejection', skriptfehler);
-
-    /* 2 · Kein Netz: die Seite laeuft weiter, App Store und QR brauchen aber eine Verbindung */
-    function netzlage(){
-      if(navigator.onLine===false){
-        zeigen(en() ? 'No internet connection. The page keeps working, links to the App Store do not.'
-                    : 'Keine Internetverbindung. Die Seite funktioniert weiter, Links zum App Store nicht.', null, 0);
-      } else verbergen();
-    }
-    addEventListener('offline', netzlage); addEventListener('online', netzlage);
-    if(navigator.onLine===false) netzlage();
-
-    /* 3 · Bild fehlt: ruhige Flaeche mit dem Alternativtext statt kaputtem Symbol */
-    addEventListener('error', e=>{
-      const el=e.target;
-      if(!el || el.tagName!=='IMG' || el.dataset.fehltBehandelt) return;
-      el.dataset.fehltBehandelt='1';
-      const txt=el.getAttribute('alt');
-      el.classList.add('fehlt');
-      el.removeAttribute('src');
-      if(txt){ el.setAttribute('role','img'); el.setAttribute('aria-label', txt); } // Deko-Bilder (alt="") bleiben stumm
-    }, true);
-
-    /* 4 · Mail-Knopf: ohne eingerichtetes Mailprogramm passiert sonst gar nichts */
-    document.addEventListener('click', e=>{
-      const a=e.target.closest && e.target.closest('a[href^="mailto:"]');
-      if(!a) return;
-      const adresse=decodeURIComponent(a.getAttribute('href').slice(7).split('?')[0]);
-      setTimeout(()=>{
-        zeigen(en() ? 'Your mail app should have opened. If not, write to '+adresse
-                    : 'Dein Mailprogramm sollte sich geöffnet haben. Falls nicht, schreib an '+adresse,
-               {text: en()?'Copy address':'Adresse kopieren', tun:()=>{
-                  const fertig=()=>zeigen(en()?'Address copied.':'Adresse kopiert.', null, 2600);
-                  const misslungen=()=>zeigen((en()?'Copying did not work. The address is ':'Kopieren hat nicht geklappt. Die Adresse lautet ')+adresse, null, 7000);
-                  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(adresse).then(fertig, misslungen);
-                  else misslungen();
-               }}, 9000);
-      }, 800);
-    });
-  })();
+})();
