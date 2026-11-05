@@ -515,9 +515,11 @@
       status.textContent=x.treffer(treffer.length);
     }
     function oeffnen(){
-      if(kopf) kopfMenu(false);
       ausloeser=document.activeElement;
       suchIndexHolen().then(i=>{ idx=i; if(!dlg.hidden && feld.value.trim()) zeigen(); });
+      if(kopf) kopfMenu(false);
+      // Kam der Aufruf aus dem Menue (unter 360 px), ist der Knopf jetzt ausgeblendet: Fokus spaeter auf den Menue-Knopf
+      if(ausloeser && ausloeser!==document.body && ausloeser.offsetParent===null && menuBtn && menuBtn.offsetParent!==null) ausloeser=menuBtn;
       const x=X(); dlg.setAttribute('aria-label',x.label); feld.placeholder=x.ph; feld.setAttribute('aria-label',x.label); zu.textContent=x.zu;
       dlg.hidden=false; document.documentElement.classList.add('such-offen'); zeigen(); feld.focus(); feld.select();
     }
