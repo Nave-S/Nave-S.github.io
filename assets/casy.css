@@ -634,6 +634,7 @@ img.fehlt{background:var(--bg-soft);border:1px dashed var(--line);border-radius:
    Kontraste nach WCAG; Rost #B8420C ist im Dunkeln als Text zu schwach (3,4:1) und wird ersetzt. Geraeterahmen
    und Screenshots bleiben unveraendert (Apple: Produktbilder „as is"); Karten eine Stufe heller als die Seite,
    damit schwarze Rahmen eine Kante haben. */
+html[data-theme="light"]{color-scheme:light}  /* sonst bleiben Bildlaufleisten bei dunklem System und gewaehltem Hell dunkel */
 html[data-theme="dark"]{color-scheme:dark;
   --bg:#111318;--bg-soft:#191C22;--bg-hi:#23272F;--line:#313640;--ink:#EDEFF3;--muted:#A7ADB8;
   --accent:#F97316;--accent-ink:#FB923C;
