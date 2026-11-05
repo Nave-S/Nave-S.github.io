@@ -82,7 +82,8 @@
     }
     addEventListener('error', e=>bildFehlt(e.target), true);
     // Bilder, die schon vor diesem Skript gescheitert sind, haben ihr error-Ereignis verpasst
-    [...document.images].forEach(im=>{ if(im.complete && im.naturalWidth===0) bildFehlt(im); });
+    // SVG ohne width/height (QR-Codes) melden in manchen Browsern naturalWidth 0, obwohl sie da sind: ausnehmen
+    [...document.images].forEach(im=>{ if(im.complete && im.naturalWidth===0 && !/\.svg(\?|#|$)/i.test(im.currentSrc||im.src)) bildFehlt(im); });
 
     /* 4 · Mail-Knopf: ohne eingerichtetes Mailprogramm passiert sonst gar nichts */
     document.addEventListener('click', e=>{
