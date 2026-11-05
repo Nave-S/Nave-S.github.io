@@ -283,7 +283,7 @@
   }));
   (function(){
     const m=location.hash.match(/^#y=(\d+)$/); if(!m) return;
-    history.replaceState(null,'',location.pathname+location.search);
+    history.replaceState(null,'',location.origin+location.pathname+location.search);  // mit Herkunft: ein Pfad mit // wirft sonst SecurityError
     const go=()=>window.scrollTo({top:+m[1],behavior:'instant'});
     go(); addEventListener('load',go,{once:true});
   })();
@@ -468,7 +468,7 @@
   (function(){
     const m=location.hash.match(/^#s=(.+)$/); if(!m) return;
     let id; try{ id=decodeURIComponent(m[1]); }catch(e){ return; }
-    history.replaceState(null,'',location.pathname+location.search);
+    history.replaceState(null,'',location.origin+location.pathname+location.search);
     const o=suchSammeln(document,lang).find(x=>x.id===id);
     if(o&&o.el){ const go=()=>suchMarkieren(o.el); go(); addEventListener('load',go,{once:true}); }
   })();

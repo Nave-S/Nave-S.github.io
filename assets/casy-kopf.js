@@ -20,9 +20,10 @@
   }
   if(want==='de' && !isDe){
     var de=/\/$/.test(path) ? path+'de.html' : /\/index\.html$/.test(path) ? path.replace(/index\.html$/,'de.html') : null;
-    if(de){ location.replace(de+location.search+location.hash); return; }
+    // location.origin als Zeichenkette davor: so bleibt das Ziel auf dieser Domain, auch wenn der Pfad mit // beginnt
+    if(de){ location.replace(location.origin+de+location.search+location.hash); return; }
   }
-  if(saved==='en' && isDe){ location.replace(path.replace(/de\.html$/,'')+location.search+location.hash); return; }
+  if(saved==='en' && isDe){ location.replace(location.origin+path.replace(/de\.html$/,'')+location.search+location.hash); return; }
 })();
 (function(){
   var choice='system', mq=matchMedia('(prefers-color-scheme: dark)'), root=document.documentElement;
