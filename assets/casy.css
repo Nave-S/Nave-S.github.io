@@ -586,6 +586,8 @@ html.such-offen{overflow:hidden}
 .such-kopf > svg{width:19px;height:19px;color:var(--muted);flex:none}
 .such-kopf input{flex:1;min-width:0;height:40px;font:inherit;font-size:17px;border:0;background:transparent;color:var(--ink);outline:none}
 .such-kopf input::-webkit-search-cancel-button{-webkit-appearance:none}
+/* Sichtbarer Fokus statt nur der Schreibmarke (WCAG 2.4.7): Akzentlinie unter der Eingabezeile */
+.such-kopf:focus-within{border-bottom-color:var(--accent-ink);box-shadow:inset 0 -1px 0 var(--accent-ink)}
 .such-zu{flex:none;font-size:14px;color:var(--muted);padding:8px 10px;border-radius:8px;min-height:36px}
 .such-zu:hover{color:var(--ink)}
 .such-liste{overflow-y:auto;overscroll-behavior:contain;padding:8px}
