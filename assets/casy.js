@@ -265,6 +265,8 @@
     const el=document.getElementById('apps'); if(!el || eigenerKlick(e)) return;
     e.preventDefault();
     el.scrollIntoView({behavior:reducedMotion()?'auto':'smooth'});
+    // Fokus mitnehmen, sonst springt das naechste Tab zurueck in den Hero ([tabindex="-1"]:focus ist ohne Rahmen)
+    el.setAttribute('tabindex','-1'); el.focus({preventScroll:true});
   }));
 
   // Kontakt: der Knopf traegt den Betreff, sonst passiert hier nichts mehr.
