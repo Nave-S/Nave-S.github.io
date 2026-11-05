@@ -629,8 +629,9 @@
       else if(mode==='hold'){ mode='run'; labels(); resume(); }
       else { mode='run'; go(i+1); }
     });
-    rot.addEventListener('mouseenter',()=>{ hov=true; freeze(); });
-    rot.addEventListener('mouseleave',()=>{ hov=false; resume(); });
+    // nur die echte Maus haelt an: ein Tipp am Handy loeste sonst mouseenter aus, und mouseleave kam erst beim Tipp daneben
+    rot.addEventListener('pointerenter',e=>{ if(e.pointerType!=='mouse') return; hov=true; freeze(); });
+    rot.addEventListener('pointerleave',e=>{ if(e.pointerType!=='mouse') return; hov=false; resume(); });
     rot.addEventListener('focusin',()=>{ foc=true; freeze(); });
     rot.addEventListener('focusout',e=>{ if(!rot.contains(e.relatedTarget)){ foc=false; resume(); } });
     let x0=null;
