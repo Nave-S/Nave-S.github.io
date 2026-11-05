@@ -306,7 +306,7 @@
     'Wie genau ist der Auslösezähler?':'stimmt der wert richtig genauigkeit falsch zu hoch zu niedrig zuverlässig vertrauen hdr firmware zurückgesetzt accurate wrong number reliable',
     'Welche Dateiformate werden unterstützt?':'raw jpeg jpg heic heif cr2 cr3 nef arw raf pef dng dateityp welche dateien format file type file formats',
     'Braucht ShutterLife eine Internetverbindung?':'offline ohne internet wlan netz mobile daten hochladen server upload wifi',
-    'Was bedeutet „Bearbeitungssoftware in der Datei vermerkt"?':'fehlermeldung meldung bearbeitetes bild erkannt bearbeitet software lightroom photoshop exportiert foto geht nicht whatsapp messenger original exif fehlt error message edited image',
+    'Was bedeutet „Bearbeitungssoftware in der Datei vermerkt“?':'fehlermeldung meldung bearbeitetes bild erkannt bearbeitet software lightroom photoshop exportiert foto geht nicht whatsapp messenger original exif fehlt error message edited image',
     'Was prüft die Kaufprüfung?':'kaufprüfung mehrere fotos vergleichen gleiches modell gleiche seriennummer gleiche kamera verkäufer gebraucht kaufen betrug echt bis zu 20 fotos purchase check compare several photos same camera serial number seller genuine',
     'Wie lösche ich meinen Messverlauf?':'verlauf löschen historie entfernen alle löschen messungen weg delete history clear',
     'Wie kann ich helfen, die App zu verbessern?':'datenspende daten spenden feedback rückmeldung vorschlag verbessern mithelfen fehler melden bug melden data donation help improve',
