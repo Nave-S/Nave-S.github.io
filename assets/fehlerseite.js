@@ -1,4 +1,14 @@
 'use strict';
+/* Darstellung wie auf den anderen Seiten (casy-kopf.js): System, Hell oder Dunkel aus sessionStorage casy_theme
+   (Datenschutzerklaerung Abschnitt 6). Ohne Wahl entscheidet das System. */
+(function(){
+  var choice='system', mq=matchMedia('(prefers-color-scheme: dark)'), root=document.documentElement;
+  try{ choice=sessionStorage.getItem('casy_theme')||'system'; }catch(e){}
+  function apply(){ root.setAttribute('data-theme', choice==='system' ? (mq.matches?'dark':'light') : choice); }
+  apply();
+  function systemWechsel(){ if(choice==='system') apply(); }
+  if(mq.addEventListener) mq.addEventListener('change',systemWechsel); else mq.addListener(systemWechsel);
+})();
 /* Zweisprachig ohne Server: Sprache aus dem Browser, per Knopf umschaltbar. */
 const TXT={
   de:{titel:'Diese Seite gibt es nicht.',
