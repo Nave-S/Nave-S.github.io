@@ -481,6 +481,8 @@ nav.ad-tabs.gedockt{background:var(--bar-bg);-webkit-backdrop-filter:saturate(18
 /* Rechtstexte stehen eine Ebene tiefer (h3/h4/h5), sehen aber aus wie h2/h3/h4. Steht nach .reading h3. */
 .ad-doc-body h3{font-size:26px;font-weight:600;letter-spacing:-.01em;margin:48px 0 16px;color:var(--ink)}
 .ad-doc-body h4{font-size:18px;font-weight:600;margin:32px 0 10px;color:var(--ink)}
+/* „Verbraucherstreitbeilegung" passt bei 320 px nicht in die Zeile: trennen statt waagerecht scrollen (WCAG 1.4.10) */
+.reading h2,.reading h3,.ad-doc-body h3{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
 /* h5 nur in der Kameraliste (Support): die Marke als klare Zwischenzeile */
 .ad-doc-body h5{font-size:17px;font-weight:600;letter-spacing:-.005em;text-transform:none;color:var(--ink);margin:26px 0 6px}
 /* Kategorie (DSLR, Vollformat, Cinema …) nicht fett, grau. Ausgenommen das einzige strong mit Link dahinter
