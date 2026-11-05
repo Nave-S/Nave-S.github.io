@@ -610,11 +610,12 @@ html.such-offen{overflow:hidden}
 
 /* ================= Hinweisleiste und fehlende Bilder =================
    Hinweisleiste unten, hoeflich, immer mit Ausweg; role=status und aria-live lassen Vorlesegeraete sie vorlesen. */
-.hinweis{position:fixed;left:50%;bottom:18px;transform:translate(-50%,12px);z-index:60;max-width:min(560px,calc(100% - 32px));
+/* left:0;right:0 statt left:50%: sonst bekommt die Leiste nur die halbe Fensterbreite (shrink-to-fit ab der Mitte). */
+.hinweis{position:fixed;left:0;right:0;margin-inline:auto;width:fit-content;bottom:18px;transform:translateY(12px);z-index:60;max-width:min(560px,calc(100% - 32px));
   display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:14px;background:var(--bg-hi);
   border:1px solid var(--line);box-shadow:var(--shadow-soft,0 12px 40px -12px rgba(23,18,14,.35));
   font-size:14.5px;line-height:1.45;color:var(--ink);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,transform .2s ease,visibility 0s .2s}
-.hinweis.an{opacity:1;visibility:visible;transform:translate(-50%,0);pointer-events:auto;transition-delay:0s}  /* verborgen: Knoepfe nicht per Tab erreichbar */
+.hinweis.an{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition-delay:0s}  /* verborgen: Knoepfe nicht per Tab erreichbar */
 .hinweis .txt{flex:1;min-width:0}
 .hinweis .tun{flex:none;font:inherit;font-size:14px;font-weight:500;color:var(--accent-ink);background:none;
   text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:2px;border-radius:6px}
