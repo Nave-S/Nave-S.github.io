@@ -593,7 +593,8 @@
     function available(){
       const W=stage.clientWidth;
       const macH=W/(imgs.mac.naturalWidth/imgs.mac.naturalHeight||1600/966);
-      return ['groupA', fitsB()&&'groupB', macH>=200&&'mac', 'ipad', 'iphone', 'ipadsq', 'watch'].filter(Boolean);   // Apple: einzeln mindestens 200 px
+      const macDa=!imgs.mac.classList.contains('fehlt');   // Bild gescheitert: Mac nicht einzeln zeigen
+      return ['groupA', fitsB()&&'groupB', macDa&&macH>=200&&'mac', 'ipad', 'iphone', 'ipadsq', 'watch'].filter(Boolean);   // Apple: einzeln mindestens 200 px
     }
     function labels(){
       pauseBtn.setAttribute('aria-label', mode==='run' ? (en?'Pause switching':'Wechsel anhalten') : (en?'Resume switching':'Wechsel fortsetzen'));
@@ -647,8 +648,9 @@
         if(w0===0 && w>0){ stage.classList.add('no-anim'); build(); setTimeout(()=>stage.classList.remove('no-anim'),50); }
         w0=w; }).observe(stage);
     }
-    if(imgs.mac.complete) build(); else imgs.mac.addEventListener('load',build,{once:true});
-    addEventListener('load',()=>{ stage.classList.add('no-anim'); apply(); setTimeout(()=>stage.classList.remove('no-anim'),50); });
+    // Scheitert das Mac-Bild erst nach diesem Skript, gibt es kein load: dann baut error die Liste.
+    if(imgs.mac.complete) build(); else { imgs.mac.addEventListener('load',build,{once:true}); imgs.mac.addEventListener('error',build,{once:true}); }
+    addEventListener('load',()=>{ stage.classList.add('no-anim'); if(states.length) apply(); else build(); setTimeout(()=>stage.classList.remove('no-anim'),50); });
   })();
   // Darstellungs-Schalter: System / Hell / Dunkel, die Logik liegt in casy-kopf.js (window.casyTheme)
   (function(){
