@@ -228,7 +228,7 @@ footer .wrap.foot-tm-row{height:auto;display:block;padding:0 0 28px;margin-top:-
 .dev-ctrl{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:6px}
 .dev-dots{display:flex;gap:2px}
 .dev-dots button{position:relative;width:28px;height:28px;display:grid;place-items:center;border-radius:50%}
-.dev-dots button::before{content:"";width:7px;height:7px;border-radius:4px;background:color-mix(in srgb,var(--muted) 75%,var(--bg));transition:width .25s,background .25s}  /* 3,4:1 (WCAG 1.4.11) */
+.dev-dots button::before{content:"";width:7px;height:7px;border-radius:4px;background:#8F8880;background:color-mix(in srgb,var(--muted) 75%,var(--bg));transition:width .25s,background .25s}  /* 3,4:1 (WCAG 1.4.11); feste Farbe davor fuer Browser ohne color-mix */
 /* Aktiver Punkt als ruhige, feste Pille: ein sich fuellender Balken zoege den Blick an. */
 .dev-dots button[aria-current="true"]{width:32px}
 .dev-dots button[aria-current="true"]::before{width:20px;background:var(--accent)}
@@ -649,7 +649,7 @@ html[data-theme="dark"] .card:hover{box-shadow:0 2px 4px rgba(0,0,0,.3),0 28px 6
 /* Bildflaechen neutral statt orange (wirkte auf Graphit braun), mit feiner Kante */
 html[data-theme="dark"] .ad-gal-box{background:var(--bg-soft);box-shadow:inset 0 0 0 1px var(--line)}
 html[data-theme="dark"] nav.ad-tabs.gedockt{box-shadow:0 14px 26px -18px rgba(0,0,0,.65),0 1px 0 0 var(--line)}
-html[data-theme="dark"] .dev-dots button::before{background:color-mix(in srgb,var(--muted) 60%,var(--bg))}  /* 3,7:1 */
+html[data-theme="dark"] .dev-dots button::before{background:#6B6F78;background:color-mix(in srgb,var(--muted) 60%,var(--bg))}  /* 3,7:1 */
 html[data-theme="dark"] .dev-dots button[aria-current="true"]::before{background:var(--accent)}
 html[data-theme="dark"] .ad-qr-pop img{background:#fff;padding:10px;border-radius:10px}
 @media (max-width:640px){
