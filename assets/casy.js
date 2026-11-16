@@ -149,6 +149,74 @@
   }
   const adGals=[...document.querySelectorAll('.ad-gal-box')].map(makeGal).filter(Boolean);
 
+  /* Grossansicht der Galerie (Owner 16.11.2026: am Monitor sind die Bilder zu klein). Nur ab 561 px, also Rechner
+     und iPad; am Handy fuellen die Bilder schon die Breite und Wischen blaettert. Klick oder Enter oeffnet das Bild
+     ueber der abgedunkelten Seite, Pfeile und Pfeiltasten blaettern innerhalb desselben Kastens, Esc, Schliessen
+     oder Klick daneben schliesst. data-gross am Bild: groessere Datei, geladen erst beim Oeffnen; bis sie da ist,
+     steht das kleine Bild. */
+  (function(){
+    const boxen=[...document.querySelectorAll('.ad-gal')]; if(!boxen.length) return;
+    const breit=matchMedia('(min-width:561px)');
+    const T=en ? {label:'Enlarged screenshot', zu:'Close', vor:'Next screenshot', zurueck:'Previous screenshot', von:' of ', tipp:'Click to enlarge'}
+               : {label:'Bild vergrößert', zu:'Schließen', vor:'Nächstes Bild', zurueck:'Vorheriges Bild', von:' von ', tipp:'Zum Vergrößern klicken'};
+    const pfeil=d=>'<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+d+'"/></svg>';
+    const dlg=document.createElement('div');
+    dlg.className='lupe'; dlg.hidden=true; dlg.setAttribute('role','dialog'); dlg.setAttribute('aria-modal','true'); dlg.setAttribute('aria-label',T.label);
+    dlg.innerHTML='<button type="button" class="lupe-zu">'+T.zu+'</button>'+
+      '<button type="button" class="lupe-btn lupe-zurueck" aria-label="'+T.zurueck+'">'+pfeil('M15 5l-7 7 7 7')+'</button>'+
+      '<figure class="lupe-fig"><img class="lupe-bild" alt=""><figcaption class="lupe-zahl" aria-live="polite"></figcaption></figure>'+
+      '<button type="button" class="lupe-btn lupe-vor" aria-label="'+T.vor+'">'+pfeil('M9 5l7 7-7 7')+'</button>';
+    document.body.appendChild(dlg);
+    const bild=dlg.querySelector('.lupe-bild'), zahl=dlg.querySelector('.lupe-zahl'), zu=dlg.querySelector('.lupe-zu'),
+          zurueck=dlg.querySelector('.lupe-zurueck'), vor=dlg.querySelector('.lupe-vor');
+    let reihe=[], i=0, ausloeser=null, laden=0;
+    function zeigen(){
+      const q=reihe[i], gross=q.dataset.gross, nr=++laden;
+      bild.src=q.currentSrc||q.src; bild.alt=q.alt;
+      if(gross){ const g=new Image(); g.onload=()=>{ if(nr===laden) bild.src=gross; }; g.src=gross; }
+      zahl.textContent=(i+1)+T.von+reihe.length;
+      const eins=reihe.length<2; zurueck.hidden=eins; vor.hidden=eins;
+    }
+    function oeffnen(q){
+      reihe=[...q.closest('.ad-gal').querySelectorAll('img')]; i=reihe.indexOf(q); ausloeser=q;
+      dlg.hidden=false; document.documentElement.classList.add('lupe-offen'); zeigen(); zu.focus();
+    }
+    function schliessen(){
+      dlg.hidden=true; document.documentElement.classList.remove('lupe-offen'); laden++; bild.removeAttribute('src');
+      if(ausloeser) ausloeser.focus();
+    }
+    function blaettern(d){ i=(i+d+reihe.length)%reihe.length; zeigen(); }
+    // Bilder nur im breiten Layout als Knopf auszeichnen; am Handy bleiben sie reine Bilder
+    function auszeichnen(){
+      const an=breit.matches;
+      boxen.forEach(g=>g.querySelectorAll('img').forEach(q=>{
+        if(an){ q.setAttribute('role','button'); q.tabIndex=0; q.setAttribute('aria-haspopup','dialog'); q.title=T.tipp; q.classList.add('lupe-ziel'); }
+        else { q.removeAttribute('role'); q.removeAttribute('tabindex'); q.removeAttribute('aria-haspopup'); q.removeAttribute('title'); q.classList.remove('lupe-ziel'); }
+      }));
+      if(!an && !dlg.hidden) schliessen();
+    }
+    auszeichnen(); beiAenderung(breit, auszeichnen);
+    boxen.forEach(g=>{
+      g.addEventListener('click',e=>{ const q=e.target.closest('img'); if(q && breit.matches) oeffnen(q); });
+      g.addEventListener('keydown',e=>{ const q=e.target.closest('img');
+        if(q && breit.matches && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); oeffnen(q); } });
+    });
+    zu.addEventListener('click',schliessen);
+    zurueck.addEventListener('click',()=>blaettern(-1));
+    vor.addEventListener('click',()=>blaettern(1));
+    dlg.addEventListener('click',e=>{ if(e.target===dlg || e.target.classList.contains('lupe-fig')) schliessen(); });
+    document.addEventListener('keydown',e=>{
+      if(dlg.hidden) return;
+      if(e.key==='Escape'){ e.preventDefault(); schliessen(); }
+      else if(e.key==='ArrowRight' && reihe.length>1){ e.preventDefault(); blaettern(1); }
+      else if(e.key==='ArrowLeft' && reihe.length>1){ e.preventDefault(); blaettern(-1); }
+      else if(e.key==='Tab'){ // Fokus bleibt im Fenster
+        const f=[zu,zurueck,vor].filter(b=>!b.hidden), k=f.indexOf(document.activeElement);
+        if(e.shiftKey && k<=0){ e.preventDefault(); f[f.length-1].focus(); }
+        else if(!e.shiftKey && k===f.length-1){ e.preventDefault(); f[0].focus(); } }
+    });
+  })();
+
   function setHdr(){ const h=document.querySelector('header'); if(!h) return; const r=document.documentElement.style;
     r.setProperty('--hdr',h.offsetHeight+'px'); r.setProperty('--hdr-sicht',(h.classList.contains('weg')?0:h.offsetHeight)+'px'); }
   const handy=matchMedia('(max-width:640px)');

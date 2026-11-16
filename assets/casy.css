@@ -574,6 +574,27 @@ nav.ad-tabs.gedockt{background:var(--bar-bg);-webkit-backdrop-filter:saturate(18
   nav.ad-mini-menu{padding-block:10px}
 }
 
+/* ================= Grossansicht der Galerie =================
+   Nur ab 561 px (casy.js setzt .lupe-ziel nur dort). Dunkler Grund in beiden Erscheinungsbildern, damit das
+   Geraet mit seinem Rahmen frei steht. */
+.ad-gal img.lupe-ziel{cursor:zoom-in;border-radius:12px;transition:transform .2s ease}
+@media (hover:hover){ .ad-gal img.lupe-ziel:hover{transform:translateY(-2px)} }
+.lupe{position:fixed;inset:0;z-index:110;display:flex;align-items:center;justify-content:center;gap:clamp(8px,2vw,28px);
+  padding:56px 16px 16px;background:rgba(8,10,16,.9);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);color:#fff}
+.lupe[hidden]{display:none}
+html.lupe-offen{overflow:hidden}
+.lupe-fig{margin:0;flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.lupe-bild{display:block;max-width:100%;max-height:calc(100% - 36px);width:auto;height:auto;object-fit:contain;cursor:zoom-out}
+.lupe-zahl{font-size:14px;color:rgba(255,255,255,.75);font-variant-numeric:tabular-nums}
+.lupe-btn,.lupe-zu{color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);cursor:pointer}
+.lupe-btn{flex:none;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.lupe-btn svg{width:22px;height:22px}
+.lupe-btn[hidden]{display:none}
+.lupe-zu{position:absolute;top:12px;right:16px;font:inherit;font-size:15px;padding:8px 16px;min-height:40px;border-radius:999px}
+.lupe-btn:hover,.lupe-zu:hover{background:rgba(255,255,255,.22)}
+.lupe :focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){ .ad-gal img.lupe-ziel{transition:none} .ad-gal img.lupe-ziel:hover{transform:none} }
+
 /* ================= Suche =================
    Laeuft ganz im Browser; der Knopf steht in der Kopfzeile. */
 .such{position:fixed;inset:0;z-index:100;display:flex;justify-content:center;align-items:flex-start;padding:10vh 16px 16px;
