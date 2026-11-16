@@ -447,6 +447,7 @@ footer .wrap.foot-tm-row{height:auto;display:block;padding:0 0 28px;margin-top:-
 .ad-gal img{width:100%;height:auto;display:block}
 .ad-gal--watch{grid-template-columns:repeat(3,minmax(0,240px));justify-content:center}
 .ad-gal--ipad,.ad-gal--mac{grid-template-columns:repeat(3,minmax(0,1fr))}
+.ad-gal--quer{grid-template-columns:repeat(2,minmax(0,1fr))}
 .ad-gal-nav{display:none}
 
 /* Abschnitte */
@@ -563,8 +564,8 @@ nav.ad-tabs.gedockt{background:var(--bar-bg);-webkit-backdrop-filter:saturate(18
      statt mittig ein. */
   .ad-gal.ad-gal--watch{grid-template-columns:none;grid-auto-columns:100%;justify-content:initial}
   .ad-gal.ad-gal--watch img{width:min(100%,240px);justify-self:center;scroll-snap-align:center;scroll-snap-stop:always}
-  .ad-gal.ad-gal--ipad,.ad-gal.ad-gal--mac{grid-template-columns:none;grid-auto-columns:100%}
-  .ad-gal.ad-gal--ipad img,.ad-gal.ad-gal--mac img{scroll-snap-align:center;scroll-snap-stop:always}
+  .ad-gal.ad-gal--ipad,.ad-gal.ad-gal--mac,.ad-gal.ad-gal--quer{grid-template-columns:none;grid-auto-columns:100%}
+  .ad-gal.ad-gal--ipad img,.ad-gal.ad-gal--mac img,.ad-gal.ad-gal--quer img{scroll-snap-align:center;scroll-snap-stop:always}
   .ad-gal-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:16px}
   .ad-gal-btn{width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);
     display:grid;place-items:center;transition:opacity .2s,border-color .2s}
