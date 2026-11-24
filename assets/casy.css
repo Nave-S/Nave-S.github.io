@@ -445,7 +445,7 @@ footer .wrap.foot-tm-row{height:auto;display:block;padding:0 0 28px;margin-top:-
 .ad-gal-h{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
 .ad-gal{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2.4vw,32px)}
 .ad-gal img{width:100%;height:auto;display:block}
-.ad-gal--watch{grid-template-columns:repeat(3,minmax(0,240px));justify-content:center}
+.ad-gal--watch{grid-template-columns:repeat(4,minmax(0,240px));justify-content:center}
 .ad-gal--ipad,.ad-gal--mac{grid-template-columns:repeat(3,minmax(0,1fr))}
 .ad-gal--quer{grid-template-columns:repeat(2,minmax(0,1fr))}
 .ad-gal-nav{display:none}
